@@ -127,7 +127,6 @@ def subjects_schedule(group_name):
         elif not i:
             df.loc[count, 'week_t'] = [i for i in range(1, 19)]
 
-    ###
     for count, i in enumerate(df['week_n'], 0):
         if df.loc[count, 'week_n'] == 'пн':
             df.loc[count, 'week_n'] = 1
@@ -159,7 +158,6 @@ def subjects_schedule(group_name):
             df.loc[count, 'class_t'] = 7
         elif df.loc[count, 'class_t'] == '21:00-22:30':
             df.loc[count, 'class_t'] = 8
-    ###
 
     for count, i in enumerate(df['week_t'], 0):
         if week_n in i and len(df['subject'][count]) and df['subject'][count] != 'ФКИС':
@@ -541,6 +539,9 @@ class ProjectApp(MDApp):
                 self.file_manager.back()
         return True
 
+    def button_checking(self, *args):
+            self.root.current = 'db'
+
     def show_table(self):
         global df_students  #Define global variable to optimize calling function count (can be change)
         global df_subjects_sum  #Define global variable to optimize calling function count (can be change)
@@ -561,22 +562,19 @@ class ProjectApp(MDApp):
                 #rows_num=len(row_data)  #To show all rows in 1 page (with disabled use_pagination property)
             )
 
-            # self.button_next = MDRectangleFlatButton(
-            #         text="Next",
-            #         icon="language-python",
-            #         pos_hint={"center_x": .5, "center_y": .2}
-            #     )
+            self.button_next = MDRectangleFlatButton(
+                    text="Next",
+                    icon="language-python",
+                    pos_hint={"center_x": .5, "center_y": .2},
+                )
+
+            self.button_next.bind(on_press=self.button_checking)
 
             self.root.ids.data_scr.add_widget(self.data_tables)
-            #self.root.ids.data_scr.add_widget(self.button_next)
+            self.root.ids.data_scr.add_widget(self.button_next)
         else:  # Иначе
             self.root.current = 'processing'  # Переключиться на Screen1
         return table, table_kivymd
-
-    # def button_checking(self):
-    #     if self.root.ids.button_next.state == 'down':
-    #         print("Button pressed")
-    #         self.root.current = 'db'
 
     def db_processing(self):
         if self.root.ids.collect.state == 'down':
