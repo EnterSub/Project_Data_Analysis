@@ -1,6 +1,8 @@
 ScreenManager:
+
     Screen:
         name: 'login'
+
         MDLabel:
             id: welcome_label
             text: "Login"
@@ -42,6 +44,7 @@ ScreenManager:
 
     Screen:
         name: 'menu'
+
         MDTextField:
             id: textbox
             hint_text: "Enter group name"
@@ -53,6 +56,7 @@ ScreenManager:
             size_hint_x: None
             width: 300
             max_text_length: 10
+
         MDRectangleFlatButton:
             text: "OK"
             icon: "folder"
@@ -92,23 +96,4 @@ ScreenManager:
         name: 'table'
 
     Screen:
-        name: 'db'
-
-        MDRectangleFlatButton:
-            id: table
-            text: 'Table'
-            pos_hint: {'center_x':.4,'center_y':.5}
-            on_press:
-                root.current = 'table'
-
-        MDRectangleFlatButton:
-            id: collect
-            text: 'Collect'
-            pos_hint: {'center_x':.6,'center_y':.5}
-            on_press:
-                app.db_processing()
-                root.current = 'check'
-
-    Screen:
         name: 'check'
-

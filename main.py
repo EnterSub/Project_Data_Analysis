@@ -371,6 +371,8 @@ class ProjectApp(MDApp):
             preview=False,
         )
         self.data_tables = None
+        self.button_collect = None
+        self.button_back = None
 
     #Screen 1
     def start(self):
@@ -385,11 +387,14 @@ class ProjectApp(MDApp):
 
     #Screen 2
     def show_data(self):
-        text = subjects_schedule(self.root.ids.textbox.text)[2]  # l
-        if len(text) > 0:  # Если название не пустое, то
-            self.root.current = 'processing'  # Переключиться на Screen2
-        else:  # Иначе
-            self.root.ids.textbox.text = ""
+        if self.root.ids.textbox.text == '':
+            text = self.root.ids.textbox.text
+        else:
+            text = subjects_schedule(self.root.ids.textbox.text)[2]  # l
+            if len(text) > 0:  # Если название не пустое, то
+                self.root.current = 'processing'  # Переключиться на Screen2
+            else:  # Иначе
+                self.root.ids.textbox.text = ''
         textbox = self.root.ids.textbox.text
         return textbox, text
 
@@ -470,7 +475,7 @@ class ProjectApp(MDApp):
             for i in list_values_number:
                 df.iloc[i][2:27] = df.iloc[i][2:27].replace(j, '')
 
-        ### Selecting part from df for DB processing
+        # Selecting part from df for DB processing
         df_students = df.iloc[1:37, :27]
         df_students.loc[1, 'student'] = "Студент"
         df_students = df_students[df_students["number"] != '']
@@ -495,7 +500,6 @@ class ProjectApp(MDApp):
         df_students['week_n'] = df.loc[1, 'number']
         df_students['date'] = date.today()
         df_students = df_students.fillna('')
-
 
         df_subjects = df.drop(0)
         df_subjects = df_subjects.drop(columns=['number', 'student', 'lectures_all', 'lectures', 'message'])
@@ -525,7 +529,7 @@ class ProjectApp(MDApp):
         self.manager_open = True
 
     def select_path(self, path):
-        list_path.append(path)  # Upgrade with checking by len of items
+        list_path.append(path)
         self.exit_manager()
         return list_path
 
@@ -539,17 +543,34 @@ class ProjectApp(MDApp):
                 self.file_manager.back()
         return True
 
-    def button_checking(self, *args):
-            self.root.current = 'db'
+    def button_checking_back(self, *args):
+        self.root.current = 'processing'
+
+    def callback_button_collect(self, instance):
+        if self.button_collect == instance:
+            #Screen 5
+            key = 'bigquery_key.json'
+            os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = key
+
+            client = bigquery.Client()
+            table_id_1 = os.environ['TABLE_ID_1']
+            table_id_2 = os.environ['TABLE_ID_2']
+
+            job_1 = client.load_table_from_dataframe(
+                self.df_students, table_id_1)
+            job_1.result()
+
+            job_2 = client.load_table_from_dataframe(
+                self.df_subjects_sum, table_id_2)
+            job_2.result()
+
+            self.root.current = 'check'
 
     def show_table(self):
-        global df_students  #Define global variable to optimize calling function count (can be change)
-        global df_subjects_sum  #Define global variable to optimize calling function count (can be change)
-        df, df_students, df_subjects_sum = self.collect()
-        table = df_subjects_sum
-        if table.shape[0] > 0 and table.shape[1] > 0:  # Указать размеры таблицы, иначе не та таблица (40 rows × 29 columns)
-            #Screen 5
-            self.root.current = 'db'
+        self.df, self.df_students, self.df_subjects_sum = self.collect()
+        table = self.df
+
+        if table.shape[0] == 40 and table.shape[1] == 29:  # Указать размеры таблицы, иначе не та таблица (40 rows × 29 columns)
             #Screen 4
             table_kivymd = table
             column_data = list(table_kivymd.columns)
@@ -562,38 +583,29 @@ class ProjectApp(MDApp):
                 #rows_num=len(row_data)  #To show all rows in 1 page (with disabled use_pagination property)
             )
 
-            self.button_next = MDRectangleFlatButton(
-                    text="Next",
+            self.root.ids.data_scr.add_widget(self.data_tables)
+
+            if not self.button_collect:
+                self.button_collect = MDRectangleFlatButton(
+                    text="Collect",
                     icon="language-python",
-                    pos_hint={"center_x": .5, "center_y": .2},
+                    pos_hint={"center_x": .6, "center_y": .2},
                 )
 
-            self.button_next.bind(on_press=self.button_checking)
+            self.button_collect.bind(on_press=self.callback_button_collect)
+            self.root.ids.data_scr.add_widget(self.button_collect)
 
-            self.root.ids.data_scr.add_widget(self.data_tables)
-            self.root.ids.data_scr.add_widget(self.button_next)
+            self.button_back = MDRectangleFlatButton(
+                    text="Back",
+                    icon="language-python",
+                    pos_hint={"center_x": .4, "center_y": .2},
+                )
+
+            self.button_back.bind(on_press=self.button_checking_back)
+            self.root.ids.data_scr.add_widget(self.button_back)
+
         else:  # Иначе
-            self.root.current = 'processing'  # Переключиться на Screen1
-        return table, table_kivymd
-
-    def db_processing(self):
-        if self.root.ids.collect.state == 'down':
-            key = 'bigquery_key.json'
-            os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = key
-
-            client = bigquery.Client()
-            table_id_1 = os.environ['TABLE_ID_1']
-            table_id_2 = os.environ['TABLE_ID_2']
-
-            job_1 = client.load_table_from_dataframe(
-                df_students, table_id_1)
-            job_1.result()
-
-            job_2 = client.load_table_from_dataframe(
-                df_subjects_sum, table_id_2)
-            job_2.result()
-        else:
-            pass
+            self.root.current = 'processing'  # Переключиться на Screen3
 
     def build(self):
         self.theme_cls.theme_style = "Light"
