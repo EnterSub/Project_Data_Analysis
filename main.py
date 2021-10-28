@@ -568,13 +568,11 @@ class ProjectApp(MDApp):
 
     def show_table(self):
         self.df, self.df_students, self.df_subjects_sum = self.collect()
-        table = self.df
 
-        if table.shape[0] == 40 and table.shape[1] == 29:  # Указать размеры таблицы, иначе не та таблица (40 rows × 29 columns)
+        if self.df.shape[0] == 40 and self.df.shape[1] == 29:  # Указать размеры таблицы, иначе не та таблица (40 rows × 29 columns)
             #Screen 4
-            table_kivymd = table
-            column_data = list(table_kivymd.columns)
-            row_data = table_kivymd.to_records(index=False)
+            column_data = list(self.df.columns)
+            row_data = self.df.to_records(index=False)
             column_data = [(x, dp(60)) for x in column_data]
             self.data_tables = MDDataTable(
                 use_pagination=True,
