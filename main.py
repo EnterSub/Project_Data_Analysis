@@ -15,7 +15,6 @@ from kivymd.uix.filemanager import MDFileManager
 from kivy.core.window import Window
 from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
-import numpy as np
 from google.cloud import bigquery
 
 API_KEY = os.environ['API_KEY']
