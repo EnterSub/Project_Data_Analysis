@@ -6,27 +6,23 @@ import numpy as np
 import re
 import bs4
 from datetime import date
-
 from kivymd.app import MDApp
 from kivymd.uix.screen import Screen
 from kivy.lang import Builder
 from kivymd.uix.button import MDRectangleFlatButton
 from kivy.uix.screenmanager import ScreenManager
-
 from kivymd.uix.filemanager import MDFileManager
 from kivy.core.window import Window
-
 from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
 import numpy as np
-
 from google.cloud import bigquery
 
 API_KEY = os.environ['API_KEY']
 model_id = os.environ['ID']
 url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
-
 list_path = []
+
 
 def load_page(link):
     data = {'file': open(link, 'rb')}
@@ -49,6 +45,7 @@ def load_page(link):
     k = np.array(table).reshape(row_max, col_max * len(table) // (col_max * row_max))
     return k
 
+
 def subjects_schedule(group_name):
     schedule_url = os.environ['SITE_NAME'] + group_name + os.environ['SITE_TYPE']
     TITLE = os.environ['SITE_TITLE']
@@ -58,9 +55,7 @@ def subjects_schedule(group_name):
     TIME = os.environ['SITE_TIME']
     LABEL = os.environ['SITE_LABEL']
     DAY = os.environ['SITE_DAY']
-
     table_list, list_all_table, list_all_table_2, list_all_table_data, d, d2 = [], [], [], [], [], []
-
     req = requests.get(schedule_url)
     parser = bs4.BeautifulSoup(req.text, 'lxml')
     week_n = parser.find(class_=TITLE).text
@@ -176,6 +171,7 @@ def subjects_schedule(group_name):
         l = df_current
     return group_name, df_current, l, week_n
 
+
 def page_left():
     k = load_page(link=list_path[0])
     df_1 = pd.DataFrame(k)
@@ -197,7 +193,6 @@ def page_left():
     df_1.loc[37, 'student'] = "Всего отсутствовало"
     df_1.loc[38, 'student'] = "Подпись преподавателя"
     df_1.loc[39, 'student'] = "Подпись старосты"
-
     df_1 = df_1.where(df_1.notnull(), '')
 
     for count, i in enumerate(df_1['number'][1:df_1.shape[0] - 5], 1):
@@ -206,8 +201,8 @@ def page_left():
     for count, i in enumerate(df_1['student'][3:df_1.shape[0]-3], 3):
         if i:
             df_1.loc[count, 'student'] = f"Student{df_1.loc[count, 'number']}"
-
     return df_1, k
+
 
 def page_right():
     k = load_page(link=list_path[1])
@@ -230,6 +225,7 @@ def page_right():
 
     df_2 = df_2.where(df_2.notnull(), '')
     return df_2, k
+
 
 class ProjectApp(MDApp):
     def __init__(self, **kwargs):
@@ -329,6 +325,7 @@ class ProjectApp(MDApp):
             subject_index_schedule.append(i)
 
         list1 = list(df_current['week_n'])
+
         n = 1
         for count, i in enumerate(list1):
             list2.append(n)
@@ -339,7 +336,6 @@ class ProjectApp(MDApp):
                     n = 1
 
         items = subject_index_schedule + list2
-
         items_week_n = items[:len(items) // 2]
         items_number_column = items[len(items) // 2:]
 
@@ -362,9 +358,9 @@ class ProjectApp(MDApp):
 
         for count, i in enumerate(df.loc[1][2:26], 2):
             if i:
-                values_subject.append(count)  # Subjects in df[2, 3, 6, 7, 8, 10, 11, 12, 18, 19, 20, 21]
+                values_subject.append(count)
             elif not i:
-                values_not_subject.append(count)  # No subjects in df[4, 5, 9, 13, 14, 15, 16, 17, 22, 23, 24, 25]
+                values_not_subject.append(count)
 
         for i in values_not_subject:  # Clear values in all row where is no subject
             df.iloc[:, i] = ''
@@ -417,8 +413,6 @@ class ProjectApp(MDApp):
                 if j:
                     k += j
                 df.loc[37][i] = k
-
-        # Selecting part from df for DB processing
 
         # Df only: number; student; lectures_all; group_name; week_number
         df_students = df.iloc[1:37, :27]
@@ -481,24 +475,20 @@ class ProjectApp(MDApp):
             #Screen 5
             key = 'bigquery_key.json'
             os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = key
-
             client = bigquery.Client()
             table_id_1 = os.environ['TABLE_ID_1']
             table_id_2 = os.environ['TABLE_ID_2']
-
             job_1 = client.load_table_from_dataframe(
                 self.df_students, table_id_1)
             job_1.result()
-
             job_2 = client.load_table_from_dataframe(
                 self.df_subjects, table_id_2)
             job_2.result()
-
             self.root.current = 'check'
 
     def show_table(self):
         self.df, self.df_students, self.df_subjects = self.collect()
-        if self.df.shape[0] == 40 and self.df.shape[1] == 29:  # Указать размеры таблицы, иначе не та таблица (40 rows × 29 columns)
+        if self.df.shape[0] == 40 and self.df.shape[1] == 29:  # Input table (40 rows × 29 columns)
             #Screen 4
             column_data = list(self.df.columns)
             row_data = self.df.to_records(index=False)
@@ -507,7 +497,7 @@ class ProjectApp(MDApp):
                 use_pagination=True,
                 column_data=column_data,
                 row_data=row_data,
-                #rows_num=len(row_data)  #To show all rows in 1 page (with disabled use_pagination property)
+                #rows_num=len(row_data)  # To show all rows in 1 page (with disabled use_pagination property)
             )
 
             self.root.ids.data_scr.add_widget(self.data_tables)
@@ -531,12 +521,13 @@ class ProjectApp(MDApp):
             self.button_back.bind(on_press=self.button_checking_back)
             self.root.ids.data_scr.add_widget(self.button_back)
 
-        else:  # Иначе
-            self.root.current = 'processing'  # Переключиться на Screen3
+        else:
+            self.root.current = 'processing'  # Move to the Screen3
 
     def build(self):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Green"
         return Builder.load_file('settings.kv')
+
 
 ProjectApp().run()
