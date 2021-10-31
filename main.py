@@ -178,11 +178,9 @@ def subjects_schedule(group_name):
 
 def page_left():
     k = load_page(link=list_path[0])
-    df_columns, list_values_week, list_signature_value_lecturer, list_signature_lecturer, list_signature_value, list_signature, list_value_sum, values_subject_1, values_subject_index = [], [], [], [], [], [], [], [], []
     df_1 = pd.DataFrame(k)
     df_1.is_copy = False
     df_columns = ["number", "student"]
-    list_index_with_subjects = []
 
     for i in df_1.columns[:len(df_1.columns) - len(df_columns)]:
         df_columns.append(f"column{i + 1}")
@@ -196,74 +194,11 @@ def page_left():
         value = "Тип занятия"
         df_1.loc[2, 'student'] = value
 
-    for count, i in enumerate(df_1.loc[0][2:], 0):
-        if i:
-            list_values_week.append(i)
-
-    # Cells that contain subjects
-    for count, i in enumerate(df_1.loc[1][2:], 0):
-        if i:
-            list_index_with_subjects.append(count + 2)
-
-    for i in list_index_with_subjects:
-        if 1 <= i <= 4:
-            df_1.loc[0][i] = list_values_week[0]
-        elif 5 <= i <= 8:
-            df_1.loc[0][i] = list_values_week[1]
-        elif 9 <= i <= 12:
-            df_1.loc[0][i] = list_values_week[2]
-
-    for i in range(2, len(df_1.loc[1][:])):
-        if i not in list_index_with_subjects:
-            df_1.loc[0][i] = ''
-
-    for count, i in enumerate(df_1.loc[38], 0):
-        if i:
-            if count >= 2:
-                list_signature_value_lecturer.append(i)
-                list_signature_lecturer.append(count)
-    df_1.loc[38][list_signature_lecturer] = "Yes"
-
-    for count, i in enumerate(df_1.loc[39], 0):
-        if i:
-            if count >= 2:
-                list_signature_value.append(i)
-                list_signature.append(count)
-    df_1.loc[39][list_signature] = "Yes"
-
     df_1.loc[37, 'student'] = "Всего отсутствовало"
     df_1.loc[38, 'student'] = "Подпись преподавателя"
     df_1.loc[39, 'student'] = "Подпись старосты"
 
-    for count, i in enumerate(df_1.loc[2], 0):
-        if len(i) > 1 and count > 1:
-            value = "Практические занятия"
-            df_1.iloc[2, count] = value
-        elif len(i) == 1 and count > 1:
-            value = "Лекция"
-            df_1.iloc[2, count] = value
-        elif len(i) == 0 and count > 1:
-            pass
     df_1 = df_1.where(df_1.notnull(), '')
-
-    n = df_1.iloc[3:37, 2:14].replace(r'^\s*$', np.nan, regex=True).isna().all()
-
-    for count, i in enumerate(n, 0):
-        if not i:
-            values_subject_1.append(count + 2)
-
-    for i in values_subject_1:  # Fill only columns with some subject
-        df_1.iloc[3:37, i:i + 1] = df_1.iloc[3:37, i:i + 1].apply(
-            lambda x: x.str.extract(r'([а-яА-Яa-zA-Z0-9])', expand=False)).replace('None', np.nan).notnull().astype(int)
-        list_value_sum.append(sum(df_1.iloc[3:37, i]))
-
-    for count, i in enumerate(df_1.loc[1], 0):
-        if i and count >= 2:
-            values_subject_index.append(count)
-
-    for i in values_subject_index:
-        value = sum(df_1.iloc[3:37, i])
-        df_1.iloc[37, i] = value
 
     for count, i in enumerate(df_1['number'][1:df_1.shape[0] - 5], 1):
         df_1.loc[count + 2, 'number'] = count
@@ -276,10 +211,9 @@ def page_left():
 
 def page_right():
     k = load_page(link=list_path[1])
-    df_columns, list_values_week, list_signature_value_lecturer, list_signature_lecturer, list_signature_value, list_signature, list_value_sum, values_subject_2, values_subject_index = [], [], [], [], [], [], [], [], []
+    df_columns = []
     df_2 = pd.DataFrame(k)
     df_2.is_copy = False
-    list_index_with_subjects = []
 
     for i in df_2.columns:
         df_columns.append(f"column{i + 13}")
@@ -289,75 +223,12 @@ def page_right():
     # Insert row just with numbers (or student names) from previous df
     df_2 = df_2.rename({'column25': 'lectures_all', 'column26': 'lectures', 'column27': 'message'}, axis=1)
 
-    for count, i in enumerate(df_2.loc[0][:12], 0):
-        if i:
-            list_values_week.append(i)
-
-    # Cells that contain subjects
-    for count, i in enumerate(df_2.loc[1][:12], 0):
-        if i:
-            list_index_with_subjects.append(count)
-
-    for i in list_index_with_subjects:
-        if 0 <= i <= 4:
-            df_2.loc[0][i] = list_values_week[0]
-        elif 5 <= i <= 8:
-            df_2.loc[0][i] = list_values_week[1]
-        elif 9 <= i <= 12:
-            df_2.loc[0][i] = list_values_week[2]
-
-    for i in range(2, len(df_2.loc[1][:])):
-        if i not in list_index_with_subjects:
-            df_2.loc[0][i] = ''
-
-    for count, i in enumerate(df_2.loc[38], 0):
-        if i:
-            if count >= 0:
-                list_signature_value_lecturer.append(i)
-                list_signature_lecturer.append(count)
-    df_2.loc[38][list_signature_lecturer] = "Yes"
-
-    for count, i in enumerate(df_2.loc[39], 0):
-        if i:
-            if count >= 0:
-                list_signature_value.append(i)
-                list_signature.append(count)
-    df_2.loc[39][list_signature] = "Yes"
-
     df_2.loc[0, 'lectures_all':'lectures'] = 'Пропущено часов занят.'
     df_2.loc[1:2, 'lectures_all'] = 'всего'
     df_2.loc[1:2, 'lectures'] = 'по уважит. прич.'
     df_2.loc[0:2, 'message'] = 'Замечания деканата и преподавателей'
 
-    for count, i in enumerate(df_2.loc[2], 0):
-        if len(i) > 1 and count < 12:
-            value = "Практические занятия"
-            df_2.iloc[2, count] = value
-        elif len(i) == 1 and count < 12:
-            value = "Лекция"
-            df_2.iloc[2, count] = value
-        elif len(i) == 0 and count < 12:
-            pass
     df_2 = df_2.where(df_2.notnull(), '')
-
-    j = df_2.iloc[3:37, :12].replace(r'^\s*$', np.nan, regex=True).isna().all()
-
-    for count, i in enumerate(j, 0):
-        if not i:
-            values_subject_2.append(count)
-
-    for i in values_subject_2:  # Fill only columns with some subject
-        df_2.iloc[3:37, i:i + 1] = df_2.iloc[3:37, i:i + 1].apply(
-            lambda x: x.str.extract(r'([а-яА-Яa-zA-Z0-9])', expand=False)).replace('None', np.nan).notnull().astype(int)
-        list_value_sum.append(sum(df_2.iloc[3:37, i]))
-
-    for count, i in enumerate(df_2.loc[1], 0):
-        if i and 0 <= count < 12:
-            values_subject_index.append(count)
-
-    for i in values_subject_index:
-        value = sum(df_2.iloc[3:37, i])
-        df_2.iloc[37, i] = value
     return df_2, k
 
 class ProjectApp(MDApp):
@@ -410,30 +281,54 @@ class ProjectApp(MDApp):
         df_1.loc[1, 'number'] = week_n
         df = df_1.join(df_2)
 
-        for i in range(df.shape[0])[3:37]:
-            k = 0
-            for count, j in enumerate(df.iloc[i, 2:26]):
-                if j:
-                    k += j
-            df.loc[i, 'lectures_all'] = k
+        list_signature_lecturer = []
+        list_signature = []
+        subject_index_list = []
+        subject_index_schedule = []
+        list2 = []
+        subject_indexes_schedule_to_df = []
+        values_subject = []
+        values_not_subject = []
+        list_values_number = []
+        list_value_sum = []
+        values_rows = []
+        items_subjects = []
 
-        n = 0
-        for i in df.loc[37][2:df.shape[1] - 3]:
-            if i:
-                n += i
-        df.loc[37, 'lectures_all'] = n
+        for count, i in enumerate(df.loc[2][2:26], 2):
+            if len(i) > 1:
+                value = "Практические занятия"
+                df.iloc[2, count] = value
+            elif len(i) == 1:
+                value = "Лекция"
+                df.iloc[2, count] = value
+            elif len(i) == 0:
+                pass
 
-        list_subjects_indexes = []
-        j = 0
-        for count, i in enumerate(df.loc[1][2:df.shape[1] - 3], 0):
-            if count % 4 == 0:
-                j += 1
+        for count, i in enumerate(df.loc[38], 0):
             if i:
-                list_subjects_indexes.append([j, (count % 4) + 1, count + 2, i])
+                if count >= 2:
+                    list_signature_lecturer.append(count)
+        df.loc[38][list_signature_lecturer] = "Yes"
+
+        for count, i in enumerate(df.loc[39], 0):
+            if i:
+                if count >= 2:
+                    list_signature.append(count)
+        df.loc[39][list_signature] = "Yes"
+
+        i = 0
+        for j, _ in enumerate(df.loc[1][2:26], 2):
+            if j % 4 == 2:
+                i += 1
+            subject_index_list.append([i, j])
+
+        df.iloc[1:2, 2:26] = ''
+
+        # Index of subjects from schedule to import to df
+        for i in df_current['week_n']:
+            subject_index_schedule.append(i)
 
         list1 = list(df_current['week_n'])
-        list2 = []
-
         n = 1
         for count, i in enumerate(list1):
             list2.append(n)
@@ -443,85 +338,120 @@ class ProjectApp(MDApp):
                 else:
                     n = 1
 
-        list1 = pd.Series(list1)
-        list2 = pd.Series(list2)
+        items = subject_index_schedule + list2
 
-        list_subjects_indexes_week_n = []
+        items_week_n = items[:len(items) // 2]
+        items_number_column = items[len(items) // 2:]
 
-        for i, j, z in zip(list1, list2, df_current['subject']):
-            list_subjects_indexes_week_n.append([i, j, z])
+        for i, j in zip(items_week_n, items_number_column):
+            if i == 2:
+                j += 4
+            elif i == 3:
+                j += 8
+            elif i == 4:
+                j += 12
+            elif i == 5:
+                j += 16
+            elif i == 6:
+                j += 20
+            j += 1  # Cause we compare with slice of df from 2 column
+            subject_indexes_schedule_to_df.append([i, j])
 
-        for i in list_subjects_indexes:
-            for j in list_subjects_indexes_week_n:
-                if i[0] == j[0] and i[1] == j[1]:
-                    df.loc[1][i[2]] = j[2]
+        for count, (i, j) in enumerate(subject_indexes_schedule_to_df, 0):
+            df.loc[1][j] = df_current['subject'][count]
 
+        for count, i in enumerate(df.loc[1][2:26], 2):
+            if i:
+                values_subject.append(count)  # Subjects in df[2, 3, 6, 7, 8, 10, 11, 12, 18, 19, 20, 21]
+            elif not i:
+                values_not_subject.append(count)  # No subjects in df[4, 5, 9, 13, 14, 15, 16, 17, 22, 23, 24, 25]
+
+        for i in values_not_subject:  # Clear values in all row where is no subject
+            df.iloc[:, i] = ''
+
+        # Remove values where is no student
         for count, i in enumerate(df['student'][3:df.shape[0] - 3], 1):
             if not i:
                 df.loc[count + 2, 'number'] = ''
 
-        list_values_number = []
         for count, i in enumerate(df['number'][3:37], 1):
             if not i:
                 list_values_number.append(count + 2)
 
-        k = 0
-        for i in df.loc[0][2:df.shape[1] - 3]:
-            if i:
-                k += 1
-        k = [i for i in range(k + 1)]
+        for i in list_values_number:
+            df.iloc[i][2:27] = ''
 
-        for j in k:
-            for i in list_values_number:
-                df.iloc[i][2:27] = df.iloc[i][2:27].replace(j, '')
+        # Sum values
+        for i in values_subject:  # Fill only columns with some subject
+            df.iloc[3:37, i:i + 1] = df.iloc[3:37, i:i + 1].apply(
+                lambda x: x.str.extract(r'([а-яА-Яa-zA-Z0-9])', expand=False)).replace('None', np.nan).notnull().astype(
+                int)
+            list_value_sum.append(sum(df.iloc[3:37, i]))
+
+        # Remove values where is no student
+        for i in list_values_number:
+            df.iloc[i][2:27] = ''
+
+        # Summary by student
+        for count, i in enumerate(df['student'][3:37], 3):
+            if i:
+                values_rows.append(count)
+
+        for i in values_rows:
+            k = 0
+            for j in df.loc[i][2:26]:
+                if j:
+                    k += j
+            df.loc[i, 'lectures_all'] = k
+
+        summary = 0
+        for i in df['lectures_all'][3:df.shape[0] - 3]:
+            if i:
+                summary += i
+
+        df.loc[37, 'lectures_all'] = summary
+
+        for i in values_subject:
+            k = 0
+            for j in df.iloc[3:37, i]:
+                if j:
+                    k += j
+                df.loc[37][i] = k
 
         # Selecting part from df for DB processing
+
+        # Df only: number; student; lectures_all; group_name; week_number
         df_students = df.iloc[1:37, :27]
         df_students.loc[1, 'student'] = "Студент"
         df_students = df_students[df_students["number"] != '']
+        df_students = df_students.reset_index(drop=True)
 
-        list_values_df = []
-
-        for count, i in enumerate(df.iloc[0, 2:df.shape[1] - 3], 2):
-            if i:
-                list_values_df.append(df.columns[count])
-
-        l = 0
-        for i in list_values_df:
-            df_students.loc[24, i] = sum(df_students.loc[2:df_students.shape[0], i])
-            l += df_students.loc[24, i]
-        df_students.loc[24, 'lectures_all'] = l
-        df_students.loc[24, 'number'] = 'total'
-        df_students.loc[24, 'student'] = 'all'
-
+        # Insert 2 values in 2 columns
+        df_students.loc[df_students.shape[0], 'number'] = 'total'
+        df_students.loc[df_students.shape[0] - 1, 'student'] = 'all'
         df_students = df_students[1:df_students.shape[0] - 1]
         df_students = df_students[["number", "student", "lectures_all"]]
         df_students['group'] = df.loc[0, 'number']
         df_students['week_n'] = df.loc[1, 'number']
         df_students['date'] = date.today()
         df_students = df_students.fillna('')
+        df_students = df_students.reset_index(drop=True)
 
-        df_subjects = df.drop(0)
-        df_subjects = df_subjects.drop(columns=['number', 'student', 'lectures_all', 'lectures', 'message'])
-        df_subjects = df_subjects[0:df_students.shape[0] + 2]
-        df_subjects = df_subjects[df_subjects[list_values_df] != '']
-        df_subjects = df_subjects[list_values_df]
-        df_subjects_sum = pd.DataFrame(columns=['subject', 'total', 'group', 'week_n', 'date'])
-        df_subjects_sum.loc[:, 'subject'] = df_subjects.loc[1][:df_subjects.shape[1]]
-        df_subjects_sum = df_subjects_sum.reset_index(drop=True)
+        # Df only: column{i}; group_name; week_number
+        for count, i in enumerate(values_subject, 0):
+            items_subjects.append(
+                {
+                    'subject': df.loc[1][i],
+                    'total': df.loc[37][i],
+                    'group': df.loc[0, 'number'],
+                    'week_n': df.loc[1, 'number'],
+                    'date': date.today()
+                }
+            )
 
-        df_subjects = df_subjects.drop(1)
-        df_subjects = df_subjects.drop(2)
-        df_subjects = df_subjects.reset_index(drop=True)
-
-        for count, i in enumerate(df_subjects, 0):
-            df_subjects_sum.loc[count, 'total'] = sum(df_subjects.loc[:, i])
-
-        df_subjects_sum['group'] = df.loc[0, 'number']
-        df_subjects_sum['week_n'] = df.loc[1, 'number']
-        df_subjects_sum['date'] = date.today()
-        df_subjects_sum = df_subjects_sum.groupby(['subject', 'group', 'week_n', 'date'])['total'].sum().reset_index()
-        return df, df_students, df_subjects_sum
+        df_subjects = pd.DataFrame(items_subjects)
+        df_subjects = df_subjects.groupby(['subject', 'group', 'date', 'week_n'])['total'].sum().reset_index()
+        return df, df_students, df_subjects
 
     #Screen 3
     def file_manager_open(self):
@@ -561,14 +491,13 @@ class ProjectApp(MDApp):
             job_1.result()
 
             job_2 = client.load_table_from_dataframe(
-                self.df_subjects_sum, table_id_2)
+                self.df_subjects, table_id_2)
             job_2.result()
 
             self.root.current = 'check'
 
     def show_table(self):
-        self.df, self.df_students, self.df_subjects_sum = self.collect()
-
+        self.df, self.df_students, self.df_subjects = self.collect()
         if self.df.shape[0] == 40 and self.df.shape[1] == 29:  # Указать размеры таблицы, иначе не та таблица (40 rows × 29 columns)
             #Screen 4
             column_data = list(self.df.columns)
