@@ -192,7 +192,7 @@ def page_left():
     df_1.loc[37, 'student'] = "Всего отсутствовало"
     df_1.loc[38, 'student'] = "Подпись преподавателя"
     df_1.loc[39, 'student'] = "Подпись старосты"
-    df_1 = df_1.where(df_1.notnull(), '')
+    #df_1 = df_1.where(df_1.notnull(), '')
 
     for count, i in enumerate(df_1['number'][1:df_1.shape[0] - 5], 1):
         df_1.loc[count + 2, 'number'] = count
@@ -222,7 +222,7 @@ def page_right():
     df_2.loc[1:2, 'lectures'] = 'по уважит. прич.'
     df_2.loc[0:2, 'message'] = 'Замечания деканата и преподавателей'
 
-    df_2 = df_2.where(df_2.notnull(), '')
+    #df_2 = df_2.where(df_2.notnull(), '')
     return df_2, k
 
 
