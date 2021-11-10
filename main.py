@@ -22,6 +22,16 @@ model_id = os.environ['ID']
 url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
 list_path = []
 
+def week_schedule():
+    schedule_url = os.environ['SITE_NAME']
+    HEADER_LABEL = os.environ['SITE_HEADER_LABEL']
+    req = requests.get(schedule_url)
+    parser = bs4.BeautifulSoup(req.text, 'lxml')
+    week_n = parser.find(class_=HEADER_LABEL).text
+    week_n = re.findall(r'\d+', week_n)
+    week_n = week_n[0]
+    return week_n
+
 
 def load_page(link):
     data = {'file': open(link, 'rb')}
@@ -45,132 +55,6 @@ def load_page(link):
     return k
 
 
-def subjects_schedule(group_name):
-    schedule_url = os.environ['SITE_NAME'] + group_name + os.environ['SITE_TYPE']
-    TITLE = os.environ['SITE_TITLE']
-    ITEM = os.environ['SITE_ITEM']
-    BODY = os.environ['SITE_BODY']
-    ROW = os.environ['SITE_ROW']
-    TIME = os.environ['SITE_TIME']
-    LABEL = os.environ['SITE_LABEL']
-    DAY = os.environ['SITE_DAY']
-    table_list, list_all_table, list_all_table_2, list_all_table_data, d, d2 = [], [], [], [], [], []
-    req = requests.get(schedule_url)
-    parser = bs4.BeautifulSoup(req.text, 'lxml')
-    week_n = parser.find(class_=TITLE).text
-    week_n = re.findall(r'\d+', week_n)
-    week_n = int(str(week_n[0]))
-
-    table = parser.findAll(class_=BODY)
-    rows_ = [r for r in table[0].findAll(class_=ROW) if r.findAll(class_=DAY)]
-    for r in rows_:
-        day = r.findAll(class_=DAY)[0].text
-        time_rows = [dr for dr in r.findAll(class_=ROW) if dr.findAll(class_=TIME)]
-        for tr in time_rows:
-            time = tr.findAll(class_=TIME)[0].text
-            lessons = [lesson for lesson in tr.findAll(class_=ROW) if lesson.findAll(class_=ITEM)]
-            lessons_list = []
-            for lesson in lessons:
-                week_type = lesson.findAll(class_=LABEL)[0].findChild('span').text if lesson.findAll(
-                    class_=LABEL) else ''
-                item = lesson.findAll(class_=ITEM)[0] if lesson.findAll(class_=LABEL) else lesson.findAll(class_=ITEM)[
-                    0]
-                item_lable_reg = re.search(r'\t[\w\s,.]+', item.text if item else None)
-                item_lable = re.sub(r'(\s+·)|[\n\t]|\s{2}', '', item_lable_reg.group(0)) if item_lable_reg else None
-                lessons_list.append({'w': week_type, 'n': item_lable})
-            if lessons_list:
-                table_list.append({'d': day, 't': time, 'i': lessons_list})
-
-    for i in table_list:
-        list_all_table.append([i['d'], i['t'], i['i']])
-
-    for t, i, j in list_all_table:
-        list_all_table_2.append([t, i, j])
-
-    for i in list_all_table_2:
-        for j in i[2]:
-            list_all_table_data.append([i[0], i[1], j['w'], j['n']])
-
-    for t, i, j, k in list_all_table_data:
-        d.append(
-            {
-                'week_n': t,
-                'class_t': i,
-                'week_t': j,
-                'subject': "".join([k[0].upper() for k in k.split()])
-            }
-        )
-    df = pd.DataFrame(d)
-
-    list_values_subjects = []
-    for count, i in enumerate(df['week_t'], 0):
-        if "недели" in i:
-            list_values_subjects.append(count)
-
-    for i in list_values_subjects:
-        k = df.loc[i, 'week_t']
-        k = re.findall(r'\d.*', k)
-        l = k[0].split(' ')
-        df.loc[i, 'week_t'] = list(map(int, l))
-
-    for count, i in enumerate(df['week_t'], 0):
-        if i == "по чётным":
-            df.loc[count, 'week_t'] = [i for i in range(1, 19) if i % 2 == 0]
-        elif i == "по нечётным":
-            df.loc[count, 'week_t'] = [i for i in range(1, 19) if i % 2 == 1]
-        elif not i:
-            df.loc[count, 'week_t'] = [i for i in range(1, 19)]
-
-    for count, i in enumerate(df['week_n'], 0):
-        if df.loc[count, 'week_n'] == 'пн':
-            df.loc[count, 'week_n'] = 1
-        elif df.loc[count, 'week_n'] == 'вт':
-            df.loc[count, 'week_n'] = 2
-        elif df.loc[count, 'week_n'] == 'ср':
-            df.loc[count, 'week_n'] = 3
-        elif df.loc[count, 'week_n'] == 'чт':
-            df.loc[count, 'week_n'] = 4
-        elif df.loc[count, 'week_n'] == 'пт':
-            df.loc[count, 'week_n'] = 5
-        elif df.loc[count, 'week_n'] == 'сб':
-            df.loc[count, 'week_n'] = 6
-
-    for count, i in enumerate(df['class_t'], 0):
-        if df.loc[count, 'class_t'] == '08:30-10:00':
-            df.loc[count, 'class_t'] = 1
-        elif df.loc[count, 'class_t'] == '10:15-11:45':
-            df.loc[count, 'class_t'] = 2
-        elif df.loc[count, 'class_t'] == '12:00-13:30':
-            df.loc[count, 'class_t'] = 3
-        elif df.loc[count, 'class_t'] == '14:00-15:30':
-            df.loc[count, 'class_t'] = 4
-        elif df.loc[count, 'class_t'] == '15:45-17:15':
-            df.loc[count, 'class_t'] = 5
-        elif df.loc[count, 'class_t'] == '17:30-19:00':
-            df.loc[count, 'class_t'] = 6
-        elif df.loc[count, 'class_t'] == '19:15-20:45':
-            df.loc[count, 'class_t'] = 7
-        elif df.loc[count, 'class_t'] == '21:00-22:30':
-            df.loc[count, 'class_t'] = 8
-
-    for count, i in enumerate(df['week_t'], 0):
-        if week_n in i and len(df['subject'][count]) and df['subject'][count] != 'ФКИС':
-            d2.append(
-                {
-                    'week_n': df.loc[count][0],
-                    'class_t': df.loc[count][1],
-                    'subject': df.loc[count][3]
-                }
-            )
-
-    df_current = pd.DataFrame(d2)
-    if df_current.empty:
-        l = ''
-    else:
-        l = df_current
-    return group_name, df_current, l, week_n
-
-
 def page_left():
     k = load_page(link=list_path[0])
     df_1 = pd.DataFrame(k)
@@ -192,7 +76,6 @@ def page_left():
     df_1.loc[37, 'student'] = "Всего отсутствовало"
     df_1.loc[38, 'student'] = "Подпись преподавателя"
     df_1.loc[39, 'student'] = "Подпись старосты"
-    #df_1 = df_1.where(df_1.notnull(), '')
 
     for count, i in enumerate(df_1['number'][1:df_1.shape[0] - 5], 1):
         df_1.loc[count + 2, 'number'] = count
@@ -221,8 +104,6 @@ def page_right():
     df_2.loc[1:2, 'lectures_all'] = 'всего'
     df_2.loc[1:2, 'lectures'] = 'по уважит. прич.'
     df_2.loc[0:2, 'message'] = 'Замечания деканата и преподавателей'
-
-    #df_2 = df_2.where(df_2.notnull(), '')
     return df_2, k
 
 
@@ -240,9 +121,133 @@ class ProjectApp(MDApp):
         self.button_collect = None
         self.button_back = None
 
+    def subjects_schedule(self, group_name):
+        schedule_url = os.environ['SITE_NAME'] + group_name + os.environ['SITE_TYPE']
+        ITEM = os.environ['SITE_ITEM']
+        BODY = os.environ['SITE_BODY']
+        ROW = os.environ['SITE_ROW']
+        TIME = os.environ['SITE_TIME']
+        LABEL = os.environ['SITE_LABEL']
+        DAY = os.environ['SITE_DAY']
+        table_list, list_all_table, list_all_table_2, list_all_table_data, d, d2 = [], [], [], [], [], []
+        req = requests.get(schedule_url)
+        parser = bs4.BeautifulSoup(req.text, 'lxml')
+        week_n = int(week_schedule())
+        week_n = int(self.root.ids.textbox_week_number.text)
+        table = parser.findAll(class_=BODY)
+        rows_ = [r for r in table[0].findAll(class_=ROW) if r.findAll(class_=DAY)]
+        for r in rows_:
+            day = r.findAll(class_=DAY)[0].text
+            time_rows = [dr for dr in r.findAll(class_=ROW) if dr.findAll(class_=TIME)]
+            for tr in time_rows:
+                time = tr.findAll(class_=TIME)[0].text
+                lessons = [lesson for lesson in tr.findAll(class_=ROW) if lesson.findAll(class_=ITEM)]
+                lessons_list = []
+                for lesson in lessons:
+                    week_type = lesson.findAll(class_=LABEL)[0].findChild('span').text if lesson.findAll(
+                        class_=LABEL) else ''
+                    item = lesson.findAll(class_=ITEM)[0] if lesson.findAll(class_=LABEL) else \
+                    lesson.findAll(class_=ITEM)[0]
+                    item_lable_reg = re.search(r'\t[\w\s,.]+', item.text if item else None)
+                    item_lable = re.sub(r'(\s+·)|[\n\t]|\s{2}', '', item_lable_reg.group(0)) if item_lable_reg else None
+                    lessons_list.append({'w': week_type, 'n': item_lable})
+                if lessons_list:
+                    table_list.append({'d': day, 't': time, 'i': lessons_list})
+
+        for i in table_list:
+            list_all_table.append([i['d'], i['t'], i['i']])
+
+        for t, i, j in list_all_table:
+            list_all_table_2.append([t, i, j])
+
+        for i in list_all_table_2:
+            for j in i[2]:
+                list_all_table_data.append([i[0], i[1], j['w'], j['n']])
+
+        for t, i, j, k in list_all_table_data:
+            d.append(
+                {
+                    'week_n': t,
+                    'class_t': i,
+                    'week_t': j,
+                    'subject': "".join([k[0].upper() for k in k.split()])
+                }
+            )
+        df = pd.DataFrame(d)
+
+        list_values_subjects = []
+        for count, i in enumerate(df['week_t'], 0):
+            if "недели" in i:
+                list_values_subjects.append(count)
+
+        for i in list_values_subjects:
+            k = df.loc[i, 'week_t']
+            k = re.findall(r'\d.*', k)
+            l = k[0].split(' ')
+            df.loc[i, 'week_t'] = list(map(int, l))
+
+        for count, i in enumerate(df['week_t'], 0):
+            if i == "по чётным":
+                df.loc[count, 'week_t'] = [i for i in range(1, 19) if i % 2 == 0]
+            elif i == "по нечётным":
+                df.loc[count, 'week_t'] = [i for i in range(1, 19) if i % 2 == 1]
+            elif not i:
+                df.loc[count, 'week_t'] = [i for i in range(1, 19)]
+
+        for count, i in enumerate(df['week_n'], 0):
+            if df.loc[count, 'week_n'] == 'пн':
+                df.loc[count, 'week_n'] = 1
+            elif df.loc[count, 'week_n'] == 'вт':
+                df.loc[count, 'week_n'] = 2
+            elif df.loc[count, 'week_n'] == 'ср':
+                df.loc[count, 'week_n'] = 3
+            elif df.loc[count, 'week_n'] == 'чт':
+                df.loc[count, 'week_n'] = 4
+            elif df.loc[count, 'week_n'] == 'пт':
+                df.loc[count, 'week_n'] = 5
+            elif df.loc[count, 'week_n'] == 'сб':
+                df.loc[count, 'week_n'] = 6
+
+        for count, i in enumerate(df['class_t'], 0):
+            if df.loc[count, 'class_t'] == '08:30-10:00':
+                df.loc[count, 'class_t'] = 1
+            elif df.loc[count, 'class_t'] == '10:15-11:45':
+                df.loc[count, 'class_t'] = 2
+            elif df.loc[count, 'class_t'] == '12:00-13:30':
+                df.loc[count, 'class_t'] = 3
+            elif df.loc[count, 'class_t'] == '14:00-15:30':
+                df.loc[count, 'class_t'] = 4
+            elif df.loc[count, 'class_t'] == '15:45-17:15':
+                df.loc[count, 'class_t'] = 5
+            elif df.loc[count, 'class_t'] == '17:30-19:00':
+                df.loc[count, 'class_t'] = 6
+            elif df.loc[count, 'class_t'] == '19:15-20:45':
+                df.loc[count, 'class_t'] = 7
+            elif df.loc[count, 'class_t'] == '21:00-22:30':
+                df.loc[count, 'class_t'] = 8
+
+        for count, i in enumerate(df['week_t'], 0):
+            if week_n in i and len(df['subject'][count]) and df['subject'][count] != 'ФКИС':
+                d2.append(
+                    {
+                        'week_n': df.loc[count][0],
+                        'class_t': df.loc[count][1],
+                        'subject': df.loc[count][3]
+                    }
+                )
+
+        df_current = pd.DataFrame(d2)
+        print(df_current)
+        if df_current.empty:
+            l = ''
+        else:
+            l = df_current
+        return group_name, df_current, l, week_n
+
     #Screen 1
     def start(self):
         if self.root.ids.user.text == "" and self.root.ids.password.text == "":
+            self.root.ids.textbox_week_number.text = week_schedule()
             self.root.current = 'menu'
         # else:
         #     self.root.ids.user.text = ""
@@ -256,7 +261,9 @@ class ProjectApp(MDApp):
         if self.root.ids.textbox.text == '':
             text = self.root.ids.textbox.text
         else:
-            text = subjects_schedule(self.root.ids.textbox.text)[2]  # l
+            func = self.subjects_schedule(self.root.ids.textbox.text)
+            text = func[2]  # l
+            week_n = func[3]
             if len(text) > 0:  # Если название не пустое, то
                 self.root.current = 'processing'  # Переключиться на Screen2
             else:  # Иначе
@@ -265,7 +272,7 @@ class ProjectApp(MDApp):
         return textbox, text
 
     def collect(self):
-        func = subjects_schedule(self.root.ids.textbox.text)
+        func = self.subjects_schedule(self.root.ids.textbox.text)
         df_current = func[1]
         week_n = func[3]
         df_1, k = page_left()
