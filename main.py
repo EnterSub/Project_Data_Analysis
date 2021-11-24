@@ -148,7 +148,7 @@ class ProjectApp(MDApp):
                         class_=LABEL) else ''
                     item = lesson.findAll(class_=ITEM)[0] if lesson.findAll(class_=LABEL) else \
                     lesson.findAll(class_=ITEM)[0]
-                    item_lable_reg = re.search(r'\t[\w\s,.]+', item.text if item else None)
+                    item_lable_reg = re.search(r'\t[\w\s,-.]+', item.text if item else None)
                     item_lable = re.sub(r'(\s+·)|[\n\t]|\s{2}', '', item_lable_reg.group(0)) if item_lable_reg else None
                     lessons_list.append({'w': week_type, 'n': item_lable})
                 if lessons_list:
