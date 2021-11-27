@@ -7,10 +7,10 @@ import re
 import bs4
 from datetime import date
 from kivymd.app import MDApp
-from kivymd.uix.screen import Screen
+#from kivymd.uix.screen import Screen
 from kivy.lang import Builder
 from kivymd.uix.button import MDRectangleFlatButton
-from kivy.uix.screenmanager import ScreenManager
+#from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.filemanager import MDFileManager
 from kivy.core.window import Window
 from kivymd.uix.datatables import MDDataTable
@@ -45,7 +45,7 @@ def load_page(link):
         for j in i['prediction']:
             for k in j['cells']:
                 table.append(k['text'])
-                # table.append(k['score'])
+                #table.append(k['score'])
                 if k['col'] > 0:
                     col_max = k['col']
                 if k['row'] > 0:
@@ -237,7 +237,7 @@ class ProjectApp(MDApp):
                 )
 
         df_current = pd.DataFrame(d2)
-        print(df_current)
+        #print(df_current)
         if df_current.empty:
             l = ''
         else:
