@@ -5,29 +5,31 @@ import json
 import numpy as np
 import re
 import bs4
+import pandas_gbq
+from google.oauth2 import service_account
 from datetime import date
 from kivymd.app import MDApp
-#from kivymd.uix.screen import Screen
 from kivy.lang import Builder
 from kivymd.uix.button import MDRectangleFlatButton
-#from kivy.uix.screenmanager import ScreenManager
 from kivymd.uix.filemanager import MDFileManager
 from kivy.core.window import Window
 from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
-from google.cloud import bigquery
+# from android.storage import primary_external_storage_path
+
 
 API_KEY = os.environ['API_KEY']
 model_id = os.environ['ID']
 url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
 list_path = []
 
+
 def week_schedule():
     schedule_url = os.environ['SITE_NAME']
-    HEADER_LABEL = os.environ['SITE_HEADER_LABEL']
+    header_label = os.environ['SITE_HEADER_LABEL']
     req = requests.get(schedule_url)
     parser = bs4.BeautifulSoup(req.text, 'lxml')
-    week_n = parser.find(class_=HEADER_LABEL).text
+    week_n = parser.find(class_=header_label).text
     week_n = re.findall(r'\d+', week_n)
     week_n = week_n[0]
     return week_n
@@ -37,6 +39,8 @@ def load_page(link):
     data = {'file': open(link, 'rb')}
     response = requests.post(url, auth=requests.auth.HTTPBasicAuth(API_KEY, ''), files=data)
 
+    # If response.status_code == 200 continue processing
+
     col_max, row_max = 0, 0
     table = []
     data = json.loads(response.text)
@@ -45,7 +49,7 @@ def load_page(link):
         for j in i['prediction']:
             for k in j['cells']:
                 table.append(k['text'])
-                #table.append(k['score'])
+                # table.append(k['score'])
                 if k['col'] > 0:
                     col_max = k['col']
                 if k['row'] > 0:
@@ -80,7 +84,7 @@ def page_left():
     for count, i in enumerate(df_1['number'][1:df_1.shape[0] - 5], 1):
         df_1.loc[count + 2, 'number'] = count
 
-    for count, i in enumerate(df_1['student'][3:df_1.shape[0]-3], 3):
+    for count, i in enumerate(df_1['student'][3:df_1.shape[0] - 3], 3):
         if i:
             df_1.loc[count, 'student'] = f"Student{df_1.loc[count, 'number']}"
     return df_1, k
@@ -147,7 +151,7 @@ class ProjectApp(MDApp):
                     week_type = lesson.findAll(class_=LABEL)[0].findChild('span').text if lesson.findAll(
                         class_=LABEL) else ''
                     item = lesson.findAll(class_=ITEM)[0] if lesson.findAll(class_=LABEL) else \
-                    lesson.findAll(class_=ITEM)[0]
+                        lesson.findAll(class_=ITEM)[0]
                     item_lable_reg = re.search(r'\t[\w\s,-.]+', item.text if item else None)
                     item_lable = re.sub(r'(\s+·)|[\n\t]|\s{2}', '', item_lable_reg.group(0)) if item_lable_reg else None
                     lessons_list.append({'w': week_type, 'n': item_lable})
@@ -237,26 +241,26 @@ class ProjectApp(MDApp):
                 )
 
         df_current = pd.DataFrame(d2)
-        #print(df_current)
+        # print(df_current)
         if df_current.empty:
             l = ''
         else:
             l = df_current
         return group_name, df_current, l, week_n
 
-    #Screen 1
+    # Screen 1
     def start(self):
         if self.root.ids.user.text == "" and self.root.ids.password.text == "":
             self.root.ids.textbox_week_number.text = week_schedule()
             self.root.current = 'menu'
-        # else:
-        #     self.root.ids.user.text = ""
-        #     self.root.ids.password.text = ""
+        else:
+            self.root.ids.user.text = ""
+            self.root.ids.password.text = ""
 
     def close(self):
         pass
 
-    #Screen 2
+    # Screen 2
     def show_data(self):
         if self.root.ids.textbox.text == '':
             text = self.root.ids.textbox.text
@@ -264,9 +268,9 @@ class ProjectApp(MDApp):
             func = self.subjects_schedule(self.root.ids.textbox.text)
             text = func[2]  # l
             week_n = func[3]
-            if len(text) > 0:  # Если название не пустое, то
-                self.root.current = 'processing'  # Переключиться на Screen2
-            else:  # Иначе
+            if len(text) > 0:  # If name is not empty do:
+                self.root.current = 'processing'  # Move to the Screen2
+            else:
                 self.root.ids.textbox.text = ''
         textbox = self.root.ids.textbox.text
         return textbox, text
@@ -276,9 +280,9 @@ class ProjectApp(MDApp):
         df_current = func[1]
         week_n = func[3]
         df_1, k = page_left()
-        #df_1_shape = k
+        # df_1_shape = k
         df_2, k = page_right()
-        #df_2_shape = k
+        # df_2_shape = k
         df_1.loc[0, 'number'] = self.root.ids.textbox.text
         df_1.loc[1, 'number'] = week_n
         df = df_1.join(df_2)
@@ -356,7 +360,7 @@ class ProjectApp(MDApp):
                 j += 16
             elif i == 6:
                 j += 20
-            j += 1  # Cause we compare with slice of df from 2 column
+            j += 1  # Because we compare with slice of df from 2 column
             subject_indexes_schedule_to_df.append([i, j])
 
         for count, (i, j) in enumerate(subject_indexes_schedule_to_df, 0):
@@ -453,9 +457,10 @@ class ProjectApp(MDApp):
         df_subjects = df_subjects.groupby(['subject', 'group', 'date', 'week_n'])['total'].sum().reset_index()
         return df, df_students, df_subjects
 
-    #Screen 3
+    # Screen 3
     def file_manager_open(self):
         self.file_manager.show('/')  # Output manager to the screen
+        # self.file_manager.show(SD_CARD) # For Android
         self.manager_open = True
 
     def select_path(self, path):
@@ -478,24 +483,25 @@ class ProjectApp(MDApp):
 
     def callback_button_collect(self, instance):
         if self.button_collect == instance:
-            #Screen 5
-            key = 'bigquery_key.json'
-            os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = key
-            client = bigquery.Client()
+            # Screen 5
+            project_id = os.environ['PROJECT_ID']
             table_id_1 = os.environ['TABLE_ID_1']
             table_id_2 = os.environ['TABLE_ID_2']
-            job_1 = client.load_table_from_dataframe(
-                self.df_students, table_id_1)
-            job_1.result()
-            job_2 = client.load_table_from_dataframe(
-                self.df_subjects, table_id_2)
-            job_2.result()
+
+            credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
+            self.df_students['date'] = pd.to_datetime(self.df_students['date'])
+            self.df_subjects['date'] = pd.to_datetime(self.df_subjects['date'])
+            pandas_gbq.to_gbq(self.df_students, project_id=project_id, destination_table=table_id_1, if_exists='append',
+                              credentials=credentials)
+            pandas_gbq.to_gbq(self.df_subjects, project_id=project_id, destination_table=table_id_2, if_exists='append',
+                              credentials=credentials)
+
             self.root.current = 'check'
 
     def show_table(self):
         self.df, self.df_students, self.df_subjects = self.collect()
         if self.df.shape[0] == 40 and self.df.shape[1] == 29:  # Input table (40 rows × 29 columns)
-            #Screen 4
+            # Screen 4
             column_data = list(self.df.columns)
             row_data = self.df.to_records(index=False)
             column_data = [(x, dp(60)) for x in column_data]
@@ -503,7 +509,7 @@ class ProjectApp(MDApp):
                 use_pagination=True,
                 column_data=column_data,
                 row_data=row_data,
-                #rows_num=len(row_data)  # To show all rows in 1 page (with disabled use_pagination property)
+                # rows_num=len(row_data)  # To show all rows in 1 page (with disabled use_pagination property)
             )
 
             self.root.ids.data_scr.add_widget(self.data_tables)
@@ -519,10 +525,10 @@ class ProjectApp(MDApp):
             self.root.ids.data_scr.add_widget(self.button_collect)
 
             self.button_back = MDRectangleFlatButton(
-                    text="Back",
-                    icon="language-python",
-                    pos_hint={"center_x": .4, "center_y": .2},
-                )
+                text="Back",
+                icon="language-python",
+                pos_hint={"center_x": .4, "center_y": .2},
+            )
 
             self.button_back.bind(on_press=self.button_checking_back)
             self.root.ids.data_scr.add_widget(self.button_back)
