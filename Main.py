@@ -148,13 +148,13 @@ class ProjectApp(MDApp):
                 lessons = [lesson for lesson in tr.findAll(class_=ROW) if lesson.findAll(class_=ITEM)]
                 lessons_list = []
                 for lesson in lessons:
-                    week_type = lesson.findAll(class_=LABEL)[0].findChild('span').text if lesson.findAll(
-                        class_=LABEL) else ''
-                    item = lesson.findAll(class_=ITEM)[0] if lesson.findAll(class_=LABEL) else \
-                        lesson.findAll(class_=ITEM)[0]
-                    item_lable_reg = re.search(r'\t[\w\s,-.]+', item.text if item else None)
-                    item_lable = re.sub(r'(\s+·)|[\n\t]|\s{2}', '', item_lable_reg.group(0)) if item_lable_reg else None
-                    lessons_list.append({'w': week_type, 'n': item_lable})
+                    week_type = lesson.findAll(class_=LABEL)[0].findChild('span').text \
+                        if lesson.findAll(class_=LABEL) else ''
+                    item = lesson.findAll(class_=ITEM)[0] \
+                        if lesson.findAll(class_=LABEL) else lesson.findAll(class_=ITEM)[0]
+                    item_label_reg = re.search(r'\t[\w\s,-.]+', item.text if item else None)
+                    item_label = re.sub(r'(\s+·)|[\n\t]|\s{2}', '', item_label_reg.group(0)) if item_label_reg else None
+                    lessons_list.append({'w': week_type, 'n': item_label})
                 if lessons_list:
                     table_list.append({'d': day, 't': time, 'i': lessons_list})
 
@@ -539,7 +539,7 @@ class ProjectApp(MDApp):
     def build(self):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "Green"
-        return Builder.load_file('Main.kv')
+        return Builder.load_file('main.kv')
 
 
 ProjectApp().run()
