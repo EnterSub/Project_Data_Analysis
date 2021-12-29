@@ -457,6 +457,9 @@ class ProjectApp(MDApp):
         df_subjects = df_subjects.groupby(['subject', 'group', 'date', 'week_n'])['total'].sum().reset_index()
         return df, df_students, df_subjects
 
+    def button_screen_back_to_login(self):
+        self.root.current = 'login'
+
     # Screen 3
     def file_manager_open(self):
         self.file_manager.show('/')  # Output manager to the screen
@@ -478,7 +481,7 @@ class ProjectApp(MDApp):
                 self.file_manager.back()
         return True
 
-    def button_checking_back(self, *args):
+    def button_screen_back_to_processing(self, *args):
         self.root.current = 'processing'
 
     def callback_button_collect(self, instance):
@@ -530,7 +533,7 @@ class ProjectApp(MDApp):
                 pos_hint={"center_x": .4, "center_y": .2},
             )
 
-            self.button_back.bind(on_press=self.button_checking_back)
+            self.button_back.bind(on_press=self.button_screen_back_to_processing)
             self.root.ids.data_scr.add_widget(self.button_back)
 
         else:
