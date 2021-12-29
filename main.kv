@@ -10,11 +10,31 @@ ScreenManager:
                 pos_hint: {"y": .25}
             MDLabel:
                 text: "Log In"
-                pos_hint: {"center_x": .5, "center_y": .5}
+                pos_hint: {"center_x": .5, "center_y": .6}
                 halign: "center"
             MDFloatLayout:
-                size_hint_x: .9
-                size_hint_y: .1
+                size_hint_x: .95
+                size_hint_y: .075
+                pos_hint: {"center_x": .5, "center_y": .5}
+                canvas:
+                    Color:
+                        rgb: (245/255, 245/255, 245/255, 1)
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                MDTextField:
+                    id: user
+                    hint_text: "Username"
+                    size_hint_x: 1
+                    size_hint_y: None
+                    icon_right: "account"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    height: self.minimum_height
+                    multiline: False
+
+            MDFloatLayout:
+                size_hint_x: .95
+                size_hint_y: .075
                 pos_hint: {"center_x": .5, "center_y": .4}
                 canvas:
                     Color:
@@ -22,98 +42,93 @@ ScreenManager:
                     RoundedRectangle:
                         size: self.size
                         pos: self.pos
-                        radius: [25]
-                MDTextField:
-                    id: user
-                    hint_text: "Username"
-                    size_hint_x: 0.9
-                    size_hint_y: None
-                    pos_hint: {"center_x": .5, "center_y": .5}
-                    height: self.minimum_height
-                    multiline: False
-                    cursor_width: "2sp"
-                    background_color: 0, 0, 0, 0
-                    padding: 15
-            MDFloatLayout:
-                size_hint_x: .9
-                size_hint_y: .1
-                pos_hint: {"center_x": .5, "center_y": .28}
-                canvas:
-                    Color:
-                        rgb: (245/255, 245/255, 245/255, 1)
-                    RoundedRectangle:
-                        size: self.size
-                        pos: self.pos
-                        radius: [25]
                 MDTextField:
                     id: password
                     hint_text: "Password"
                     password: True
-                    size_hint_x: 0.9
+                    size_hint_x: 1
                     size_hint_y: None
+                    icon_right: "key"
                     pos_hint: {"center_x": .5, "center_y": .5}
                     height: self.minimum_height
                     multiline: False
-                    cursor_width: "2sp"
-                    background_color: 0, 0, 0, 0
-                    padding: 15
             MDTextButton:
                 text: "Forgot your password?"
                 text_color: 1, 1, 1, 1
-                pos_hint: {"center_x": .5, "center_y": .2}
+                pos_hint: {"center_x": .5, "center_y": .35}
                 on_press: print()
             MDRoundFlatButton:
                 text: "LOGIN"
                 size_hint_x: .5
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .12}
-                background_color: 1, 1, 1, 1
+                pos_hint: {"center_x": .5, "center_y": .2}
                 on_press: app.start()
             MDRoundFlatButton:
                 text: "CLOSE"
                 size_hint_x: .5
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .05}
-                background_color: 1, 1, 1, 1
+                pos_hint: {"center_x": .5, "center_y": .1}
                 on_press: app.stop()
 
     Screen:
         name: 'menu'
 
-        MDTextField:
-            id: textbox
-            hint_text: "Enter group name"
-            required: True
-            helper_text: "Enter value for processing student activity data"
-            helper_text_mode: "on_error"
-            icon_right: "android"
-            pos_hint: {'center_x': .5, 'center_y': .6}
-            size_hint_x: None
-            width: 300
-            max_text_length: 10
+        MDFloatLayout:
+            size_hint_x: .95
+            size_hint_y: .075
+            pos_hint: {"center_x": .5, "center_y": .5}
+            canvas:
+                Color:
+                    rgb: (245/255, 245/255, 245/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+            MDTextField:
+                id: textbox
+                hint_text: "Enter group name"
+                required: True
+                #helper_text: "Enter value for processing student activity data"
+                #helper_text_mode: "on_error"
+                icon_right: "account-group"
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                size_hint_x: 1
+                size_hint_y: None
+                multiline: False
+                max_text_length: 10
 
-        MDTextField:
-            id: textbox_week_number
-            hint_text: "Enter week number"
-            required: False
-            helper_text: "Enter value for processing student activity data"
-            helper_text_mode: "on_error"
-            icon_right: "android"
-            pos_hint: {'center_x': .5, 'center_y': .5}
-            size_hint_x: None
-            width: 300
-            max_text_length: 2
-
-        MDRectangleFlatButton:
+        MDFloatLayout:
+            size_hint_x: .95
+            size_hint_y: .075
+            pos_hint: {"center_x": .5, "center_y": .4}
+            canvas:
+                Color:
+                    rgb: (245/255, 245/255, 245/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+            MDTextField:
+                id: textbox_week_number
+                hint_text: "Enter week number"
+                required: False
+                #helper_text: "Enter value for processing student activity data"
+                #helper_text_mode: "on_error"
+                icon_right: "calendar-blank"
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                size_hint_x: 1
+                size_hint_y: None
+                multiline: False
+                max_text_length: 2
+        MDRoundFlatButton:
             text: "OK"
             icon: "folder"
-            pos_hint: {'center_x':.4,'center_y':.4}
+            pos_hint: {'center_x':.3,'center_y':.2}
             on_press: app.show_data()
 
-        MDRectangleFlatButton:
+        MDRoundFlatButton:
             text: "Back"
             icon: "folder"
-            pos_hint: {'center_x':.6,'center_y':.4}
+            pos_hint: {'center_x':.7,'center_y':.2}
+            size_hint: None, None
             on_press: app.button_screen_back_to_login()
 
     Screen:
@@ -131,12 +146,12 @@ ScreenManager:
                 pos_hint: {'center_x': .5, 'center_y': .5}
                 on_press: app.file_manager_open()
 
-        MDRectangleFlatButton:
+        MDRoundFlatButton:
             text: 'Back'
             pos_hint: {'center_x':.4,'center_y':.1}
             on_press: root.current = 'menu'
 
-        MDRectangleFlatButton:
+        MDRoundFlatButton:
             text: "OK"
             icon: "folder"
             pos_hint: {'center_x':.6,'center_y':.1}

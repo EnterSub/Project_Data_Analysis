@@ -16,6 +16,9 @@ from kivy.core.window import Window
 from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
 # from android.storage import primary_external_storage_path
+###
+Window.size = (360, 640)
+###
 
 
 API_KEY = os.environ['API_KEY']
