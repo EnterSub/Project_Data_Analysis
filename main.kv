@@ -4,26 +4,21 @@ ScreenManager:
         name: 'login'
 
         MDFloatLayout:
-            mg_bg_color: 1, 1, 1, 1
             Image:
                 source: "Login.png"
-                pos_hint: {"y": .25}
+                pos_hint_x: None
+                pos_hint_y: 0
             MDLabel:
                 text: "Log In"
                 pos_hint: {"center_x": .5, "center_y": .6}
                 halign: "center"
             MDFloatLayout:
                 size_hint_x: .95
-                size_hint_y: .075
+                size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": .5}
-                canvas:
-                    Color:
-                        rgb: (245/255, 245/255, 245/255, 1)
-                    RoundedRectangle:
-                        size: self.size
-                        pos: self.pos
                 MDTextField:
                     id: user
+                    mode: "fill"
                     hint_text: "Username"
                     size_hint_x: 1
                     size_hint_y: None
@@ -34,16 +29,11 @@ ScreenManager:
 
             MDFloatLayout:
                 size_hint_x: .95
-                size_hint_y: .075
+                size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": .4}
-                canvas:
-                    Color:
-                        rgb: (245/255, 245/255, 245/255, 1)
-                    RoundedRectangle:
-                        size: self.size
-                        pos: self.pos
                 MDTextField:
                     id: password
+                    mode: "fill"
                     hint_text: "Password"
                     password: True
                     size_hint_x: 1
@@ -54,8 +44,7 @@ ScreenManager:
                     multiline: False
             MDTextButton:
                 text: "Forgot your password?"
-                text_color: 1, 1, 1, 1
-                pos_hint: {"center_x": .5, "center_y": .35}
+                pos_hint: {"center_x": .5, "center_y": .3}
                 on_press: print()
             MDRoundFlatButton:
                 text: "LOGIN"
@@ -75,20 +64,15 @@ ScreenManager:
 
         MDFloatLayout:
             size_hint_x: .95
-            size_hint_y: .075
+            size_hint_y: None
             pos_hint: {"center_x": .5, "center_y": .5}
-            canvas:
-                Color:
-                    rgb: (245/255, 245/255, 245/255, 1)
-                RoundedRectangle:
-                    size: self.size
-                    pos: self.pos
             MDTextField:
                 id: textbox
+                mode: "fill"
                 hint_text: "Enter group name"
                 required: True
-                #helper_text: "Enter value for processing student activity data"
-                #helper_text_mode: "on_error"
+                helper_text: "Enter value for processing student activity data"
+                helper_text_mode: "on_error"
                 icon_right: "account-group"
                 pos_hint: {'center_x': .5, 'center_y': .5}
                 size_hint_x: 1
@@ -98,20 +82,15 @@ ScreenManager:
 
         MDFloatLayout:
             size_hint_x: .95
-            size_hint_y: .075
-            pos_hint: {"center_x": .5, "center_y": .4}
-            canvas:
-                Color:
-                    rgb: (245/255, 245/255, 245/255, 1)
-                RoundedRectangle:
-                    size: self.size
-                    pos: self.pos
+            size_hint_y: None
+            pos_hint: {"center_x": .5, "center_y": .35}
             MDTextField:
                 id: textbox_week_number
+                mode: "fill"
                 hint_text: "Enter week number"
                 required: False
-                #helper_text: "Enter value for processing student activity data"
-                #helper_text_mode: "on_error"
+                helper_text: "Enter value for processing student activity data"
+                helper_text_mode: "on_error"
                 icon_right: "calendar-blank"
                 pos_hint: {'center_x': .5, 'center_y': .5}
                 size_hint_x: 1
