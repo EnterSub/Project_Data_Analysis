@@ -30,15 +30,19 @@ list_path = []
 def week_schedule():
     schedule_url = os.environ['SITE_NAME']
     header_label = os.environ['SITE_HEADER_LABEL']
-    req = requests.get(schedule_url)
-    parser = bs4.BeautifulSoup(req.text, 'lxml')
     try:
-        week_n = parser.find(class_=header_label).text
-        week_n = re.findall(r'\d+', week_n)
-        week_n = week_n[0]
+        req = requests.get(schedule_url)
+        parser = bs4.BeautifulSoup(req.text, 'lxml')
     except Exception:
-        week_n = "No connection or no subjects in university schedule"
-    return week_n
+        value_schedule = "No connection"
+    else:
+        try:
+            value_schedule = parser.find(class_=header_label).text
+            value_schedule = re.findall(r'\d+', value_schedule)
+            value_schedule = value_schedule[0]
+        except Exception:
+            value_schedule = "No subjects in university schedule"
+    return value_schedule
 
 
 def load_page(link):
@@ -142,8 +146,8 @@ class ProjectApp(MDApp):
         table_list, list_all_table, list_all_table_2, list_all_table_data, d, d2 = [], [], [], [], [], []
         req = requests.get(schedule_url)
         parser = bs4.BeautifulSoup(req.text, 'lxml')
-        week_n = int(week_schedule())
-        week_n = int(self.root.ids.textbox_week_number.text)
+        value_schedule = int(week_schedule())
+        value_schedule = int(self.root.ids.textbox_week_number.text)
         table = parser.findAll(class_=BODY)
         rows_ = [r for r in table[0].findAll(class_=ROW) if r.findAll(class_=DAY)]
         for r in rows_:
@@ -237,7 +241,7 @@ class ProjectApp(MDApp):
                 df.loc[count, 'class_t'] = 8
 
         for count, i in enumerate(df['week_t'], 0):
-            if week_n in i and len(df['subject'][count]) and df['subject'][count] != 'ФКИС':
+            if value_schedule in i and len(df['subject'][count]) and df['subject'][count] != 'ФКИС':
                 d2.append(
                     {
                         'week_n': df.loc[count][0],
@@ -252,13 +256,13 @@ class ProjectApp(MDApp):
             l = ''
         else:
             l = df_current
-        return group_name, df_current, l, week_n
+        return group_name, df_current, l, value_schedule
 
     # Screen 1
     def start(self):
         if self.root.ids.user.text == "" and self.root.ids.password.text == "":
             self.root.ids.textbox_week_number.text = week_schedule()
-            if self.root.ids.textbox_week_number.text == "No connection or no subjects in university schedule":
+            if self.root.ids.textbox_week_number.text == "No connection" or self.root.ids.textbox_week_number.text == "No subjects in university schedule":
                 self.root.current = 'error_schedule'
             else:
                 self.root.current = 'menu'
@@ -276,7 +280,7 @@ class ProjectApp(MDApp):
         else:
             func = self.subjects_schedule(self.root.ids.textbox.text)
             text = func[2]  # l
-            week_n = func[3]
+            value_schedule = func[3]
             if len(text) > 0:  # If name is not empty do:
                 self.root.current = 'processing'  # Move to the Screen2
             else:
@@ -287,13 +291,13 @@ class ProjectApp(MDApp):
     def collect(self):
         func = self.subjects_schedule(self.root.ids.textbox.text)
         df_current = func[1]
-        week_n = func[3]
+        value_schedule = func[3]
         df_1, k = page_left()
         # df_1_shape = k
         df_2, k = page_right()
         # df_2_shape = k
         df_1.loc[0, 'number'] = self.root.ids.textbox.text
-        df_1.loc[1, 'number'] = week_n
+        df_1.loc[1, 'number'] = value_schedule
         df = df_1.join(df_2)
 
         list_signature_lecturer = []
