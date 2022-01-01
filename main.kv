@@ -57,7 +57,7 @@ ScreenManager:
             MDTextButton:
                 text: "Forgot your password?"
                 pos_hint: {"center_x": .5, "center_y": .2}
-                on_press: print()
+                on_press: root.current = 'user_login'
 
             MDRoundFlatButton:
                 text: "LOGIN"
@@ -72,6 +72,19 @@ ScreenManager:
                 size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": 0.05}
                 on_press: app.stop()
+
+    Screen:
+        name: 'user_login'
+
+        MDLabel:
+            text: "For more information write to contact list"
+            halign: 'center'
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDRoundFlatButton:
+            text: "Return"
+            pos_hint: {'center_x':.5,'center_y':.4}
+            on_press: root.current = 'login'
 
     Screen:
         name: 'error_schedule'
