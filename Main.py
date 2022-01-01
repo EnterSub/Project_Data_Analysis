@@ -262,7 +262,8 @@ class ProjectApp(MDApp):
     def start(self):
         if self.root.ids.user.text == "" and self.root.ids.password.text == "":
             self.root.ids.textbox_week_number.text = week_schedule()
-            if self.root.ids.textbox_week_number.text == "No connection" or self.root.ids.textbox_week_number.text == "No subjects in university schedule":
+            if self.root.ids.textbox_week_number.text == "No connection" \
+                    or self.root.ids.textbox_week_number.text == "No subjects in university schedule":
                 self.root.current = 'error_schedule'
             else:
                 self.root.current = 'menu'
