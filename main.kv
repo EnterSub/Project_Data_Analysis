@@ -4,20 +4,31 @@ ScreenManager:
         name: 'login'
 
         MDFloatLayout:
+            md_bg_color: app.theme_cls.bg_light
+
+        MDFloatLayout:
+            md_bg_color: app.theme_cls.bg_light
+
             Image:
-                source: "Login.png"
-                pos_hint: {"x": 0, "y": .3}
+                source: "Login.gif"
+                anim_delay: 1/24
+                pos_hint: {"x": 0, "y": 0.23}
+
             MDLabel:
-                text: "Log In"
-                pos_hint: {"center_x": .5, "center_y": .6}
+                text: "Authentication"
+                pos_hint: {"center_x": .5, "center_y": .42}
                 halign: "center"
+
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .5}
+                pos_hint: {"center_x": .5, "center_y": .35}
+
                 MDTextField:
                     id: user
                     mode: "fill"
+                    #normal_color: 1, 0, 0, 1
+                    #color_active: 1, 0, 0, 1
                     hint_text: "Username"
                     size_hint_x: 1
                     size_hint_y: None
@@ -29,7 +40,8 @@ ScreenManager:
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .4}
+                pos_hint: {"center_x": .5, "center_y": .26}
+
                 MDTextField:
                     id: password
                     mode: "fill"
@@ -41,22 +53,40 @@ ScreenManager:
                     pos_hint: {"center_x": .5, "center_y": .5}
                     height: self.minimum_height
                     multiline: False
+
             MDTextButton:
                 text: "Forgot your password?"
-                pos_hint: {"center_x": .5, "center_y": .3}
+                pos_hint: {"center_x": .5, "center_y": .2}
                 on_press: print()
+
             MDRoundFlatButton:
                 text: "LOGIN"
-                size_hint_x: .5
+                size_hint_x: .75
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .2}
+                pos_hint: {"center_x": .5, "center_y": .12}
                 on_press: app.start()
+
             MDRoundFlatButton:
                 text: "CLOSE"
-                size_hint_x: .5
+                size_hint_x: .25
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .1}
+                pos_hint: {"center_x": .5, "center_y": 0.05}
                 on_press: app.stop()
+
+    Screen:
+        name: 'error_schedule'
+
+        MDLabel:
+            text: f"Error during loading subjects, \n please check connection or schedule page"
+            # How to call variable self.root.ids.textbox_week_number.text ?
+            halign: 'center'
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDRoundFlatButton:
+            text: "Return"
+            pos_hint: {'center_x':.5,'center_y':.4}
+            on_press: root.current = 'login'
+
 
     Screen:
         name: 'menu'
@@ -65,6 +95,7 @@ ScreenManager:
             size_hint_x: .95
             size_hint_y: None
             pos_hint: {"center_x": .5, "center_y": .5}
+
             MDTextField:
                 id: textbox
                 mode: "fill"
@@ -83,6 +114,7 @@ ScreenManager:
             size_hint_x: .95
             size_hint_y: None
             pos_hint: {"center_x": .5, "center_y": .35}
+
             MDTextField:
                 id: textbox_week_number
                 mode: "fill"
@@ -96,18 +128,17 @@ ScreenManager:
                 size_hint_y: None
                 multiline: False
                 max_text_length: 2
+
         MDRoundFlatButton:
             text: "OK"
-            icon: "folder"
             pos_hint: {'center_x':.3,'center_y':.2}
             on_press: app.show_data()
 
         MDRoundFlatButton:
             text: "Back"
-            icon: "folder"
             pos_hint: {'center_x':.7,'center_y':.2}
             size_hint: None, None
-            on_press: app.button_screen_back_to_login()
+            on_press: root.current = 'login'
 
     Screen:
         name: 'processing'
@@ -118,9 +149,9 @@ ScreenManager:
             pos_hint: {"center_x": .5, "center_y": .6}
 
         MDFloatLayout:
+
             MDRoundFlatIconButton:
                 text: "Open manager"
-                icon: "folder"
                 pos_hint: {'center_x': .5, 'center_y': .5}
                 on_press: app.file_manager_open()
 
@@ -131,7 +162,6 @@ ScreenManager:
 
         MDRoundFlatButton:
             text: "OK"
-            icon: "folder"
             pos_hint: {'center_x':.6,'center_y':.1}
             on_press:
                 root.current = 'table'

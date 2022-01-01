@@ -32,9 +32,12 @@ def week_schedule():
     header_label = os.environ['SITE_HEADER_LABEL']
     req = requests.get(schedule_url)
     parser = bs4.BeautifulSoup(req.text, 'lxml')
-    week_n = parser.find(class_=header_label).text
-    week_n = re.findall(r'\d+', week_n)
-    week_n = week_n[0]
+    try:
+        week_n = parser.find(class_=header_label).text
+        week_n = re.findall(r'\d+', week_n)
+        week_n = week_n[0]
+    except Exception:
+        week_n = "Error"
     return week_n
 
 
@@ -104,7 +107,7 @@ def page_right():
 
     df_2 = pd.DataFrame(k, columns=df_columns)
 
-    # Insert row just with numbers (or student names) from previous df
+    # Insert row just with numbers (or students names) from previous df
     df_2 = df_2.rename({'column25': 'lectures_all', 'column26': 'lectures', 'column27': 'message'}, axis=1)
 
     df_2.loc[0, 'lectures_all':'lectures'] = 'Пропущено часов занят.'
@@ -255,7 +258,10 @@ class ProjectApp(MDApp):
     def start(self):
         if self.root.ids.user.text == "" and self.root.ids.password.text == "":
             self.root.ids.textbox_week_number.text = week_schedule()
-            self.root.current = 'menu'
+            if self.root.ids.textbox_week_number.text == "Error":
+                self.root.current = 'error_schedule'
+            else:
+                self.root.current = 'menu'
         else:
             self.root.ids.user.text = ""
             self.root.ids.password.text = ""
@@ -460,9 +466,6 @@ class ProjectApp(MDApp):
         df_subjects = df_subjects.groupby(['subject', 'group', 'date', 'week_n'])['total'].sum().reset_index()
         return df, df_students, df_subjects
 
-    def button_screen_back_to_login(self):
-        self.root.current = 'login'
-
     # Screen 3
     def file_manager_open(self):
         self.file_manager.show('/')  # Output manager to the screen
@@ -515,7 +518,7 @@ class ProjectApp(MDApp):
                 use_pagination=True,
                 column_data=column_data,
                 row_data=row_data,
-                # rows_num=len(row_data)  # To show all rows in 1 page (with disabled use_pagination property)
+                # rows_num=len(row_data)  To show all rows in 1 page (with disabled use_pagination property)
             )
 
             self.root.ids.data_scr.add_widget(self.data_tables)
