@@ -37,7 +37,7 @@ def week_schedule():
         week_n = re.findall(r'\d+', week_n)
         week_n = week_n[0]
     except Exception:
-        week_n = "Error"
+        week_n = "No connection or no subjects in university schedule"
     return week_n
 
 
@@ -258,7 +258,7 @@ class ProjectApp(MDApp):
     def start(self):
         if self.root.ids.user.text == "" and self.root.ids.password.text == "":
             self.root.ids.textbox_week_number.text = week_schedule()
-            if self.root.ids.textbox_week_number.text == "Error":
+            if self.root.ids.textbox_week_number.text == "No connection or no subjects in university schedule":
                 self.root.current = 'error_schedule'
             else:
                 self.root.current = 'menu'

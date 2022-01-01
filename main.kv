@@ -90,8 +90,7 @@ ScreenManager:
         name: 'error_schedule'
 
         MDLabel:
-            text: f"Error during loading subjects, \n please check connection or schedule page"
-            # How to call variable self.root.ids.textbox_week_number.text ?
+            text: 'Error:\n"{}"'.format(root.ids.textbox_week_number.text)
             halign: 'center'
             pos_hint: {"center_x": .5, "center_y": .5}
 
