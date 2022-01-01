@@ -6,29 +6,26 @@ ScreenManager:
         MDFloatLayout:
             md_bg_color: app.theme_cls.bg_light
 
-        MDFloatLayout:
-            md_bg_color: app.theme_cls.bg_light
-
             Image:
                 source: "Login.gif"
                 anim_delay: 1/24
                 pos_hint: {"x": 0, "y": 0.23}
 
             MDLabel:
+                font_style: "H6"
                 text: "Authentication"
-                pos_hint: {"center_x": .5, "center_y": .42}
-                halign: "center"
+                pos_hint: {"center_x": .5, "center_y": .46}
+                valign: 'middle'
+                halign: 'center'
 
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .35}
+                pos_hint: {"center_x": .5, "center_y": .38}
 
                 MDTextField:
                     id: user
                     mode: "fill"
-                    #normal_color: 1, 0, 0, 1
-                    #color_active: 1, 0, 0, 1
                     hint_text: "Username"
                     size_hint_x: 1
                     size_hint_y: None
@@ -40,7 +37,7 @@ ScreenManager:
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .26}
+                pos_hint: {"center_x": .5, "center_y": .27}
 
                 MDTextField:
                     id: password
@@ -55,19 +52,22 @@ ScreenManager:
                     multiline: False
 
             MDTextButton:
+                font_style: "Overline"
                 text: "Forgot your password?"
                 pos_hint: {"center_x": .5, "center_y": .2}
                 on_press: root.current = 'user_login'
 
             MDRoundFlatButton:
-                text: "LOGIN"
+                font_style: "Button"
+                text: "Login"
                 size_hint_x: .75
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .12}
+                pos_hint: {"center_x": .5, "center_y": .14}
                 on_press: app.start()
 
             MDRoundFlatButton:
-                text: "CLOSE"
+                font_style: "Button"
+                text: "Close"
                 size_hint_x: .25
                 size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": 0.05}
@@ -77,11 +77,14 @@ ScreenManager:
         name: 'user_login'
 
         MDLabel:
+            font_style: "Subtitle1"
             text: "For more information write to contact list"
+            valign: 'middle'
             halign: 'center'
             pos_hint: {"center_x": .5, "center_y": .5}
 
         MDRoundFlatButton:
+            font_style: "Button"
             text: "Return"
             pos_hint: {'center_x':.5,'center_y':.4}
             on_press: root.current = 'login'
@@ -90,15 +93,17 @@ ScreenManager:
         name: 'error_schedule'
 
         MDLabel:
+            font_style: "Subtitle1"
             text: 'Error:\n"{}"'.format(root.ids.textbox_week_number.text)
+            valign: 'middle'
             halign: 'center'
             pos_hint: {"center_x": .5, "center_y": .5}
 
         MDRoundFlatButton:
+            font_style: "Button"
             text: "Return"
             pos_hint: {'center_x':.5,'center_y':.4}
             on_press: root.current = 'login'
-
 
     Screen:
         name: 'menu'
@@ -113,8 +118,9 @@ ScreenManager:
                 mode: "fill"
                 hint_text: "Enter group name"
                 required: True
-                helper_text: "Enter value for processing student activity data"
-                helper_text_mode: "on_error"
+                error_color: 'brown'
+                #helper_text: "Enter value to process student's activity"
+                #helper_text_mode: "on_error"
                 icon_right: "account-group"
                 pos_hint: {'center_x': .5, 'center_y': .5}
                 size_hint_x: 1
@@ -130,10 +136,11 @@ ScreenManager:
             MDTextField:
                 id: textbox_week_number
                 mode: "fill"
-                hint_text: "Enter week number"
+                hint_text: 'Enter week number'
                 required: False
-                helper_text: "Enter value for processing student activity data"
-                helper_text_mode: "on_error"
+                error_color: 'brown'
+                #helper_text: 'Enter week number'
+                #helper_text_mode: "on_error"
                 icon_right: "calendar-blank"
                 pos_hint: {'center_x': .5, 'center_y': .5}
                 size_hint_x: 1
@@ -142,11 +149,13 @@ ScreenManager:
                 max_text_length: 2
 
         MDRoundFlatButton:
+            font_style: "Button"
             text: "OK"
             pos_hint: {'center_x':.3,'center_y':.2}
             on_press: app.show_data()
 
         MDRoundFlatButton:
+            font_style: "Button"
             text: "Back"
             pos_hint: {'center_x':.7,'center_y':.2}
             size_hint: None, None
@@ -156,25 +165,46 @@ ScreenManager:
         name: 'processing'
 
         MDLabel:
+            font_style: "Subtitle1"
             text: 'Please provide images'
+            valign: 'middle'
+            halign: 'center'
+            pos_hint: {"center_x": .5, "center_y": .9}
+
+
+        MDLabel:
+            font_style: "Subtitle1"
+            #text: 'Left image:\n"{}"'.format()
+            text: 'Left image \n ...'
+            valign: 'middle'
             halign: 'center'
             pos_hint: {"center_x": .5, "center_y": .6}
 
-        MDFloatLayout:
+        MDLabel:
+            font_style: "Subtitle1"
+            #text: 'Right image:\n"{}"'.format()
+            text: 'Right image \n ...'
+            valign: 'middle'
+            halign: 'center'
+            pos_hint: {"center_x": .5, "center_y": .5}
 
-            MDRoundFlatIconButton:
-                text: "Open manager"
-                pos_hint: {'center_x': .5, 'center_y': .5}
-                on_press: app.file_manager_open()
+        MDRoundFlatIconButton:
+            font_style: "Button"
+            icon: "file"
+            text: "Open manager"
+            pos_hint: {'center_x': .5, 'center_y': .75}
+            on_press: app.file_manager_open()
 
         MDRoundFlatButton:
+            font_style: "Button"
             text: 'Back'
-            pos_hint: {'center_x':.4,'center_y':.1}
+            pos_hint: {'center_x':.3,'center_y':.1}
             on_press: root.current = 'menu'
 
         MDRoundFlatButton:
+            font_style: "Button"
             text: "OK"
-            pos_hint: {'center_x':.6,'center_y':.1}
+            pos_hint: {'center_x':.7,'center_y':.1}
             on_press:
                 root.current = 'table'
                 app.show_table()

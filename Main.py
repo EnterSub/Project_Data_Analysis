@@ -1,4 +1,4 @@
-import os
+import os  # Currently, os module is only for PC version
 import requests
 import pandas as pd
 import json
@@ -10,11 +10,11 @@ from google.oauth2 import service_account
 from datetime import date
 from kivymd.app import MDApp
 from kivy.lang import Builder
+from kivy.core.window import Window
 from kivymd.uix.button import MDRectangleFlatButton
 from kivymd.uix.filemanager import MDFileManager
-from kivy.core.window import Window
-from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
+from kivymd.uix.datatables import MDDataTable
 # from android.storage import primary_external_storage_path
 ###
 Window.size = (360, 640)
