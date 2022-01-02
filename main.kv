@@ -55,7 +55,7 @@ ScreenManager:
                 font_style: "Overline"
                 text: "Forgot your password?"
                 pos_hint: {"center_x": .5, "center_y": .2}
-                on_press: root.current = 'user_login'
+                on_press: app.show_information()
 
             MDRoundFlatButton:
                 font_style: "Button"
@@ -72,38 +72,6 @@ ScreenManager:
                 size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": 0.05}
                 on_press: app.stop()
-
-    Screen:
-        name: 'user_login'
-
-        MDLabel:
-            font_style: "Subtitle1"
-            text: "For more information write to contact list"
-            valign: 'middle'
-            halign: 'center'
-            pos_hint: {"center_x": .5, "center_y": .5}
-
-        MDRoundFlatButton:
-            font_style: "Button"
-            text: "Return"
-            pos_hint: {'center_x':.5,'center_y':.4}
-            on_press: root.current = 'login'
-
-    Screen:
-        name: 'error_schedule'
-
-        MDLabel:
-            font_style: "Subtitle1"
-            text: 'Error:\n"{}"'.format(root.ids.textbox_week_number.text)
-            valign: 'middle'
-            halign: 'center'
-            pos_hint: {"center_x": .5, "center_y": .5}
-
-        MDRoundFlatButton:
-            font_style: "Button"
-            text: "Return"
-            pos_hint: {'center_x':.5,'center_y':.4}
-            on_press: root.current = 'login'
 
     Screen:
         name: 'menu'

@@ -11,7 +11,8 @@ from datetime import date
 from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
-from kivymd.uix.button import MDRectangleFlatButton
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDRoundFlatButton
 from kivymd.uix.filemanager import MDFileManager
 from kivy.metrics import dp
 from kivymd.uix.datatables import MDDataTable
@@ -25,7 +26,6 @@ API_KEY = os.environ['API_KEY']
 model_id = os.environ['ID']
 url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
 list_path = []
-
 
 def week_schedule():
     schedule_url = os.environ['SITE_NAME']
@@ -125,6 +125,7 @@ class ProjectApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         Window.bind(on_keyboard=self.events)
+        self.dialog = None
         self.manager_open = False
         self.file_manager = MDFileManager(
             exit_manager=self.exit_manager,
@@ -134,6 +135,32 @@ class ProjectApp(MDApp):
         self.data_tables = None
         self.button_collect = None
         self.button_back = None
+
+    def show_alert_dialog(self):
+        self.dialog = ""
+        if not self.dialog:
+            self.dialog = MDDialog(
+                text=f'Error:\n{self.root.ids.textbox_week_number.text}',
+                buttons=[MDRoundFlatButton(
+                    font_style="Button",
+                    text="Cancel",
+                    theme_text_color="Custom",
+                    text_color=self.theme_cls.primary_color,
+                    on_release=lambda _: self.dialog.dismiss())])
+        self.dialog.open()
+
+    def show_information(self):
+        self.dialog = ""
+        if not self.dialog:
+            self.dialog = MDDialog(
+                text=f'For more information write to contact list',
+                buttons=[MDRoundFlatButton(
+                    font_style="Button",
+                    text="Cancel",
+                    theme_text_color="Custom",
+                    text_color=self.theme_cls.primary_color,
+                    on_release=lambda _: self.dialog.dismiss())])
+        self.dialog.open()
 
     def subjects_schedule(self, group_name):
         schedule_url = os.environ['SITE_NAME'] + group_name + os.environ['SITE_TYPE']
@@ -264,7 +291,7 @@ class ProjectApp(MDApp):
             self.root.ids.textbox_week_number.text = week_schedule()
             if self.root.ids.textbox_week_number.text == "No connection" \
                     or self.root.ids.textbox_week_number.text == "No subjects in university schedule":
-                self.root.current = 'error_schedule'
+                self.show_alert_dialog()
             else:
                 self.root.current = 'menu'
         else:
@@ -529,7 +556,7 @@ class ProjectApp(MDApp):
             self.root.ids.data_scr.add_widget(self.data_tables)
 
             if not self.button_collect:
-                self.button_collect = MDRectangleFlatButton(
+                self.button_collect = MDRoundFlatButton(
                     text="Collect",
                     icon="language-python",
                     pos_hint={"center_x": .6, "center_y": .2},
@@ -538,7 +565,7 @@ class ProjectApp(MDApp):
             self.button_collect.bind(on_press=self.callback_button_collect)
             self.root.ids.data_scr.add_widget(self.button_collect)
 
-            self.button_back = MDRectangleFlatButton(
+            self.button_back = MDRoundFlatButton(
                 text="Back",
                 icon="language-python",
                 pos_hint={"center_x": .4, "center_y": .2},
