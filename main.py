@@ -17,10 +17,8 @@ from kivymd.uix.filemanager import MDFileManager
 from kivy.metrics import dp
 from kivymd.uix.datatables import MDDataTable
 # from android.storage import primary_external_storage_path
-###
-Window.size = (360, 640)
-###
 
+Window.size = (360, 640)
 
 API_KEY = os.environ['API_KEY']
 model_id = os.environ['ID']
