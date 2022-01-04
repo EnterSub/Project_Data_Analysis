@@ -1,6 +1,6 @@
 ScreenManager:
 
-    Screen:
+    MDScreen:
         name: 'login'
 
         MDFloatLayout:
@@ -87,7 +87,7 @@ ScreenManager:
                 pos_hint: {"center_x": .5, "center_y": 0.05}
                 on_press: app.stop()
 
-    Screen:
+    MDScreen:
         name: 'menu'
 
         MDFloatLayout:
@@ -143,7 +143,7 @@ ScreenManager:
             size_hint: None, None
             on_press: root.current = 'login'
 
-    Screen:
+    MDScreen:
         name: 'processing'
 
         MDLabel:
@@ -191,9 +191,9 @@ ScreenManager:
                 root.current = 'table'
                 app.show_table()
 
-    Screen:
+    MDScreen:
         id: data_scr
         name: 'table'
 
-    Screen:
+    MDScreen:
         name: 'check'
