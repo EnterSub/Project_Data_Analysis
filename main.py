@@ -556,7 +556,6 @@ class ProjectApp(MDApp):
             if not self.button_collect:
                 self.button_collect = MDRoundFlatButton(
                     text="Collect",
-                    icon="language-python",
                     pos_hint={"center_x": .6, "center_y": .2},
                 )
 
@@ -565,7 +564,6 @@ class ProjectApp(MDApp):
 
             self.button_back = MDRoundFlatButton(
                 text="Back",
-                icon="language-python",
                 pos_hint={"center_x": .4, "center_y": .2},
             )
 
