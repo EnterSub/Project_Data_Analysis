@@ -2,9 +2,9 @@ ScreenManager:
 
     MDScreen:
         name: 'login'
+        md_bg_color: app.theme_cls.bg_light
 
         MDFloatLayout:
-            md_bg_color: app.theme_cls.bg_light
 
             Image:
                 source: "login.gif"
@@ -84,64 +84,89 @@ ScreenManager:
                 text: "Close"
                 size_hint_x: .25
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": 0.05}
+                pos_hint: {"center_x": .5, "center_y": .05}
                 on_press: app.stop()
 
     MDScreen:
         name: 'menu'
+        md_bg_color: app.theme_cls.bg_light
 
         MDFloatLayout:
-            size_hint_x: .95
-            size_hint_y: None
-            pos_hint: {"center_x": .5, "center_y": .5}
 
-            MDTextField:
-                id: textbox
-                mode: "fill"
-                hint_text: "Enter group name"
-                required: True
-                error_color: 'brown'
-                #helper_text: "Enter value to process student's activity"
-                #helper_text_mode: "on_error"
-                icon_right: "account-group"
-                pos_hint: {'center_x': .5, 'center_y': .5}
-                size_hint_x: 1
+            Image:
+                source: "process.gif"
+                anim_delay: 1/30
+                pos_hint: {"x": 0, "y": .23}
+
+            MDFloatLayout:
+                size_hint_x: .95
                 size_hint_y: None
-                multiline: False
-                max_text_length: 10
+                pos_hint: {"center_x": .5, "center_y": .38}
 
-        MDFloatLayout:
-            size_hint_x: .95
-            size_hint_y: None
-            pos_hint: {"center_x": .5, "center_y": .35}
+                MDTextField:
+                    id: textbox
+                    #hint_text_color_normal: 0,0,0,1
+                    #hint_text_color_focus: 0,0,0,1
+                    #line_color_normal: 0,0,0,1
+                    #line_color_focus: 0,0,0,1
+                    #text_color_normal: 0,0,0,1
+                    text_color_focus: 0,0,0,1
+                    color_mode: "custom"
+                    mode: "fill"
+                    hint_text: "Enter group name"
+                    required: True
+                    error_color: 'brown'
+                    #helper_text: "Enter value to process student's activity"
+                    #helper_text_mode: "on_error"
+                    icon_right: "account-group"
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    size_hint_x: 1
+                    size_hint_y: None
+                    multiline: False
+                    max_text_length: 10
 
-            MDTextField:
-                id: textbox_week_number
-                mode: "fill"
-                hint_text: 'Enter week number'
-                required: False
-                error_color: 'brown'
-                #helper_text: 'Enter week number'
-                #helper_text_mode: "on_error"
-                icon_right: "calendar-blank"
-                pos_hint: {'center_x': .5, 'center_y': .5}
-                size_hint_x: 1
+            MDFloatLayout:
+                size_hint_x: .95
                 size_hint_y: None
-                multiline: False
-                max_text_length: 2
+                pos_hint: {"center_x": .5, "center_y": .27}
 
-        MDRoundFlatButton:
-            font_style: "Button"
-            text: "OK"
-            pos_hint: {'center_x':.3,'center_y':.2}
-            on_press: app.show_data()
+                MDTextField:
+                    id: textbox_week_number
+                    #hint_text_color_normal: 0,0,0,1
+                    #hint_text_color_focus: 0,0,0,1
+                    #line_color_normal: 0,0,0,1
+                    #line_color_focus: 0,0,0,1
+                    #text_color_normal: 0,0,0,1
+                    text_color_focus: 0,0,0,1
+                    color_mode: "custom"
+                    mode: "fill"
+                    hint_text: 'Enter week number'
+                    required: False
+                    error_color: 'brown'
+                    #helper_text: 'Enter week number'
+                    #helper_text_mode: "on_error"
+                    icon_right: "calendar-blank"
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    size_hint_x: 1
+                    size_hint_y: None
+                    multiline: False
+                    max_text_length: 2
 
-        MDRoundFlatButton:
-            font_style: "Button"
-            text: "Back"
-            pos_hint: {'center_x':.7,'center_y':.2}
-            size_hint: None, None
-            on_press: root.current = 'login'
+            MDRoundFlatButton:
+                font_style: "Button"
+                text: "OK"
+                size_hint_x: .75
+                size_hint_y: None
+                pos_hint: {'center_x':.5,'center_y':.14}
+                on_press: app.show_data()
+
+            MDRoundFlatButton:
+                font_style: "Button"
+                text: "Back"
+                size_hint_x: .25
+                size_hint_y: None
+                pos_hint: {'center_x':.5,'center_y':.05}
+                on_press: root.current = 'login'
 
     MDScreen:
         name: 'processing'
