@@ -503,7 +503,7 @@ class ProjectApp(MDApp):
         self.manager_open = True
 
     def select_path(self, path):
-        list_path.append(path)
+        list_path.append(path) # Max 2 values for images
         self.root.ids.file1.text = f'1 file: '
         self.root.ids.file2.text = f'2 file: '
         self.exit_manager()
