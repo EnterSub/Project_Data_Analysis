@@ -543,28 +543,37 @@ class ProjectApp(MDApp):
             # Screen 4
             column_data = list(self.df.columns)
             row_data = self.df.to_records(index=False)
-            column_data = [(x, dp(60)) for x in column_data]
+            column_data = [(x, dp(25)) for x in column_data]
             self.data_tables = MDDataTable(
+                pos_hint={"x": 0, "y": .1},
+                size_hint_x=1,
+                size_hint_y=.9,
                 use_pagination=True,
                 column_data=column_data,
                 row_data=row_data,
-                # rows_num=len(row_data)  To show all rows in 1 page (with disabled use_pagination property)
+                rows_num=len(row_data)  # Change for multiple pages scrolling
             )
 
             self.root.ids.data_scr.add_widget(self.data_tables)
 
             if not self.button_collect:
                 self.button_collect = MDRoundFlatButton(
+                    font_style="Button",
                     text="Collect",
-                    pos_hint={"center_x": .6, "center_y": .2},
+                    size_hint_x=.25,
+                    size_hint_y=None,
+                    pos_hint={"center_x": .75, "center_y": .05},
                 )
 
             self.button_collect.bind(on_press=self.callback_button_collect)
             self.root.ids.data_scr.add_widget(self.button_collect)
 
             self.button_back = MDRoundFlatButton(
+                font_style="Button",
                 text="Back",
-                pos_hint={"center_x": .4, "center_y": .2},
+                size_hint_x=.25,
+                size_hint_y=None,
+                pos_hint={"center_x": .25, "center_y": .05},
             )
 
             self.button_back.bind(on_press=self.button_screen_back_to_processing)
