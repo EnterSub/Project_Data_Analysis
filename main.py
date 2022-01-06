@@ -508,11 +508,11 @@ class ProjectApp(MDApp):
         self.root.ids.file2.text = f'2 file: '
         self.exit_manager()
         try:
-            self.root.ids.file1.text += f'{list_path[0]}'
+            self.root.ids.file1.text += f'\n{list_path[0]}'
         except Exception:
             pass
         try:
-            self.root.ids.file2.text += f'{list_path[1]}'
+            self.root.ids.file2.text += f'\n{list_path[1]}'
         except Exception:
             pass
         # If selected more than 2 images show MDDialog

@@ -172,49 +172,60 @@ ScreenManager:
         name: 'processing'
         md_bg_color: app.theme_cls.bg_light
 
-        MDLabel:
-            font_style: "Subtitle1"
-            text: 'Please provide images'
-            valign: 'middle'
-            halign: 'center'
-            pos_hint: {"center_x": .5, "center_y": .9}
+        MDFloatLayout:
 
-        MDRoundFlatIconButton:
-            font_style: "Button"
-            icon: "file"
-            text: "Open manager"
-            pos_hint: {'center_x': .5, 'center_y': .75}
-            on_press: app.file_manager_open()
+            Image:
+                source: "manager.gif"
+                anim_delay: 1/30
+                pos_hint: {"x": 0, "y": 0.1}
 
-        MDLabel:
-            id: file1
-            text: f'1 file: '
-            font_style: "Subtitle1"
-            valign: 'middle'
-            halign: 'center'
-            pos_hint: {"center_x": .5, "center_y": .6}
+            MDLabel:
+                font_style: "Subtitle1"
+                text: 'Please provide images'
+                valign: 'middle'
+                halign: 'center'
+                pos_hint: {"center_x": .5, "center_y": .9}
 
-        MDLabel:
-            id: file2
-            text: f'2 file: '
-            font_style: "Subtitle1"
-            valign: 'middle'
-            halign: 'center'
-            pos_hint: {"center_x": .5, "center_y": .5}
+            MDRoundFlatIconButton:
+                font_style: "Button"
+                icon: "file"
+                text: "Open manager"
+                pos_hint: {'center_x': .5, 'center_y': .8}
+                on_press: app.file_manager_open()
 
-        MDRoundFlatButton:
-            font_style: "Button"
-            text: 'Back'
-            pos_hint: {'center_x':.3,'center_y':.1}
-            on_press: root.current = 'menu'
+            MDLabel:
+                id: file1
+                text: f'1 file: '
+                font_style: "Subtitle1"
+                valign: 'middle'
+                halign: 'center'
+                pos_hint: {"center_x": .5, "center_y": .32}
 
-        MDRoundFlatButton:
-            font_style: "Button"
-            text: "OK"
-            pos_hint: {'center_x':.7,'center_y':.1}
-            on_press:
-                root.current = 'table'
-                app.show_table()
+            MDLabel:
+                id: file2
+                text: f'2 file: '
+                font_style: "Subtitle1"
+                valign: 'middle'
+                halign: 'center'
+                pos_hint: {"center_x": .5, "center_y": .23}
+
+            MDRoundFlatButton:
+                font_style: "Button"
+                text: "OK"
+                size_hint_x: .75
+                size_hint_y: None
+                pos_hint: {'center_x':.5,'center_y':.14}
+                on_press:
+                    root.current = 'table'
+                    app.show_table()
+
+            MDRoundFlatButton:
+                font_style: "Button"
+                text: 'Back'
+                size_hint_x: .25
+                size_hint_y: None
+                pos_hint: {'center_x':.5,'center_y':.05}
+                on_press: root.current = 'menu'
 
     MDScreen:
         id: data_scr
