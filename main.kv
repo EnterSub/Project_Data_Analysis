@@ -235,3 +235,33 @@ ScreenManager:
     MDScreen:
         name: 'check'
         md_bg_color: app.theme_cls.bg_light
+
+        MDFloatLayout:
+
+            Image:
+                source: "successful.gif"
+                anim_delay: 1/30
+                pos_hint: {"x": 0, "y": 0.1}
+
+            MDLabel:
+                font_style: "H6"
+                text: "Finished!"
+                pos_hint: {"center_x": .5, "center_y": .9}
+                valign: 'middle'
+                halign: 'center'
+
+            MDRoundFlatButton:
+                font_style: "Button"
+                text: "Exit"
+                size_hint_x: .75
+                size_hint_y: None
+                pos_hint: {"center_x": .5, "center_y": .14}
+                on_press: app.stop()
+
+            MDRoundFlatButton:
+                font_style: "Button"
+                text: "Upload"
+                size_hint_x: .25
+                size_hint_y: None
+                pos_hint: {"center_x": .5, "center_y": .05}
+                on_press: root.current = 'menu'
