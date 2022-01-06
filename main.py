@@ -504,7 +504,18 @@ class ProjectApp(MDApp):
 
     def select_path(self, path):
         list_path.append(path)
+        self.root.ids.file1.text = f'1 file: '
+        self.root.ids.file2.text = f'2 file: '
         self.exit_manager()
+        try:
+            self.root.ids.file1.text += f'{list_path[0]}'
+        except Exception:
+            pass
+        try:
+            self.root.ids.file2.text += f'{list_path[1]}'
+        except Exception:
+            pass
+        # If selected more than 2 images show MDDialog
         return list_path
 
     def exit_manager(self, *args):

@@ -179,29 +179,28 @@ ScreenManager:
             halign: 'center'
             pos_hint: {"center_x": .5, "center_y": .9}
 
-
-        MDLabel:
-            font_style: "Subtitle1"
-            #text: 'Left image:\n"{}"'.format()
-            text: 'Left image \n ...'
-            valign: 'middle'
-            halign: 'center'
-            pos_hint: {"center_x": .5, "center_y": .6}
-
-        MDLabel:
-            font_style: "Subtitle1"
-            #text: 'Right image:\n"{}"'.format()
-            text: 'Right image \n ...'
-            valign: 'middle'
-            halign: 'center'
-            pos_hint: {"center_x": .5, "center_y": .5}
-
         MDRoundFlatIconButton:
             font_style: "Button"
             icon: "file"
             text: "Open manager"
             pos_hint: {'center_x': .5, 'center_y': .75}
             on_press: app.file_manager_open()
+
+        MDLabel:
+            id: file1
+            text: f'1 file: '
+            font_style: "Subtitle1"
+            valign: 'middle'
+            halign: 'center'
+            pos_hint: {"center_x": .5, "center_y": .6}
+
+        MDLabel:
+            id: file2
+            text: f'2 file: '
+            font_style: "Subtitle1"
+            valign: 'middle'
+            halign: 'center'
+            pos_hint: {"center_x": .5, "center_y": .5}
 
         MDRoundFlatButton:
             font_style: "Button"
