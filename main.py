@@ -68,15 +68,15 @@ def load_page(link):
 
 
 def page_left():
-    k = load_page(link=list_path[0])
-    df_1 = pd.DataFrame(k)
+    k_1 = load_page(link=list_path[0])
+    df_1 = pd.DataFrame(k_1)
     df_1.is_copy = False
     df_columns = ["number", "student"]
 
     for i in df_1.columns[:len(df_1.columns) - len(df_columns)]:
         df_columns.append(f"column{i + 1}")
 
-    df_1 = pd.DataFrame(k, columns=df_columns)
+    df_1 = pd.DataFrame(k_1, columns=df_columns)
 
     if df_1.loc[1, 'student'] != "Предмет":
         value = "Предмет"
@@ -95,19 +95,19 @@ def page_left():
     for count, i in enumerate(df_1['student'][3:df_1.shape[0] - 3], 3):
         if i:
             df_1.loc[count, 'student'] = f"Student{df_1.loc[count, 'number']}"
-    return df_1, k
+    return df_1, k_1
 
 
 def page_right():
-    k = load_page(link=list_path[1])
+    k_2 = load_page(link=list_path[1])
     df_columns = []
-    df_2 = pd.DataFrame(k)
+    df_2 = pd.DataFrame(k_2)
     df_2.is_copy = False
 
     for i in df_2.columns:
         df_columns.append(f"column{i + 13}")
 
-    df_2 = pd.DataFrame(k, columns=df_columns)
+    df_2 = pd.DataFrame(k_2, columns=df_columns)
 
     # Insert row just with numbers (or students names) from previous df
     df_2 = df_2.rename({'column25': 'lectures_all', 'column26': 'lectures', 'column27': 'message'}, axis=1)
@@ -116,7 +116,7 @@ def page_right():
     df_2.loc[1:2, 'lectures_all'] = 'всего'
     df_2.loc[1:2, 'lectures'] = 'по уважит. прич.'
     df_2.loc[0:2, 'message'] = 'Замечания деканата и преподавателей'
-    return df_2, k
+    return df_2, k_2
 
 
 class ProjectApp(MDApp):
@@ -318,10 +318,10 @@ class ProjectApp(MDApp):
         func = self.subjects_schedule(self.root.ids.textbox.text)
         df_current = func[1]
         value_schedule = func[3]
-        df_1, k = page_left()
-        # df_1_shape = k
-        df_2, k = page_right()
-        # df_2_shape = k
+        df_1, k_1 = page_left()
+        # df_1_shape = k_1
+        df_2, k_2 = page_right()
+        # df_2_shape = k_2
         df_1.loc[0, 'number'] = self.root.ids.textbox.text
         df_1.loc[1, 'number'] = value_schedule
         df = df_1.join(df_2)
