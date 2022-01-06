@@ -556,6 +556,8 @@ class ProjectApp(MDApp):
             row_data = self.df.to_records(index=False)
             column_data = [(x, dp(25)) for x in column_data]
             self.data_tables = MDDataTable(
+                background_color_header=(0, 1, 0, .1),
+                background_color_selected_cell=(1, 1, 0, .1),
                 pos_hint={"x": 0, "y": .1},
                 size_hint_x=1,
                 size_hint_y=.9,
