@@ -170,6 +170,9 @@ ScreenManager:
 
     MDScreen:
         name: 'processing'
+        on_pre_enter:
+            root.ids.file1.text = '1 file: '
+            root.ids.file2.text = '2 file: '
         md_bg_color: app.theme_cls.bg_light
 
         MDFloatLayout:

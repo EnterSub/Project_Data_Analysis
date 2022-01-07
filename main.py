@@ -555,19 +555,22 @@ class ProjectApp(MDApp):
             column_data = list(self.df.columns)
             row_data = self.df.to_records(index=False)
             column_data = [(x, dp(25)) for x in column_data]
-            self.data_tables = MDDataTable(
-                background_color_header=(0, 1, 0, .1),
-                #background_color_selected_cell=(1, 1, 0, .1),
-                pos_hint={"x": 0, "y": .1},
-                size_hint_x=1,
-                size_hint_y=.9,
-                use_pagination=True,
-                column_data=column_data,
-                row_data=row_data,
-                rows_num=len(row_data)  # Change for multiple pages scrolling
-            )
+            if not self.data_tables:
+                self.data_tables = MDDataTable(
+                    background_color_header=(0, 1, 0, .1),
+                    pos_hint={"x": 0, "y": .1},
+                    size_hint_x=1,
+                    size_hint_y=.9,
+                    use_pagination=True,
+                    column_data=column_data,
+                    row_data=row_data,
+                    rows_num=len(row_data)  # Change for multiple pages scrolling
+                )
 
-            self.root.ids.data_scr.add_widget(self.data_tables)
+            try:
+                self.root.ids.data_scr.add_widget(self.data_tables)
+            except Exception:
+                pass
 
             if not self.button_collect:
                 self.button_collect = MDRoundFlatButton(
@@ -579,19 +582,25 @@ class ProjectApp(MDApp):
                 )
 
             self.button_collect.bind(on_press=self.callback_button_collect)
-            self.root.ids.data_scr.add_widget(self.button_collect)
+            try:
+                self.root.ids.data_scr.add_widget(self.button_collect)
+            except Exception:
+                pass
 
-            self.button_back = MDRoundFlatButton(
-                font_style="Button",
-                text="Back",
-                size_hint_x=.25,
-                size_hint_y=None,
-                pos_hint={"center_x": .25, "center_y": .05},
-            )
+            if not self.button_back:
+                self.button_back = MDRoundFlatButton(
+                    font_style="Button",
+                    text="Back",
+                    size_hint_x=.25,
+                    size_hint_y=None,
+                    pos_hint={"center_x": .25, "center_y": .05},
+                )
 
             self.button_back.bind(on_press=self.button_screen_back_to_processing)
-            self.root.ids.data_scr.add_widget(self.button_back)
-
+            try:
+                self.root.ids.data_scr.add_widget(self.button_back)
+            except Exception:
+                pass
         else:
             self.root.current = 'processing'  # Move to the Screen3
 
