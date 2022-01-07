@@ -3,7 +3,9 @@ ScreenManager:
     MDScreen:
         name: 'login'
         md_bg_color: app.theme_cls.bg_light
-
+        on_pre_enter:
+            image2.anim_delay = -1
+            image3.anim_delay = -1
         MDFloatLayout:
 
             Image:

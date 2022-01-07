@@ -564,7 +564,7 @@ class ProjectApp(MDApp):
                     use_pagination=True,
                     column_data=column_data,
                     row_data=row_data,
-                    rows_num=len(row_data)  # Change for multiple pages scrolling
+                    #rows_num=len(row_data)  # Fixed issue
                 )
 
             try:
