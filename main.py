@@ -302,7 +302,13 @@ class ProjectApp(MDApp):
             text = func[2]  # l
             value_schedule = func[3]
             if len(text) > 0:  # If name is not empty do:
-                self.root.current = 'processing'  # Move to the Screen2
+                self.list_path = []
+                try:
+                    if self.df:
+                        self.df = []
+                except Exception:
+                    pass
+                self.root.current = 'processing'  # Move to the Screen3
             else:
                 self.root.ids.textbox.text = ''
         textbox = self.root.ids.textbox.text
@@ -498,15 +504,15 @@ class ProjectApp(MDApp):
 
     def select_path(self, path):
         self.list_path.append(path)  # Max 2 values for images
-        self.root.ids.file1.text = f'1 file: '
-        self.root.ids.file2.text = f'2 file: '
+        self.root.ids.file1.text = '1 file: '
+        self.root.ids.file2.text = '2 file: '
         self.exit_manager()
         try:
-            self.root.ids.file1.text += f'\n{self.list_path[0]}'
+            self.root.ids.file1.text = f'{self.root.ids.file1.text}\n{self.list_path[0]}'
         except Exception:
             pass
         try:
-            self.root.ids.file2.text += f'\n{self.list_path[1]}'
+            self.root.ids.file2.text = f'{self.root.ids.file2.text}\n{self.list_path[1]}'
         except Exception:
             pass
         # If selected more than 2 images show MDDialog
