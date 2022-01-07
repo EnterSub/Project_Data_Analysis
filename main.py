@@ -23,7 +23,6 @@ Window.size = (360, 640)
 API_KEY = os.environ['API_KEY']
 model_id = os.environ['ID']
 url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
-list_path = []
 
 def week_schedule():
     schedule_url = os.environ['SITE_NAME']
@@ -66,63 +65,11 @@ def load_page(link):
     k = np.array(table).reshape(row_max, col_max * len(table) // (col_max * row_max))
     return k
 
-
-def page_left():
-    k_1 = load_page(link=list_path[0])
-    df_1 = pd.DataFrame(k_1)
-    df_1.is_copy = False
-    df_columns = ["number", "student"]
-
-    for i in df_1.columns[:len(df_1.columns) - len(df_columns)]:
-        df_columns.append(f"column{i + 1}")
-
-    df_1 = pd.DataFrame(k_1, columns=df_columns)
-
-    if df_1.loc[1, 'student'] != "Предмет":
-        value = "Предмет"
-        df_1.loc[1, 'student'] = value
-    if df_1.loc[2, 'student'] != "Тип занятия":
-        value = "Тип занятия"
-        df_1.loc[2, 'student'] = value
-
-    df_1.loc[37, 'student'] = "Всего отсутствовало"
-    df_1.loc[38, 'student'] = "Подпись преподавателя"
-    df_1.loc[39, 'student'] = "Подпись старосты"
-
-    for count, i in enumerate(df_1['number'][1:df_1.shape[0] - 5], 1):
-        df_1.loc[count + 2, 'number'] = count
-
-    for count, i in enumerate(df_1['student'][3:df_1.shape[0] - 3], 3):
-        if i:
-            df_1.loc[count, 'student'] = f"Student{df_1.loc[count, 'number']}"
-    return df_1, k_1
-
-
-def page_right():
-    k_2 = load_page(link=list_path[1])
-    df_columns = []
-    df_2 = pd.DataFrame(k_2)
-    df_2.is_copy = False
-
-    for i in df_2.columns:
-        df_columns.append(f"column{i + 13}")
-
-    df_2 = pd.DataFrame(k_2, columns=df_columns)
-
-    # Insert row just with numbers (or students names) from previous df
-    df_2 = df_2.rename({'column25': 'lectures_all', 'column26': 'lectures', 'column27': 'message'}, axis=1)
-
-    df_2.loc[0, 'lectures_all':'lectures'] = 'Пропущено часов занят.'
-    df_2.loc[1:2, 'lectures_all'] = 'всего'
-    df_2.loc[1:2, 'lectures'] = 'по уважит. прич.'
-    df_2.loc[0:2, 'message'] = 'Замечания деканата и преподавателей'
-    return df_2, k_2
-
-
 class ProjectApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         Window.bind(on_keyboard=self.events)
+        self.list_path = []
         self.dialog = None
         self.manager_open = False
         self.file_manager = MDFileManager(
@@ -133,6 +80,56 @@ class ProjectApp(MDApp):
         self.data_tables = None
         self.button_collect = None
         self.button_back = None
+
+    def page_left(self):
+        k_1 = load_page(link=self.list_path[0])
+        df_1 = pd.DataFrame(k_1)
+        df_1.is_copy = False
+        df_columns = ["number", "student"]
+
+        for i in df_1.columns[:len(df_1.columns) - len(df_columns)]:
+            df_columns.append(f"column{i + 1}")
+
+        df_1 = pd.DataFrame(k_1, columns=df_columns)
+
+        if df_1.loc[1, 'student'] != "Предмет":
+            value = "Предмет"
+            df_1.loc[1, 'student'] = value
+        if df_1.loc[2, 'student'] != "Тип занятия":
+            value = "Тип занятия"
+            df_1.loc[2, 'student'] = value
+
+        df_1.loc[37, 'student'] = "Всего отсутствовало"
+        df_1.loc[38, 'student'] = "Подпись преподавателя"
+        df_1.loc[39, 'student'] = "Подпись старосты"
+
+        for count, i in enumerate(df_1['number'][1:df_1.shape[0] - 5], 1):
+            df_1.loc[count + 2, 'number'] = count
+
+        for count, i in enumerate(df_1['student'][3:df_1.shape[0] - 3], 3):
+            if i:
+                df_1.loc[count, 'student'] = f"Student{df_1.loc[count, 'number']}"
+        return df_1, k_1
+
+    def page_right(self):
+        k_2 = load_page(link=self.list_path[1])
+        df_columns = []
+        df_2 = pd.DataFrame(k_2)
+        df_2.is_copy = False
+
+        for i in df_2.columns:
+            df_columns.append(f"column{i + 13}")
+
+        df_2 = pd.DataFrame(k_2, columns=df_columns)
+
+        # Insert row just with numbers (or students names) from previous df
+        df_2 = df_2.rename({'column25': 'lectures_all', 'column26': 'lectures', 'column27': 'message'}, axis=1)
+
+        df_2.loc[0, 'lectures_all':'lectures'] = 'Пропущено часов занят.'
+        df_2.loc[1:2, 'lectures_all'] = 'всего'
+        df_2.loc[1:2, 'lectures'] = 'по уважит. прич.'
+        df_2.loc[0:2, 'message'] = 'Замечания деканата и преподавателей'
+        return df_2, k_2
 
     def show_alert_dialog(self):
         self.dialog = ""
@@ -315,9 +312,9 @@ class ProjectApp(MDApp):
         func = self.subjects_schedule(self.root.ids.textbox.text)
         df_current = func[1]
         value_schedule = func[3]
-        df_1, k_1 = page_left()
+        df_1, k_1 = self.page_left()
         # df_1_shape = k_1
-        df_2, k_2 = page_right()
+        df_2, k_2 = self.page_right()
         # df_2_shape = k_2
         df_1.loc[0, 'number'] = self.root.ids.textbox.text
         df_1.loc[1, 'number'] = value_schedule
@@ -500,20 +497,20 @@ class ProjectApp(MDApp):
         self.manager_open = True
 
     def select_path(self, path):
-        list_path.append(path) # Max 2 values for images
+        self.list_path.append(path)  # Max 2 values for images
         self.root.ids.file1.text = f'1 file: '
         self.root.ids.file2.text = f'2 file: '
         self.exit_manager()
         try:
-            self.root.ids.file1.text += f'\n{list_path[0]}'
+            self.root.ids.file1.text += f'\n{self.list_path[0]}'
         except Exception:
             pass
         try:
-            self.root.ids.file2.text += f'\n{list_path[1]}'
+            self.root.ids.file2.text += f'\n{self.list_path[1]}'
         except Exception:
             pass
         # If selected more than 2 images show MDDialog
-        return list_path
+        return self.list_path
 
     def exit_manager(self, *args):
         self.manager_open = False
