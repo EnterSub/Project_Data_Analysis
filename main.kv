@@ -7,6 +7,7 @@ ScreenManager:
         MDFloatLayout:
 
             Image:
+                id: image1
                 source: "login.gif"
                 anim_delay: 1/24
                 pos_hint: {"x": 0, "y": 0.23}
@@ -90,12 +91,16 @@ ScreenManager:
     MDScreen:
         name: 'menu'
         md_bg_color: app.theme_cls.bg_light
+        on_pre_enter:
+            image2.anim_delay = 1/30
+            image4.anim_delay = -1
+            image4.anim_loop = 0
 
         MDFloatLayout:
 
             Image:
+                id: image2
                 source: "process.gif"
-                anim_delay: 1/30
                 pos_hint: {"x": 0, "y": .23}
 
             MDFloatLayout:
@@ -170,16 +175,18 @@ ScreenManager:
 
     MDScreen:
         name: 'processing'
+        md_bg_color: app.theme_cls.bg_light
         on_pre_enter:
+            image2.anim_delay = -1
+            image3.anim_delay = 1/30
             root.ids.file1.text = '1 file: '
             root.ids.file2.text = '2 file: '
-        md_bg_color: app.theme_cls.bg_light
 
         MDFloatLayout:
 
             Image:
+                id: image3
                 source: "manager.gif"
-                anim_delay: 1/30
                 pos_hint: {"x": 0, "y": 0.1}
 
             MDLabel:
@@ -234,16 +241,21 @@ ScreenManager:
         id: data_scr
         name: 'table'
         md_bg_color: app.theme_cls.bg_light
+        on_pre_enter:
+            image3.anim_delay = -1
 
     MDScreen:
         name: 'check'
         md_bg_color: app.theme_cls.bg_light
+        on_pre_enter:
+            image4.anim_delay = 1/30
+            image4.anim_loop = 1
 
         MDFloatLayout:
 
             Image:
+                id: image4
                 source: "successful.gif"
-                anim_delay: 1/30
                 pos_hint: {"x": 0, "y": 0.1}
 
             MDLabel:
