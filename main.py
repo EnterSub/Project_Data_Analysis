@@ -78,8 +78,6 @@ class ProjectApp(MDApp):
             preview=False,
         )
         self.data_tables = None
-        self.button_collect = None
-        self.button_back = None
 
     def page_left(self):
         k_1 = load_page(link=self.list_path[0])
@@ -302,7 +300,6 @@ class ProjectApp(MDApp):
             text = func[2]  # l
             value_schedule = func[3]
             if len(text) > 0:  # If name is not empty do:
-                self.list_path = []
                 try:
                     if self.df:
                         self.df = []
@@ -503,7 +500,11 @@ class ProjectApp(MDApp):
         self.manager_open = True
 
     def select_path(self, path):
-        self.list_path.append(path)  # Max 2 values for images
+        if len(self.list_path) < 2:
+            self.list_path.append(path)
+        else:
+            self.list_path.clear()
+            self.list_path.append(path)
         self.root.ids.file1.text = '1 file: '
         self.root.ids.file2.text = '2 file: '
         self.exit_manager()
@@ -515,7 +516,6 @@ class ProjectApp(MDApp):
             self.root.ids.file2.text = f'{self.root.ids.file2.text}\n{self.list_path[1]}'
         except Exception:
             pass
-        # If selected more than 2 images show MDDialog
         return self.list_path
 
     def exit_manager(self, *args):
@@ -528,28 +528,25 @@ class ProjectApp(MDApp):
                 self.file_manager.back()
         return True
 
-    def button_screen_back_to_processing(self, *args):
-        self.root.current = 'processing'
+    def callback_button_collect(self):
+        # Screen 5
+        project_id = os.environ['PROJECT_ID']
+        table_id_1 = os.environ['TABLE_ID_1']
+        table_id_2 = os.environ['TABLE_ID_2']
 
-    def callback_button_collect(self, instance):
-        if self.button_collect == instance:
-            # Screen 5
-            project_id = os.environ['PROJECT_ID']
-            table_id_1 = os.environ['TABLE_ID_1']
-            table_id_2 = os.environ['TABLE_ID_2']
+        credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
+        self.df_students['date'] = pd.to_datetime(self.df_students['date'])
+        self.df_subjects['date'] = pd.to_datetime(self.df_subjects['date'])
+        pandas_gbq.to_gbq(self.df_students, project_id=project_id, destination_table=table_id_1, if_exists='append',
+                          credentials=credentials)
+        pandas_gbq.to_gbq(self.df_subjects, project_id=project_id, destination_table=table_id_2, if_exists='append',
+                          credentials=credentials)
 
-            credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
-            self.df_students['date'] = pd.to_datetime(self.df_students['date'])
-            self.df_subjects['date'] = pd.to_datetime(self.df_subjects['date'])
-            pandas_gbq.to_gbq(self.df_students, project_id=project_id, destination_table=table_id_1, if_exists='append',
-                              credentials=credentials)
-            pandas_gbq.to_gbq(self.df_subjects, project_id=project_id, destination_table=table_id_2, if_exists='append',
-                              credentials=credentials)
-
-            self.root.current = 'check'
+        self.root.current = 'check'
 
     def show_table(self):
         self.df, self.df_students, self.df_subjects = self.collect()
+        self.list_path.clear()
         if self.df.shape[0] == 40 and self.df.shape[1] == 29:  # Input table (40 rows × 29 columns)
             # Screen 4
             column_data = list(self.df.columns)
@@ -558,47 +555,17 @@ class ProjectApp(MDApp):
             if not self.data_tables:
                 self.data_tables = MDDataTable(
                     background_color_header=(0, 1, 0, .1),
-                    pos_hint={"x": 0, "y": .1},
+                    pos_hint={"top": 1, "center_y": 0.5},
                     size_hint_x=1,
-                    size_hint_y=.9,
+                    size_hint_y=None,
+                    height=Window.height * 0.9,  # ?
                     use_pagination=True,
                     column_data=column_data,
                     row_data=row_data,
-                    #rows_num=len(row_data)  # Fixed issue
                 )
 
             try:
-                self.root.ids.data_scr.add_widget(self.data_tables)
-            except Exception:
-                pass
-
-            if not self.button_collect:
-                self.button_collect = MDRoundFlatButton(
-                    font_style="Button",
-                    text="Collect",
-                    size_hint_x=.25,
-                    size_hint_y=None,
-                    pos_hint={"center_x": .75, "center_y": .05},
-                )
-
-            self.button_collect.bind(on_press=self.callback_button_collect)
-            try:
-                self.root.ids.data_scr.add_widget(self.button_collect)
-            except Exception:
-                pass
-
-            if not self.button_back:
-                self.button_back = MDRoundFlatButton(
-                    font_style="Button",
-                    text="Back",
-                    size_hint_x=.25,
-                    size_hint_y=None,
-                    pos_hint={"center_x": .25, "center_y": .05},
-                )
-
-            self.button_back.bind(on_press=self.button_screen_back_to_processing)
-            try:
-                self.root.ids.data_scr.add_widget(self.button_back)
+                self.root.ids.table_box.add_widget(self.data_tables)
             except Exception:
                 pass
         else:
