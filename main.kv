@@ -80,7 +80,9 @@ ScreenManager:
                 size_hint_x: .75
                 size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": .14}
-                on_press: app.start()
+                on_press:
+                    root.transition.direction = 'right'
+                    app.start()
 
             MDRoundFlatButton:
                 font_style: "Button"
@@ -165,7 +167,9 @@ ScreenManager:
                 size_hint_x: .75
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.14}
-                on_press: app.show_data()
+                on_press:
+                    root.transition.direction = 'right'
+                    app.show_data()
 
             MDRoundFlatButton:
                 font_style: "Button"
@@ -173,7 +177,9 @@ ScreenManager:
                 size_hint_x: .25
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.05}
-                on_press: root.current = 'login'
+                on_press:
+                    root.transition.direction = 'right'
+                    root.current = 'login'
 
     MDScreen:
         name: 'processing'
@@ -228,6 +234,7 @@ ScreenManager:
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.14}
                 on_press:
+                    root.transition.direction = 'right'
                     root.current = 'table'
                     app.show_table()
 
@@ -237,7 +244,9 @@ ScreenManager:
                 size_hint_x: .25
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.05}
-                on_press: root.current = 'menu'
+                on_press:
+                    root.transition.direction = 'right'
+                    root.current = 'menu'
 
     MDScreen:
         id: data_scr
@@ -281,4 +290,6 @@ ScreenManager:
                 size_hint_x: .25
                 size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": .05}
-                on_press: root.current = 'menu'
+                on_press:
+                    root.transition.direction = 'right'
+                    root.current = 'menu'
