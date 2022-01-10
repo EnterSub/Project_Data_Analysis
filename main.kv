@@ -255,6 +255,50 @@ ScreenManager:
         on_pre_enter:
             image3.anim_delay = -1
 
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint_x: 1
+            adaptive_height: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+            md_bg_color: app.theme_cls.bg_light
+
+            MDBoxLayout:
+                id: table_box
+                size_hint_x: 1
+                adaptive_height: True
+                pos_hint: {"center_x": .5, "center_y": .5}
+                md_bg_color: app.theme_cls.bg_light
+
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                pos_hint: {"center_x": .5, "center_y": .5}
+                md_bg_color: app.theme_cls.bg_light
+
+                MDBoxLayout:
+                    orientation: "horizontal"
+                    adaptive_height: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    md_bg_color: app.theme_cls.bg_light
+
+                    MDFillRoundFlatButton:
+                        font_style: "Button"
+                        text: "Back"
+                        size_hint_x: .5
+                        size_hint_y: None
+                        pos_hint: {"center_x": .25, "center_y": .5}
+                        md_bg_color: (.5,.5,0,1)
+                        on_press: root.current = 'processing'
+
+                    MDFillRoundFlatButton:
+                        font_style: "Button"
+                        text: "Collect"
+                        size_hint_x: .5
+                        size_hint_y: None
+                        pos_hint: {"center_x": .75, "center_y": .5}
+                        md_bg_color: (.5,.5,0,1)
+                        on_press: app.callback_button_collect()
+
     MDScreen:
         name: 'check'
         md_bg_color: app.theme_cls.bg_light
