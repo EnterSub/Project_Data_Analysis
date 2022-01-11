@@ -75,22 +75,24 @@ ScreenManager:
                 pos_hint: {"center_x": .5, "center_y": .2}
                 on_press: app.show_information()
 
-            MDRoundFlatButton:
+            MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "Login"
                 size_hint_x: .75
                 size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": .14}
+                md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
                     app.start()
 
-            MDRoundFlatButton:
+            MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "Close"
                 size_hint_x: .25
                 size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": .05}
+                md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press: app.stop()
 
     MDScreen:
@@ -162,22 +164,24 @@ ScreenManager:
                     multiline: False
                     max_text_length: 2
 
-            MDRoundFlatButton:
+            MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "OK"
                 size_hint_x: .75
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.14}
+                md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
                     app.show_data()
 
-            MDRoundFlatButton:
+            MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "Back"
                 size_hint_x: .25
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.05}
+                md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
                     root.current = 'login'
@@ -205,11 +209,14 @@ ScreenManager:
                 halign: 'center'
                 pos_hint: {"center_x": .5, "center_y": .9}
 
-            MDRoundFlatIconButton:
+            MDFillRoundFlatIconButton:
                 font_style: "Button"
                 icon: "file"
                 text: "Open manager"
+                size_hint_x: .75
+                size_hint_y: None
                 pos_hint: {'center_x': .5, 'center_y': .8}
+                md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press: app.file_manager_open()
 
             MDLabel:
@@ -228,23 +235,25 @@ ScreenManager:
                 halign: 'center'
                 pos_hint: {"center_x": .5, "center_y": .23}
 
-            MDRoundFlatButton:
+            MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "OK"
                 size_hint_x: .75
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.14}
+                md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
                     root.current = 'table'
                     app.show_table()
 
-            MDRoundFlatButton:
+            MDFillRoundFlatButton:
                 font_style: "Button"
                 text: 'Back'
                 size_hint_x: .25
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.05}
+                md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
                     root.current = 'menu'
@@ -288,7 +297,7 @@ ScreenManager:
                         size_hint_x: .5
                         size_hint_y: None
                         pos_hint: {"center_x": .25, "center_y": .5}
-                        md_bg_color: (.5,.5,0,1)
+                        md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                         on_press: root.current = 'processing'
 
                     MDFillRoundFlatButton:
@@ -297,7 +306,7 @@ ScreenManager:
                         size_hint_x: .5
                         size_hint_y: None
                         pos_hint: {"center_x": .75, "center_y": .5}
-                        md_bg_color: (.5,.5,0,1)
+                        md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                         on_press: app.callback_button_collect()
 
     MDScreen:
@@ -321,20 +330,22 @@ ScreenManager:
                 valign: 'middle'
                 halign: 'center'
 
-            MDRoundFlatButton:
+            MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "Exit"
                 size_hint_x: .75
                 size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": .14}
+                md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press: app.stop()
 
-            MDRoundFlatButton:
+            MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "Upload"
                 size_hint_x: .25
                 size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": .05}
+                md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
                     root.current = 'menu'
