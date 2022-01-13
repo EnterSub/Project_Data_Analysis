@@ -192,7 +192,7 @@ ScreenManager:
         name: 'subjects'
         md_bg_color: app.theme_cls.bg_light
         on_pre_enter:
-            image3.anim_delay = -1
+            image2.anim_delay = -1
 
         MDBoxLayout:
             orientation: "vertical"
@@ -227,7 +227,9 @@ ScreenManager:
                         size_hint_y: None
                         pos_hint: {"center_x": .25, "center_y": .5}
                         md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
-                        on_press: root.current = 'menu'
+                        on_press:
+                            root.transition.direction = 'right'
+                            root.current = 'menu'
 
                     MDFillRoundFlatButton:
                         font_style: "Button"
@@ -236,13 +238,14 @@ ScreenManager:
                         size_hint_y: None
                         pos_hint: {"center_x": .75, "center_y": .5}
                         md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
-                        on_press: root.current = 'processing'
+                        on_press:
+                            root.transition.direction = 'right'
+                            root.current = 'processing'
 
     MDScreen:
         name: 'processing'
         md_bg_color: app.theme_cls.bg_light
         on_pre_enter:
-            image2.anim_delay = -1
             image3.anim_delay = 1/30
             root.ids.file1.text = '1 file: '
             root.ids.file2.text = '2 file: '
