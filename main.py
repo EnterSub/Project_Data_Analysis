@@ -24,6 +24,7 @@ API_KEY = os.environ['API_KEY']
 model_id = os.environ['ID']
 url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
 
+
 def week_schedule():
     schedule_url = os.environ['SITE_NAME']
     header_label = os.environ['SITE_HEADER_LABEL']
@@ -78,6 +79,7 @@ class ProjectApp(MDApp):
             preview=False,
         )
         self.data_tables = None
+        self.subjects_table = None
 
     def page_left(self):
         k_1 = load_page(link=self.list_path[0])
@@ -163,6 +165,8 @@ class ProjectApp(MDApp):
         TIME = os.environ['SITE_TIME']
         LABEL = os.environ['SITE_LABEL']
         DAY = os.environ['SITE_DAY']
+        CLASS_N = 'schedule__table-class'
+
         table_list, list_all_table, list_all_table_2, list_all_table_data, d, d2 = [], [], [], [], [], []
         req = requests.get(schedule_url)
         parser = bs4.BeautifulSoup(req.text, 'lxml')
@@ -182,9 +186,11 @@ class ProjectApp(MDApp):
                         if lesson.findAll(class_=LABEL) else ''
                     item = lesson.findAll(class_=ITEM)[0] \
                         if lesson.findAll(class_=LABEL) else lesson.findAll(class_=ITEM)[0]
+                    class_number = item.findAll(class_=CLASS_N)[0].text.replace('&nbsp', '')
                     item_label_reg = re.search(r'\t[\w\s,-.]+', item.text if item else None)
                     item_label = re.sub(r'(\s+·)|[\n\t]|\s{2}', '', item_label_reg.group(0)) if item_label_reg else None
-                    lessons_list.append({'w': week_type, 'n': item_label})
+                    item_label = item_label.replace(class_number, '').strip()
+                    lessons_list.append({'w': week_type, 'n': item_label, 'c': class_number})
                 if lessons_list:
                     table_list.append({'d': day, 't': time, 'i': lessons_list})
 
@@ -198,15 +204,20 @@ class ProjectApp(MDApp):
             for j in i[2]:
                 list_all_table_data.append([i[0], i[1], j['w'], j['n']])
 
+        all_subjects_full = []
+
         for t, i, j, k in list_all_table_data:
-            d.append(
-                {
-                    'week_n': t,
-                    'class_t': i,
-                    'week_t': j,
-                    'subject': "".join([k[0].upper() for k in k.split()])
-                }
-            )
+            k_split = "".join([k[0].upper() for k in k.split()])
+            if k and k_split != "ФКИС":
+                all_subjects_full.append(k)
+                d.append(
+                    {
+                        'week_n': t,
+                        'class_t': i,
+                        'week_t': j,
+                        'subject': k_split
+                    }
+                )
         df = pd.DataFrame(d)
 
         list_values_subjects = []
@@ -276,6 +287,47 @@ class ProjectApp(MDApp):
             l = ''
         else:
             l = df_current
+
+        try:
+            if self.subjects_df:
+                self.subjects_df = self.subjects_df[0:0]
+        except Exception:
+            all_subjects_full = set(all_subjects_full)
+            subject_values_sorted = []
+
+            for j in all_subjects_full:
+                k_split = "".join([j[0].upper() for j in j.split()])
+                subject_values_sorted.append(k_split)
+
+            list_subjects = []
+
+            for i, j in zip(subject_values_sorted, all_subjects_full):
+                list_subjects.append(
+                    {
+                        'abbreviate': i,
+                        'subject': j
+                    }
+                )
+            subjects_df = pd.DataFrame(list_subjects)
+            column_data_subjects = list(subjects_df.columns)
+            row_data_subjects = subjects_df.to_records(index=False)
+            column_data_subjects = [(x, dp(25)) if _%2==0 else (x, dp(250)) for _, x in enumerate(column_data_subjects, 0)]
+
+            if not self.subjects_table:
+                self.subjects_table = MDDataTable(
+                    background_color_header=(0, 1, 0, .1),
+                    pos_hint={"top": 1, "center_y": 0.5},
+                    size_hint_x=1,
+                    size_hint_y=None,
+                    height=Window.height * 0.9,
+                    use_pagination=True,
+                    column_data=column_data_subjects,
+                    row_data=row_data_subjects,
+                )
+            try:
+                self.root.ids.subjects_box.add_widget(self.subjects_table)
+            except Exception:
+                pass
         return group_name, df_current, l, value_schedule
 
     # Screen 1
@@ -305,7 +357,7 @@ class ProjectApp(MDApp):
                         self.df = []
                 except Exception:
                     pass
-                self.root.current = 'processing'  # Move to the Screen3
+                self.root.current = 'subjects'  # Move to the Screen3
             else:
                 self.root.ids.textbox.text = ''
         textbox = self.root.ids.textbox.text
