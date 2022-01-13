@@ -174,6 +174,7 @@ ScreenManager:
                 on_press:
                     root.transition.direction = 'right'
                     app.show_data()
+                    root.current = 'subjects'
 
             MDFillRoundFlatButton:
                 font_style: "Button"
@@ -185,6 +186,57 @@ ScreenManager:
                 on_press:
                     root.transition.direction = 'right'
                     root.current = 'login'
+
+    MDScreen:
+        id: data_subjects
+        name: 'subjects'
+        md_bg_color: app.theme_cls.bg_light
+        on_pre_enter:
+            image3.anim_delay = -1
+
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint_x: 1
+            adaptive_height: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+            md_bg_color: app.theme_cls.bg_light
+
+            MDBoxLayout:
+                id: subjects_box
+                size_hint_x: 1
+                adaptive_height: True
+                pos_hint: {"center_x": .5, "center_y": .5}
+                md_bg_color: app.theme_cls.bg_light
+
+            MDBoxLayout:
+                orientation: "vertical"
+                adaptive_height: True
+                pos_hint: {"center_x": .5, "center_y": .5}
+                md_bg_color: app.theme_cls.bg_light
+
+                MDBoxLayout:
+                    orientation: "horizontal"
+                    adaptive_height: True
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    md_bg_color: app.theme_cls.bg_light
+
+                    MDFillRoundFlatButton:
+                        font_style: "Button"
+                        text: "Back"
+                        size_hint_x: .5
+                        size_hint_y: None
+                        pos_hint: {"center_x": .25, "center_y": .5}
+                        md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
+                        on_press: root.current = 'menu'
+
+                    MDFillRoundFlatButton:
+                        font_style: "Button"
+                        text: "OK"
+                        size_hint_x: .5
+                        size_hint_y: None
+                        pos_hint: {"center_x": .75, "center_y": .5}
+                        md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
+                        on_press: root.current = 'processing'
 
     MDScreen:
         name: 'processing'
@@ -236,6 +288,7 @@ ScreenManager:
                 pos_hint: {"center_x": .5, "center_y": .23}
 
             MDFillRoundFlatButton:
+                id: button_processing
                 font_style: "Button"
                 text: "OK"
                 size_hint_x: .75
@@ -256,7 +309,7 @@ ScreenManager:
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
-                    root.current = 'menu'
+                    root.current = 'subjects'
 
     MDScreen:
         id: data_scr
