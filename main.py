@@ -309,9 +309,9 @@ class ProjectApp(MDApp):
                     }
                 )
             subjects_df = pd.DataFrame(list_subjects)
-            column_data_subjects = list(subjects_df.columns)
+            column_subjects = list(subjects_df.columns)
             row_data_subjects = subjects_df.to_records(index=False)
-            column_data_subjects = [(x, dp(25)) if _%2==0 else (x, dp(250)) for _, x in enumerate(column_data_subjects, 0)]
+            column_subjects = [(x, dp(25)) if _ % 2 == 0 else (x, dp(250)) for _, x in enumerate(column_subjects, 0)]
 
             if not self.subjects_table:
                 self.subjects_table = MDDataTable(
@@ -321,7 +321,7 @@ class ProjectApp(MDApp):
                     size_hint_y=None,
                     height=Window.height * 0.9,
                     use_pagination=True,
-                    column_data=column_data_subjects,
+                    column_data=column_subjects,
                     row_data=row_data_subjects,
                 )
             try:
