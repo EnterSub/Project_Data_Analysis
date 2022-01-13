@@ -603,7 +603,8 @@ class ProjectApp(MDApp):
             # Screen 4
             column_data = list(self.df.columns)
             row_data = self.df.to_records(index=False)
-            column_data = [(x, dp(25)) for x in column_data]
+            column_data = [(x, dp(75)) if (_ >= 1 and (_ % 26 == 0 or _ % 27 == 0 or _ % 28 == 0)) \
+                               else (x, dp(25)) for _, x in enumerate(column_data, 0)]
             if not self.data_tables:
                 self.data_tables = MDDataTable(
                     background_color_header=(0, 1, 0, .1),
