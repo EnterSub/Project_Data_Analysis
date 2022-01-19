@@ -70,6 +70,8 @@ class ProjectApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         Window.bind(on_keyboard=self.events)
+        self.just_file = ''
+        self.list_file_path = []
         self.list_path = []
         self.dialog = None
         self.manager_open = False
@@ -136,13 +138,28 @@ class ProjectApp(MDApp):
         if not self.dialog:
             self.dialog = MDDialog(
                 text=f'Error:\n{self.root.ids.textbox_week_number.text}',
-                buttons=[MDRoundFlatButton(
+                buttons=[
+                    MDRoundFlatButton(
+                        font_style="Button",
+                        text="Manual load",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=lambda _: screen_update()),
+
+                    MDRoundFlatButton(
                     font_style="Button",
                     text="Cancel",
                     theme_text_color="Custom",
                     text_color=self.theme_cls.primary_color,
-                    on_release=lambda _: self.dialog.dismiss())])
+                    on_release=lambda _: self.dialog.dismiss())
+                ])
         self.dialog.open()
+
+        def screen_update():
+            self.dialog.dismiss()
+            screen = self.root.current = 'manual_load'
+            return screen
+
 
     def show_information(self):
         self.dialog = ""
@@ -159,6 +176,7 @@ class ProjectApp(MDApp):
 
     def subjects_schedule(self, group_name):
         schedule_url = os.environ['SITE_NAME'] + group_name + os.environ['SITE_TYPE']
+        SITE_TITLE = os.environ['SITE_TITLE']
         ITEM = os.environ['SITE_ITEM']
         BODY = os.environ['SITE_BODY']
         ROW = os.environ['SITE_ROW']
@@ -168,10 +186,23 @@ class ProjectApp(MDApp):
         CLASS_N = 'schedule__table-class'
 
         table_list, list_all_table, list_all_table_2, list_all_table_data, d, d2 = [], [], [], [], [], []
-        req = requests.get(schedule_url)
-        parser = bs4.BeautifulSoup(req.text, 'lxml')
-        value_schedule = int(week_schedule())
-        value_schedule = int(self.root.ids.textbox_week_number.text)
+
+        if self.root.ids.textbox_week_number.text != "No connection" and self.root.ids.textbox_week_number.text != "No subjects in university schedule":
+            req = requests.get(schedule_url)
+            parser = bs4.BeautifulSoup(req.text, 'lxml')
+        else:
+            self.just_file = str(self.list_file_path)
+            self.just_file = self.just_file[self.just_file.find('\\') + 2:-2]
+            with open(self.just_file, encoding='utf-8') as file:
+                src = file.read()
+                parser = bs4.BeautifulSoup(src, "lxml")
+        try:
+            value_schedule = int(week_schedule())
+            value_schedule = int(self.root.ids.textbox_week_number.text)
+        except Exception:
+            value_schedule = parser.find(class_=SITE_TITLE).text
+            value_schedule = re.findall(r'\d+', value_schedule)
+            value_schedule = int(str(value_schedule[0]))
         table = parser.findAll(class_=BODY)
         rows_ = [r for r in table[0].findAll(class_=ROW) if r.findAll(class_=DAY)]
         for r in rows_:
@@ -333,7 +364,10 @@ class ProjectApp(MDApp):
     # Screen 1
     def start(self):
         if self.root.ids.user.text == "" and self.root.ids.password.text == "":
-            self.root.ids.textbox_week_number.text = week_schedule()
+            try:
+                self.root.ids.textbox_week_number.text = week_schedule()
+            except Exception:
+                pass
             if self.root.ids.textbox_week_number.text == "No connection" \
                     or self.root.ids.textbox_week_number.text == "No subjects in university schedule":
                 self.show_alert_dialog()
@@ -345,21 +379,21 @@ class ProjectApp(MDApp):
 
     # Screen 2
     def show_data(self):
+        #print(self.root.ids.textbox.text)  # ''
         if self.root.ids.textbox.text == '':
             text = self.root.ids.textbox.text
+        func = self.subjects_schedule(self.root.ids.textbox.text)
+        text = func[2]  # l
+        value_schedule = func[3]
+        if len(text) > 0:  # If name is not empty do:
+            try:
+                if self.df:
+                    self.df = []
+            except Exception:
+                pass
+            self.root.current = 'subjects'  # Move to the Screen3
         else:
-            func = self.subjects_schedule(self.root.ids.textbox.text)
-            text = func[2]  # l
-            value_schedule = func[3]
-            if len(text) > 0:  # If name is not empty do:
-                try:
-                    if self.df:
-                        self.df = []
-                except Exception:
-                    pass
-                self.root.current = 'subjects'  # Move to the Screen3
-            else:
-                self.root.ids.textbox.text = ''
+            self.root.ids.textbox.text = ''
         textbox = self.root.ids.textbox.text
         return textbox, text
 
@@ -552,23 +586,50 @@ class ProjectApp(MDApp):
         self.manager_open = True
 
     def select_path(self, path):
-        if len(self.list_path) < 2:
-            self.list_path.append(path)
-        else:
-            self.list_path.clear()
-            self.list_path.append(path)
+        #print(len(self.list_path), len(self.list_file_path), path)
+
+        self.root.ids.file.text = 'Html file: '
         self.root.ids.file1.text = '1 file: '
         self.root.ids.file2.text = '2 file: '
+
+        if self.root.current == 'manual_load':
+            if len(self.list_file_path) < 1:
+                self.list_file_path.append(path)
+            elif len(self.list_file_path) >= 1:
+                try:
+                    if len(self.list_file_path) >= 1 and len(self.file_path) >= 1:
+                        self.file_path.clear()
+                except Exception:
+                    pass
+                self.list_file_path.clear()
+                self.list_file_path.append(path)
+
+        if self.root.current == 'processing':
+            if len(self.list_path) < 2:
+                self.list_path.append(path)
+            elif len(self.list_path) >= 2:
+                self.list_path.clear()
+                self.list_path.append(path)
+
+        #print(len(self.list_path), len(self.list_file_path), path)
         self.exit_manager()
+
+        try:
+            self.root.ids.file.text = f'{self.root.ids.file.text}\n{self.list_file_path[0]}'
+        except Exception:
+            pass
+
         try:
             self.root.ids.file1.text = f'{self.root.ids.file1.text}\n{self.list_path[0]}'
         except Exception:
             pass
+
         try:
             self.root.ids.file2.text = f'{self.root.ids.file2.text}\n{self.list_path[1]}'
         except Exception:
             pass
-        return self.list_path
+
+        return self.list_file_path, self.list_path
 
     def exit_manager(self, *args):
         self.manager_open = False
@@ -593,8 +654,13 @@ class ProjectApp(MDApp):
                           credentials=credentials)
         pandas_gbq.to_gbq(self.df_subjects, project_id=project_id, destination_table=table_id_2, if_exists='append',
                           credentials=credentials)
-
+        try:
+            self.list_file_path.clear()
+            self.list_path.clear()
+        except Exception:
+            pass
         self.root.current = 'check'
+
 
     def show_table(self):
         self.df, self.df_students, self.df_subjects = self.collect()
@@ -623,6 +689,12 @@ class ProjectApp(MDApp):
                 pass
         else:
             self.root.current = 'processing'  # Move to the Screen3
+
+    def uploading(self):
+        if self.root.ids.textbox.text == '':
+            self.root.current = 'manual_load'
+        else:
+            self.root.current = 'menu'
 
     def build(self):
         self.theme_cls.theme_style = "Light"

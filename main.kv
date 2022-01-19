@@ -86,6 +86,60 @@ ScreenManager:
                 on_press: app.stop()
 
     MDScreen:
+        name: 'manual_load'
+        md_bg_color: app.theme_cls.bg_light
+        on_pre_enter: root.ids.file.text = 'Html file: '
+
+        MDLabel:
+            font_style: "Subtitle1"
+            text: 'Choose file'
+            valign: 'middle'
+            halign: 'center'
+            pos_hint: {"center_x": .5, "center_y": .9}
+
+        MDFillRoundFlatIconButton:
+            font_style: "Button"
+            icon: "file"
+            text: "Open manager"
+            size_hint_x: .75
+            size_hint_y: None
+            pos_hint: {'center_x': .5, 'center_y': .8}
+            md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
+            on_press:
+                app.file_manager_open()
+
+        MDLabel:
+            id: file
+            text: f'Html file: '
+            font_style: "Subtitle1"
+            valign: 'middle'
+            halign: 'center'
+            pos_hint: {"center_x": .5, "center_y": .32}
+
+        MDFillRoundFlatButton:
+            font_style: "Button"
+            text: "OK"
+            size_hint_x: .75
+            size_hint_y: None
+            pos_hint: {'center_x':.5,'center_y':.14}
+            md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
+            on_press:
+                root.transition.direction = 'right'
+                app.show_data()
+                root.current = 'subjects'
+
+        MDFillRoundFlatButton:
+            font_style: "Button"
+            text: 'Back'
+            size_hint_x: .25
+            size_hint_y: None
+            pos_hint: {'center_x':.5,'center_y':.05}
+            md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
+            on_press:
+                root.transition.direction = 'right'
+                root.current = 'login'
+
+    MDScreen:
         name: 'menu'
         md_bg_color: app.theme_cls.bg_light
         on_pre_enter:
@@ -209,7 +263,7 @@ ScreenManager:
                         md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                         on_press:
                             root.transition.direction = 'right'
-                            root.current = 'menu'
+                            root.current = 'login'
 
                     MDFillRoundFlatButton:
                         font_style: "Button"
@@ -348,7 +402,7 @@ ScreenManager:
     MDScreen:
         name: 'check'
         md_bg_color: app.theme_cls.bg_light
-        on_pre_enter:
+        on_enter:
             image4.anim_delay = 1/30
             image4.anim_loop = 1
 
@@ -384,4 +438,4 @@ ScreenManager:
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
-                    root.current = 'menu'
+                    app.uploading()
