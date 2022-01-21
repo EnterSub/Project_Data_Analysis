@@ -186,7 +186,8 @@ class ProjectApp(MDApp):
 
         table_list, list_all_table, list_all_table_2, list_all_table_data, d, d2 = [], [], [], [], [], []
 
-        if self.root.ids.textbox_week_number.text != "No connection" and self.root.ids.textbox_week_number.text != "No subjects in university schedule":
+        if self.root.ids.textbox_week_number.text != "No connection" \
+                and self.root.ids.textbox_week_number.text != "No subjects in university schedule":
             req = requests.get(schedule_url)
             parser = bs4.BeautifulSoup(req.text, 'lxml')
         else:
@@ -219,7 +220,8 @@ class ProjectApp(MDApp):
                         if lesson.findAll(class_=LABEL) else lesson.findAll(class_=ITEM)[0]
                     class_number = item.findAll(class_=CLASS_N)[0].text.replace('&nbsp', '')
                     item_label_reg = re.search(r'\t[\w\s,-.]+', item.text if item else None)
-                    item_label = re.sub(r'(\s+·)|[\n\t]|\s{2}', '', item_label_reg.group(0)) if item_label_reg else None
+                    item_label = re.sub(r'(\s+·)|[\n\t]|\s{2}', '', item_label_reg.group(0)) if item_label_reg \
+                        else None
                     item_label = item_label.replace(class_number, '').strip()
                     lessons_list.append({'w': week_type, 'n': item_label, 'c': class_number})
                 if lessons_list:
