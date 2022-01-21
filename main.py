@@ -12,7 +12,7 @@ from kivymd.app import MDApp
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.button import MDRoundFlatButton
+from kivymd.uix.button import MDFillRoundFlatButton
 from kivymd.uix.filemanager import MDFileManager
 from kivy.metrics import dp
 from kivymd.uix.datatables import MDDataTable
@@ -139,14 +139,14 @@ class ProjectApp(MDApp):
             self.dialog = MDDialog(
                 text=f'Error:\n{self.root.ids.textbox_week_number.text}',
                 buttons=[
-                    MDRoundFlatButton(
+                    MDFillRoundFlatButton(
                         font_style="Button",
                         text="Manual load",
                         theme_text_color="Custom",
                         text_color=self.theme_cls.primary_color,
                         on_release=lambda _: screen_update()),
 
-                    MDRoundFlatButton(
+                    MDFillRoundFlatButton(
                     font_style="Button",
                     text="Cancel",
                     theme_text_color="Custom",
@@ -165,7 +165,7 @@ class ProjectApp(MDApp):
         if not self.dialog:
             self.dialog = MDDialog(
                 text=f'For more information write to contact list',
-                buttons=[MDRoundFlatButton(
+                buttons=[MDFillRoundFlatButton(
                     font_style="Button",
                     text="Cancel",
                     theme_text_color="Custom",
