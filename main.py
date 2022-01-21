@@ -182,7 +182,7 @@ class ProjectApp(MDApp):
         TIME = os.environ['SITE_TIME']
         LABEL = os.environ['SITE_LABEL']
         DAY = os.environ['SITE_DAY']
-        CLASS_N = 'schedule__table-class'
+        CLASS_N = os.environ['CLASS_N']
 
         table_list, list_all_table, list_all_table_2, list_all_table_data, d, d2 = [], [], [], [], [], []
 
