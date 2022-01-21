@@ -591,21 +591,16 @@ class ProjectApp(MDApp):
         self.root.ids.file2.text = '2 file: '
 
         if self.root.current == 'manual_load':
-            if len(self.list_file_path) < 1:
+            if not self.list_file_path:
                 self.list_file_path.append(path)
-            elif len(self.list_file_path) >= 1:
-                try:
-                    if len(self.list_file_path) >= 1 and len(self.file_path) >= 1:
-                        self.file_path.clear()
-                except Exception:
-                    pass
+            else:
                 self.list_file_path.clear()
                 self.list_file_path.append(path)
 
         if self.root.current == 'processing':
             if len(self.list_path) < 2:
                 self.list_path.append(path)
-            elif len(self.list_path) >= 2:
+            else:
                 self.list_path.clear()
                 self.list_path.append(path)
         self.exit_manager()
@@ -641,11 +636,6 @@ class ProjectApp(MDApp):
                           credentials=credentials)
         pandas_gbq.to_gbq(self.df_subjects, project_id=project_id, destination_table=table_id_2, if_exists='append',
                           credentials=credentials)
-        try:
-            self.list_file_path.clear()
-            self.list_path.clear()
-        except Exception:
-            pass
         self.root.current = 'check'
 
 
@@ -664,7 +654,7 @@ class ProjectApp(MDApp):
                     pos_hint={"top": 1, "center_y": 0.5},
                     size_hint_x=1,
                     size_hint_y=None,
-                    height=Window.height * 0.9,  # ?
+                    height=Window.height * 0.9,
                     use_pagination=True,
                     column_data=column_data,
                     row_data=row_data,

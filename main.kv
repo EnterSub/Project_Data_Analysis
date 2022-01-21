@@ -144,8 +144,6 @@ ScreenManager:
         md_bg_color: app.theme_cls.bg_light
         on_pre_enter:
             image2.anim_delay = 1/30
-            image4.anim_delay = -1
-            image4.anim_loop = 0
 
         MDFloatLayout:
 
@@ -227,6 +225,8 @@ ScreenManager:
         md_bg_color: app.theme_cls.bg_light
         on_pre_enter:
             image2.anim_delay = -1
+            image4.anim_delay = -1
+            image4.anim_loop = 0
 
         MDBoxLayout:
             orientation: "vertical"
