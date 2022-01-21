@@ -313,7 +313,6 @@ class ProjectApp(MDApp):
                 )
 
         df_current = pd.DataFrame(d2)
-        # print(df_current)
         if df_current.empty:
             l = ''
         else:
@@ -378,11 +377,6 @@ class ProjectApp(MDApp):
 
     # Screen 2
     def show_data(self):
-        # try:
-        #     self.func = tuple()
-        #     self.value_schedule = ''
-        # except Exception:
-        #     pass
         if self.root.ids.textbox.text == '':
             text = self.root.ids.textbox.text
         func = self.subjects_schedule(self.root.ids.textbox.text)
