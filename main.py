@@ -160,7 +160,6 @@ class ProjectApp(MDApp):
             screen = self.root.current = 'manual_load'
             return screen
 
-
     def show_information(self):
         self.dialog = ""
         if not self.dialog:
@@ -191,18 +190,19 @@ class ProjectApp(MDApp):
             req = requests.get(schedule_url)
             parser = bs4.BeautifulSoup(req.text, 'lxml')
         else:
-            self.just_file = str(self.list_file_path)
-            self.just_file = self.just_file[self.just_file.find('\\') + 2:-2]
+            self.just_file = self.list_file_path[0]
             with open(self.just_file, encoding='utf-8') as file:
                 src = file.read()
                 parser = bs4.BeautifulSoup(src, "lxml")
         try:
+            self.value_schedule = ''
             value_schedule = int(week_schedule())
             value_schedule = int(self.root.ids.textbox_week_number.text)
         except Exception:
             value_schedule = parser.find(class_=SITE_TITLE).text
             value_schedule = re.findall(r'\d+', value_schedule)
             value_schedule = int(str(value_schedule[0]))
+
         table = parser.findAll(class_=BODY)
         rows_ = [r for r in table[0].findAll(class_=ROW) if r.findAll(class_=DAY)]
         for r in rows_:
@@ -355,10 +355,9 @@ class ProjectApp(MDApp):
                     column_data=column_subjects,
                     row_data=row_data_subjects,
                 )
-            try:
                 self.root.ids.subjects_box.add_widget(self.subjects_table)
-            except Exception:
-                pass
+            else:
+                self.subjects_table.update_row_data(self.subjects_table, row_data_subjects)
         return group_name, df_current, l, value_schedule
 
     # Screen 1
@@ -379,16 +378,21 @@ class ProjectApp(MDApp):
 
     # Screen 2
     def show_data(self):
-        #print(self.root.ids.textbox.text)  # ''
+        # try:
+        #     self.func = tuple()
+        #     self.value_schedule = ''
+        # except Exception:
+        #     pass
         if self.root.ids.textbox.text == '':
             text = self.root.ids.textbox.text
         func = self.subjects_schedule(self.root.ids.textbox.text)
         text = func[2]  # l
         value_schedule = func[3]
+
         if len(text) > 0:  # If name is not empty do:
             try:
                 if self.df:
-                    self.df = []
+                    self.df = self.df[0:0]
             except Exception:
                 pass
             self.root.current = 'subjects'  # Move to the Screen3
@@ -586,8 +590,6 @@ class ProjectApp(MDApp):
         self.manager_open = True
 
     def select_path(self, path):
-        #print(len(self.list_path), len(self.list_file_path), path)
-
         self.root.ids.file.text = 'Html file: '
         self.root.ids.file1.text = '1 file: '
         self.root.ids.file2.text = '2 file: '
@@ -610,8 +612,6 @@ class ProjectApp(MDApp):
             elif len(self.list_path) >= 2:
                 self.list_path.clear()
                 self.list_path.append(path)
-
-        #print(len(self.list_path), len(self.list_file_path), path)
         self.exit_manager()
 
         try:
@@ -682,11 +682,9 @@ class ProjectApp(MDApp):
                     column_data=column_data,
                     row_data=row_data,
                 )
-
-            try:
                 self.root.ids.table_box.add_widget(self.data_tables)
-            except Exception:
-                pass
+            else:
+                self.data_tables.update_row_data(self.data_tables, row_data)
         else:
             self.root.current = 'processing'  # Move to the Screen3
 
