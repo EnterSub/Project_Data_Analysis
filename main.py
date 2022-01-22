@@ -36,11 +36,6 @@ LABEL = os.environ['SITE_LABEL']
 DAY = os.environ['SITE_DAY']
 CLASS_N = os.environ['CLASS_N']
 
-project_id = os.environ['PROJECT_ID']
-table_id_1 = os.environ['TABLE_ID_1']
-table_id_2 = os.environ['TABLE_ID_2']
-credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
-
 
 def week_schedule():
     schedule_url = os.environ['SITE_NAME']  # (CHANGE)
@@ -635,6 +630,12 @@ class ProjectApp(MDApp):
 
     def callback_button_collect(self):
         # Screen 5
+
+        project_id = os.environ['PROJECT_ID']
+        table_id_1 = os.environ['TABLE_ID_1']
+        table_id_2 = os.environ['TABLE_ID_2']
+        credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
+
         self.df_students['date'] = pd.to_datetime(self.df_students['date'])
         self.df_subjects['date'] = pd.to_datetime(self.df_subjects['date'])
         pandas_gbq.to_gbq(self.df_students, project_id=project_id, destination_table=table_id_1, if_exists='append',
