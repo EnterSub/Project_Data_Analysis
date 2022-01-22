@@ -141,16 +141,18 @@ class ProjectApp(MDApp):
                 buttons=[
                     MDFillRoundFlatButton(
                         font_style="Button",
+                        md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
                         text="Manual load",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
+                        #theme_text_color="Custom",
+                        #text_color=self.theme_cls.primary_color,
                         on_release=lambda _: screen_update()),
 
                     MDFillRoundFlatButton(
                     font_style="Button",
+                    md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
                     text="Cancel",
-                    theme_text_color="Custom",
-                    text_color=self.theme_cls.primary_color,
+                    #theme_text_color="Custom",
+                    #text_color=self.theme_cls.primary_color,
                     on_release=lambda _: self.dialog.dismiss())
                 ])
         self.dialog.open()
@@ -167,9 +169,10 @@ class ProjectApp(MDApp):
                 text=f'For more information write to contact list',
                 buttons=[MDFillRoundFlatButton(
                     font_style="Button",
+                    md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
                     text="Cancel",
-                    theme_text_color="Custom",
-                    text_color=self.theme_cls.primary_color,
+                    #theme_text_color="Custom",
+                    #text_color=self.theme_cls.primary_color,
                     on_release=lambda _: self.dialog.dismiss())])
         self.dialog.open()
 
