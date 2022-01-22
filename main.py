@@ -1,4 +1,4 @@
-import os  # Currently, os module is only for PC version
+import os  # Currently, os module is only for PC version (CHANGE_EXCLUDE)
 import requests
 import pandas as pd
 import json
@@ -25,10 +25,25 @@ API_KEY = os.environ['API_KEY']
 model_id = os.environ['ID']
 url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
 
+header_label = os.environ['SITE_HEADER_LABEL']
+
+SITE_TITLE = os.environ['SITE_TITLE']
+ITEM = os.environ['SITE_ITEM']
+BODY = os.environ['SITE_BODY']
+ROW = os.environ['SITE_ROW']
+TIME = os.environ['SITE_TIME']
+LABEL = os.environ['SITE_LABEL']
+DAY = os.environ['SITE_DAY']
+CLASS_N = os.environ['CLASS_N']
+
+project_id = os.environ['PROJECT_ID']
+table_id_1 = os.environ['TABLE_ID_1']
+table_id_2 = os.environ['TABLE_ID_2']
+credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
+
 
 def week_schedule():
-    schedule_url = os.environ['SITE_NAME']
-    header_label = os.environ['SITE_HEADER_LABEL']
+    schedule_url = os.environ['SITE_NAME']  # (CHANGE)
     try:
         req = requests.get(schedule_url)
         parser = bs4.BeautifulSoup(req.text, 'lxml')
@@ -178,21 +193,12 @@ class ProjectApp(MDApp):
         self.dialog.open()
 
     def subjects_schedule(self, group_name):
-        schedule_url = os.environ['SITE_NAME'] + group_name + os.environ['SITE_TYPE']
-        SITE_TITLE = os.environ['SITE_TITLE']
-        ITEM = os.environ['SITE_ITEM']
-        BODY = os.environ['SITE_BODY']
-        ROW = os.environ['SITE_ROW']
-        TIME = os.environ['SITE_TIME']
-        LABEL = os.environ['SITE_LABEL']
-        DAY = os.environ['SITE_DAY']
-        CLASS_N = os.environ['CLASS_N']
-
+        schedule_url_full = os.environ['SITE_NAME'] + group_name + os.environ['SITE_TYPE']  # (CHANGE)
         table_list, list_all_table, list_all_table_2, list_all_table_data, d, d2 = [], [], [], [], [], []
 
         if self.root.ids.textbox_week_number.text != "No connection" \
                 and self.root.ids.textbox_week_number.text != "No subjects in university schedule":
-            req = requests.get(schedule_url)
+            req = requests.get(schedule_url_full)
             parser = bs4.BeautifulSoup(req.text, 'lxml')
         else:
             self.just_file = self.list_file_path[0]
@@ -629,11 +635,6 @@ class ProjectApp(MDApp):
 
     def callback_button_collect(self):
         # Screen 5
-        project_id = os.environ['PROJECT_ID']
-        table_id_1 = os.environ['TABLE_ID_1']
-        table_id_2 = os.environ['TABLE_ID_2']
-
-        credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
         self.df_students['date'] = pd.to_datetime(self.df_students['date'])
         self.df_subjects['date'] = pd.to_datetime(self.df_subjects['date'])
         pandas_gbq.to_gbq(self.df_students, project_id=project_id, destination_table=table_id_1, if_exists='append',
