@@ -17,6 +17,7 @@ from kivymd.uix.filemanager import MDFileManager
 from kivy.metrics import dp
 from kivymd.uix.datatables import MDDataTable
 # from android.storage import primary_external_storage_path
+#SD_CARD = primary_external_storage_path()
 
 Window.size = (360, 640)
 
