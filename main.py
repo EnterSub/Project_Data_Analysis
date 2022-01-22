@@ -592,7 +592,7 @@ class ProjectApp(MDApp):
     # Screen 3
     def file_manager_open(self):
         self.file_manager.show('/')  # Output manager to the screen
-        # self.file_manager.show(SD_CARD) # For Android
+        # self.file_manager.show(SD_CARD)  # (CHANGE)
         self.manager_open = True
 
     def select_path(self, path):
