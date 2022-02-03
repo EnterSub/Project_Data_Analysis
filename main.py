@@ -1,3 +1,4 @@
+#Copyright (c) Dmitry Moskalev
 import os  # Currently, os module is only for PC version (CHANGE_EXCLUDE)
 import requests
 import pandas as pd
@@ -159,16 +160,12 @@ class ProjectApp(MDApp):
                         font_style="Button",
                         md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
                         text="Manual load",
-                        #theme_text_color="Custom",
-                        #text_color=self.theme_cls.primary_color,
                         on_release=lambda _: screen_update()),
 
                     MDFillRoundFlatButton(
                     font_style="Button",
                     md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
                     text="Cancel",
-                    #theme_text_color="Custom",
-                    #text_color=self.theme_cls.primary_color,
                     on_release=lambda _: self.dialog.dismiss())
                 ])
         self.dialog.open()
@@ -187,8 +184,6 @@ class ProjectApp(MDApp):
                     font_style="Button",
                     md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
                     text="Cancel",
-                    #theme_text_color="Custom",
-                    #text_color=self.theme_cls.primary_color,
                     on_release=lambda _: self.dialog.dismiss())])
         self.dialog.open()
 
@@ -390,8 +385,6 @@ class ProjectApp(MDApp):
 
     # Screen 2
     def show_data(self):
-        #if self.root.ids.textbox.text == '':
-            #text = self.root.ids.textbox.text
         func = self.subjects_schedule(self.root.ids.textbox.text)
         text = func[2]  # l
         value_schedule = func[3]
