@@ -1,3 +1,4 @@
+#Copyright (c) Dmitry Moskalev
 import os  # Currently, os module is only for PC version (CHANGE_EXCLUDE)
 import requests
 import pandas as pd
@@ -159,16 +160,12 @@ class ProjectApp(MDApp):
                         font_style="Button",
                         md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
                         text="Manual load",
-                        #theme_text_color="Custom",
-                        #text_color=self.theme_cls.primary_color,
                         on_release=lambda _: screen_update()),
 
                     MDFillRoundFlatButton(
                     font_style="Button",
                     md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
                     text="Cancel",
-                    #theme_text_color="Custom",
-                    #text_color=self.theme_cls.primary_color,
                     on_release=lambda _: self.dialog.dismiss())
                 ])
         self.dialog.open()
@@ -187,8 +184,6 @@ class ProjectApp(MDApp):
                     font_style="Button",
                     md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
                     text="Cancel",
-                    #theme_text_color="Custom",
-                    #text_color=self.theme_cls.primary_color,
                     on_release=lambda _: self.dialog.dismiss())])
         self.dialog.open()
 
@@ -213,6 +208,7 @@ class ProjectApp(MDApp):
             value_schedule = parser.find(class_=SITE_TITLE).text
             value_schedule = re.findall(r'\d+', value_schedule)
             value_schedule = int(str(value_schedule[0]))
+            group_name = parser.find(class_=os.environ['GROUP_NAME']).text.split('&middot')[1].replace(" ", "")
 
         table = parser.findAll(class_=BODY)
         rows_ = [r for r in table[0].findAll(class_=ROW) if r.findAll(class_=DAY)]
@@ -389,8 +385,6 @@ class ProjectApp(MDApp):
 
     # Screen 2
     def show_data(self):
-        if self.root.ids.textbox.text == '':
-            text = self.root.ids.textbox.text
         func = self.subjects_schedule(self.root.ids.textbox.text)
         text = func[2]  # l
         value_schedule = func[3]
@@ -415,7 +409,13 @@ class ProjectApp(MDApp):
         # df_1_shape = k_1
         df_2, k_2 = self.page_right()
         # df_2_shape = k_2
-        df_1.loc[0, 'number'] = self.root.ids.textbox.text
+
+        if len(self.root.ids.textbox.text) > 0:
+            df_1.loc[0, 'number'] = self.root.ids.textbox.text
+        else:
+            group_name = self.subjects_schedule(self.root.ids.textbox.text)[0]
+            df_1.loc[0, 'number'] = group_name
+
         df_1.loc[1, 'number'] = value_schedule
         df = df_1.join(df_2)
 
