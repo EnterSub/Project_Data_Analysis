@@ -617,6 +617,10 @@ class ProjectApp(MDApp):
 
         try:
             self.root.ids.file.text = f'{self.root.ids.file.text}\n{self.list_file_path[0]}'
+        except Exception:
+            pass
+
+        try:
             self.root.ids.file1.text = f'{self.root.ids.file1.text}\n{self.list_path[0]}'
             self.root.ids.file2.text = f'{self.root.ids.file2.text}\n{self.list_path[1]}'
         except Exception:
