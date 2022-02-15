@@ -301,8 +301,8 @@ ScreenManager:
         md_bg_color: app.theme_cls.bg_light
         on_pre_enter:
             image3.anim_delay = 1/30
-            root.ids.file1.text =  "1 файл" if lang.active else "1 file: "
-            root.ids.file2.text = "2 файл" if lang.active else "2 file: "
+            root.ids.file1.text =  "1 файл: " if lang.active else "1 file: "
+            root.ids.file2.text = "2 файл: " if lang.active else "2 file: "
 
         MDFloatLayout:
 
@@ -318,10 +318,9 @@ ScreenManager:
                 halign: 'center'
                 pos_hint: {"center_x": .5, "center_y": .9}
 
-            MDFillRoundFlatIconButton:
+            MDFillRoundFlatButton:
                 font_style: "Button"
-                icon: "file"
-                text: "Файловый менеджер" if lang.active else "Open manager"
+                text: "Файловый менеджер" if lang.active else "File manager"
                 size_hint_x: .75
                 size_hint_y: None
                 pos_hint: {'center_x': .5, 'center_y': .8}
