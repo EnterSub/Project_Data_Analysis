@@ -154,7 +154,7 @@ class ProjectApp(MDApp):
         self.dialog = ""
         if not self.dialog:
             self.dialog = MDDialog(
-                text=f'Error:\n{self.root.ids.textbox_week_number.text}',
+                text=f"Error:\n{self.root.ids.textbox_week_number.text}",
                 buttons=[
                     MDFillRoundFlatButton(
                         font_style="Button",
@@ -179,8 +179,8 @@ class ProjectApp(MDApp):
         self.dialog = ""
         if not self.dialog:
             self.dialog = MDDialog(
-                text=f'Для более подробной информации напишите по контактам' \
-                    if self.root.ids.lang.active else f'For more information write to contact list',
+                text=f"Для более подробной информации напишите по контактам" \
+                    if self.root.ids.lang.active else f"For more information write to contact list",
                 buttons=[MDFillRoundFlatButton(
                     font_style="Button",
                     md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
@@ -597,9 +597,14 @@ class ProjectApp(MDApp):
         self.manager_open = True
 
     def select_path(self, path):
-        self.root.ids.file.text = 'Html file: '
-        self.root.ids.file1.text = '1 file: '
-        self.root.ids.file2.text = '2 file: '
+        if self.root.ids.lang.active:
+            self.root.ids.file.text = "Html файл: "
+            self.root.ids.file1.text = "1 файл: "
+            self.root.ids.file2.text = "2 файл: "
+        else:
+            self.root.ids.file.text = "Html file: "
+            self.root.ids.file1.text = "1 file: "
+            self.root.ids.file2.text = "2 file: "
 
         if self.root.current == 'manual_load':
             if not self.list_file_path:
@@ -617,13 +622,13 @@ class ProjectApp(MDApp):
         self.exit_manager()
 
         try:
-            self.root.ids.file.text = f'{self.root.ids.file.text}\n{self.list_file_path[0]}'
+            self.root.ids.file.text = f"{self.root.ids.file.text}\n{self.list_file_path[0]}"
         except Exception:
             pass
 
         try:
-            self.root.ids.file1.text = f'{self.root.ids.file1.text}\n{self.list_path[0]}'
-            self.root.ids.file2.text = f'{self.root.ids.file2.text}\n{self.list_path[1]}'
+            self.root.ids.file1.text = f"{self.root.ids.file1.text}\n{self.list_path[0]}"
+            self.root.ids.file2.text = f"{self.root.ids.file2.text}\n{self.list_path[1]}"
         except Exception:
             pass
         return self.list_file_path, self.list_path

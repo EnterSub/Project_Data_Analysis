@@ -112,7 +112,7 @@ ScreenManager:
 
         MDLabel:
             font_style: "Subtitle1"
-            text: 'Choose file'
+            text: "Выберите файл" if lang.active else "Choose file"
             valign: 'middle'
             halign: 'center'
             pos_hint: {"center_x": .5, "center_y": .9}
@@ -120,7 +120,7 @@ ScreenManager:
         MDFillRoundFlatIconButton:
             font_style: "Button"
             icon: "file"
-            text: "Open manager"
+            text: "Открыть файловый менеджер" if lang.active else "Open manager"
             size_hint_x: .75
             size_hint_y: None
             pos_hint: {'center_x': .5, 'center_y': .8}
@@ -130,7 +130,7 @@ ScreenManager:
 
         MDLabel:
             id: file
-            text: f'Html file: '
+            text: f"Html файл: " if lang.active else f"Html file: "
             font_style: "Subtitle1"
             valign: 'middle'
             halign: 'center'
@@ -138,7 +138,7 @@ ScreenManager:
 
         MDFillRoundFlatButton:
             font_style: "Button"
-            text: "OK"
+            text: "Далее" if lang.active else "OK"
             size_hint_x: .75
             size_hint_y: None
             pos_hint: {'center_x':.5,'center_y':.14}
@@ -150,7 +150,7 @@ ScreenManager:
 
         MDFillRoundFlatButton:
             font_style: "Button"
-            text: 'Back'
+            text: "Назад" if lang.active else "Back"
             size_hint_x: .25
             size_hint_y: None
             pos_hint: {'center_x':.5,'center_y':.05}
@@ -182,10 +182,10 @@ ScreenManager:
                     text_color_focus: 0,0,0,1
                     color_mode: "custom"
                     mode: "fill"
-                    hint_text: "Enter group name"
+                    hint_text: "Введите название группы" if lang.active else "Enter group name"
                     required: True
                     error_color: 'brown'
-                    #helper_text: "Enter value to process student's activity"
+                    #helper_text: "Введите значение для обработки активности студентов" if lang.active else "Enter value to process student's activity"
                     #helper_text_mode: "on_error"
                     icon_right: "account-group"
                     pos_hint: {'center_x': .5, 'center_y': .5}
@@ -204,10 +204,10 @@ ScreenManager:
                     text_color_focus: 0,0,0,1
                     color_mode: "custom"
                     mode: "fill"
-                    hint_text: 'Enter week number'
+                    hint_text: "Введите номер недели" if lang.active else "Enter week number"
                     required: False
                     error_color: 'brown'
-                    #helper_text: 'Enter week number'
+                    #helper_text: "Введите номер недели" if lang.active else "Enter week number"
                     #helper_text_mode: "on_error"
                     icon_right: "calendar-blank"
                     pos_hint: {'center_x': .5, 'center_y': .5}
@@ -218,7 +218,7 @@ ScreenManager:
 
             MDFillRoundFlatButton:
                 font_style: "Button"
-                text: "OK"
+                text: "Далее" if lang.active else "OK"
                 size_hint_x: .75
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.14}
@@ -230,7 +230,7 @@ ScreenManager:
 
             MDFillRoundFlatButton:
                 font_style: "Button"
-                text: "Back"
+                text: "Назад" if lang.active else "Back"
                 size_hint_x: .25
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.05}
@@ -276,7 +276,7 @@ ScreenManager:
 
                     MDFillRoundFlatButton:
                         font_style: "Button"
-                        text: "Back"
+                        text: "Назад" if lang.active else "Back"
                         size_hint_x: .5
                         size_hint_y: None
                         pos_hint: {"center_x": .25, "center_y": .5}
@@ -287,7 +287,7 @@ ScreenManager:
 
                     MDFillRoundFlatButton:
                         font_style: "Button"
-                        text: "OK"
+                        text: "Далее" if lang.active else "OK"
                         size_hint_x: .5
                         size_hint_y: None
                         pos_hint: {"center_x": .75, "center_y": .5}
@@ -301,8 +301,8 @@ ScreenManager:
         md_bg_color: app.theme_cls.bg_light
         on_pre_enter:
             image3.anim_delay = 1/30
-            root.ids.file1.text = '1 file: '
-            root.ids.file2.text = '2 file: '
+            root.ids.file1.text =  "1 файл" if lang.active else "1 file: "
+            root.ids.file2.text = "2 файл" if lang.active else "2 file: "
 
         MDFloatLayout:
 
@@ -313,7 +313,7 @@ ScreenManager:
 
             MDLabel:
                 font_style: "Subtitle1"
-                text: 'Please provide images'
+                text: "Загрузить изображения" if lang.active else "Please provide images"
                 valign: 'middle'
                 halign: 'center'
                 pos_hint: {"center_x": .5, "center_y": .9}
@@ -321,7 +321,7 @@ ScreenManager:
             MDFillRoundFlatIconButton:
                 font_style: "Button"
                 icon: "file"
-                text: "Open manager"
+                text: "Файловый менеджер" if lang.active else "Open manager"
                 size_hint_x: .75
                 size_hint_y: None
                 pos_hint: {'center_x': .5, 'center_y': .8}
@@ -330,7 +330,7 @@ ScreenManager:
 
             MDLabel:
                 id: file1
-                text: f'1 file: '
+                text: "1 файл: " if lang.active else f"1 file: "
                 font_style: "Subtitle1"
                 valign: 'middle'
                 halign: 'center'
@@ -338,7 +338,7 @@ ScreenManager:
 
             MDLabel:
                 id: file2
-                text: f'2 file: '
+                text: "2 файл: " if lang.active else f"2 file: "
                 font_style: "Subtitle1"
                 valign: 'middle'
                 halign: 'center'
@@ -347,7 +347,7 @@ ScreenManager:
             MDFillRoundFlatButton:
                 id: button_processing
                 font_style: "Button"
-                text: "OK"
+                text: "Далее" if lang.active else "OK"
                 size_hint_x: .75
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.14}
@@ -359,7 +359,7 @@ ScreenManager:
 
             MDFillRoundFlatButton:
                 font_style: "Button"
-                text: 'Back'
+                text: "Назад" if lang.active else "Back"
                 size_hint_x: .25
                 size_hint_y: None
                 pos_hint: {'center_x':.5,'center_y':.05}
@@ -403,7 +403,7 @@ ScreenManager:
 
                     MDFillRoundFlatButton:
                         font_style: "Button"
-                        text: "Back"
+                        text: "Назад" if lang.active else "Back"
                         size_hint_x: .5
                         size_hint_y: None
                         pos_hint: {"center_x": .25, "center_y": .5}
@@ -412,7 +412,7 @@ ScreenManager:
 
                     MDFillRoundFlatButton:
                         font_style: "Button"
-                        text: "Collect"
+                        text: "Обработка" if lang.active else "Collect"
                         size_hint_x: .5
                         size_hint_y: None
                         pos_hint: {"center_x": .75, "center_y": .5}
@@ -435,14 +435,14 @@ ScreenManager:
 
             MDLabel:
                 font_style: "H6"
-                text: "Finished!"
+                text: "Завершено!" if lang.active else "Finished!"
                 pos_hint: {"center_x": .5, "center_y": .9}
                 valign: 'middle'
                 halign: 'center'
 
             MDFillRoundFlatButton:
                 font_style: "Button"
-                text: "Exit"
+                text: "Выход" if lang.active else "Exit"
                 size_hint_x: .75
                 size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": .14}
@@ -451,7 +451,7 @@ ScreenManager:
 
             MDFillRoundFlatButton:
                 font_style: "Button"
-                text: "Upload"
+                text: "Загрузка" if lang.active else "Upload"
                 size_hint_x: .25
                 size_hint_y: None
                 pos_hint: {"center_x": .5, "center_y": .05}
