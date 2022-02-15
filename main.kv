@@ -18,22 +18,22 @@ ScreenManager:
 
             MDLabel:
                 font_style: "H6"
-                text: "Authentication"
-                pos_hint: {"center_x": .5, "center_y": .46}
+                text: "Авторизация" if lang.active else "Authentication"
+                pos_hint: {"center_x": .5, "center_y": .465}
                 valign: 'middle'
                 halign: 'center'
 
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .38}
+                pos_hint: {"center_x": .5, "center_y": .39}
 
                 MDTextField:
                     id: user
                     text_color_focus: 0,0,0,1
                     color_mode: "custom"
                     mode: "fill"
-                    hint_text: "Username"
+                    hint_text: "Логин" if lang.active else "Username"
                     size_hint_x: 1
                     size_hint_y: None
                     icon_right: "account"
@@ -44,14 +44,14 @@ ScreenManager:
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .27}
+                pos_hint: {"center_x": .5, "center_y": .28}
 
                 MDTextField:
                     id: password
                     text_color_focus: 0,0,0,1
                     color_mode: "custom"
                     mode: "fill"
-                    hint_text: "Password"
+                    hint_text: "Пароль" if lang.active else "Password"
                     password: True
                     size_hint_x: 1
                     size_hint_y: None
@@ -61,30 +61,49 @@ ScreenManager:
                     multiline: False
 
             MDTextButton:
+                size_hint_x: .95
+                size_hint_y: None
                 font_style: "Overline"
-                text: "Forgot your password?"
-                pos_hint: {"center_x": .5, "center_y": .2}
+                text: "Забыли пароль?" if lang.active else "Forgot your password?"
+                pos_hint: {"center_x": .5, "center_y": .215}
                 on_press: app.show_information()
+                valign: 'middle'
+                halign: 'center'
+
+            MDLabel:
+                size_hint_x: .95
+                size_hint_y: None
+                font_style: "Button"
+                text: f"Русский\nязык" if lang.active else f"English\nlanguage"
+                pos_hint: {"center_x": .5, "center_y": .17}
+                valign: 'middle'
+                halign: 'right' if lang.active else 'left'
+
+            MDSwitch:
+                id: lang
+                pos_hint: {'center_x': .5, 'center_y': .17}
+                valign: 'middle'
+                halign: 'center'
 
             MDFillRoundFlatButton:
-                font_style: "Button"
-                text: "Login"
-                size_hint_x: .75
+                size_hint_x: .45
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .14}
+                font_style: "Button"
+                text: "Выход" if lang.active else "Close"
+                pos_hint: {"center_x": .25, "center_y": .05}
+                md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
+                on_press: app.stop()
+
+            MDFillRoundFlatButton:
+                size_hint_x: .45
+                size_hint_y: None
+                font_style: "Button"
+                text: "Вход" if lang.active else "Login"
+                pos_hint: {"center_x": .75, "center_y": .05}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
                     app.start()
-
-            MDFillRoundFlatButton:
-                font_style: "Button"
-                text: "Close"
-                size_hint_x: .25
-                size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .05}
-                md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
-                on_press: app.stop()
 
     MDScreen:
         name: 'manual_load'
