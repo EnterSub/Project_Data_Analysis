@@ -179,7 +179,8 @@ class ProjectApp(MDApp):
         self.dialog = ""
         if not self.dialog:
             self.dialog = MDDialog(
-                text=f'For more information write to contact list',
+                text=f'Для более подробной информации напишите по контактам' \
+                    if self.root.ids.lang.active else f'For more information write to contact list',
                 buttons=[MDFillRoundFlatButton(
                     font_style="Button",
                     md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
