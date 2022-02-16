@@ -15,7 +15,7 @@ ScreenManager:
                 id: image1
                 source: "login.gif"
                 anim_delay: 1/24
-                pos_hint: {"x": 0.5, "y": 1}
+                pos_hint: {"x": .5, "y": 1}
 
         MDFloatLayout:
 
@@ -129,7 +129,7 @@ ScreenManager:
     MDScreen:
         name: 'manual_load'
         md_bg_color: app.theme_cls.bg_light
-        on_pre_enter: root.ids.file.text = 'Html file: '
+        on_pre_enter: root.ids.file.text = "Html файл: " if lang.active else "Html file: "
 
         MDLabel:
             font_style: "Subtitle1"
