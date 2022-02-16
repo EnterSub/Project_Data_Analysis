@@ -1,5 +1,6 @@
 #Copyright (c) Dmitry Moskalev
 import os  # Currently, os module is only for PC version (CHANGE_EXCLUDE)
+from kivy.core.window import Window
 import requests
 import pandas as pd
 import json
@@ -11,7 +12,6 @@ from google.oauth2 import service_account
 from datetime import date
 from kivymd.app import MDApp
 from kivy.lang import Builder
-from kivy.core.window import Window
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFillRoundFlatButton
 from kivymd.uix.filemanager import MDFileManager
