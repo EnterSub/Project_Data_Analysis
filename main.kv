@@ -9,24 +9,27 @@ ScreenManager:
             image3.anim_delay = -1
 
         MDFloatLayout:
-
+            size_hint_x: .5
+            size_hint_y: .5
             Image:
                 id: image1
                 source: "login.gif"
                 anim_delay: 1/24
-                pos_hint: {"x": 0, "y": 0.23}
+                pos_hint: {"x": 0.5, "y": 1}
+
+        MDFloatLayout:
 
             MDLabel:
                 font_style: "H6"
                 text: "Авторизация" if lang.active else "Authentication"
-                pos_hint: {"center_x": .5, "center_y": .465}
+                pos_hint: {"center_x": .5, "center_y": .6}
                 valign: 'middle'
                 halign: 'center'
 
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .39}
+                pos_hint: {"center_x": .5, "center_y": .53}
 
                 MDTextField:
                     id: user
@@ -44,7 +47,7 @@ ScreenManager:
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .28}
+                pos_hint: {"center_x": .5, "center_y": .425}
 
                 MDTextField:
                     id: password
@@ -60,12 +63,30 @@ ScreenManager:
                     height: self.minimum_height
                     multiline: False
 
+            MDFloatLayout:
+                size_hint_x: .95
+                size_hint_y: None
+                pos_hint: {"center_x": .5, "center_y": .32}
+
+                MDTextField:
+                    id: user
+                    text_color_focus: 0,0,0,1
+                    color_mode: "custom"
+                    mode: "fill"
+                    hint_text: "Идентификатор модели" if lang.active else "Model ID"
+                    size_hint_x: 1
+                    size_hint_y: None
+                    icon_right: "connection"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    height: self.minimum_height
+                    multiline: False
+
             MDTextButton:
                 size_hint_x: .95
                 size_hint_y: None
                 font_style: "Overline"
                 text: "Забыли пароль?" if lang.active else "Forgot your password?"
-                pos_hint: {"center_x": .5, "center_y": .215}
+                pos_hint: {"center_x": .5, "center_y": .25}
                 on_press: app.show_information()
                 valign: 'middle'
                 halign: 'center'
