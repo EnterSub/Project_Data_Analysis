@@ -22,68 +22,26 @@ from kivymd.uix.datatables import MDDataTable
 
 Window.size = (360, 640)
 
-model_id = os.environ['ID']
-url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
-
-header_label = os.environ['SITE_HEADER_LABEL']
-
-SITE_TITLE = os.environ['SITE_TITLE']
-ITEM = os.environ['SITE_ITEM']
-BODY = os.environ['SITE_BODY']
-ROW = os.environ['SITE_ROW']
-TIME = os.environ['SITE_TIME']
-LABEL = os.environ['SITE_LABEL']
-DAY = os.environ['SITE_DAY']
-CLASS_N = os.environ['CLASS_N']
-
-project_id = os.environ['PROJECT_ID']
-table_id_1 = os.environ['TABLE_ID_1']
-table_id_2 = os.environ['TABLE_ID_2']
-credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
-
-
-def week_schedule():
-    schedule_url = os.environ['SITE_NAME']  # (CHANGE)
-    try:
-        req = requests.get(schedule_url)
-        parser = bs4.BeautifulSoup(req.text, 'lxml')
-    except Exception:
-        value_schedule = "No connection"
-    else:
-        try:
-            value_schedule = parser.find(class_=header_label).text
-            value_schedule = re.findall(r'\d+', value_schedule)
-            value_schedule = value_schedule[0]
-        except Exception:
-            value_schedule = "No subjects in university schedule"
-    return value_schedule
-
-
-def load_page(link):
-    data = {'file': open(link, 'rb')}
-    response = requests.post(url, auth=requests.auth.HTTPBasicAuth(API_KEY, ''), files=data)
-
-    # If response.status_code == 200 continue processing
-
-    col_max, row_max = 0, 0
-    table = []
-    data = json.loads(response.text)
-
-    for i in data['result']:
-        for j in i['prediction']:
-            for k in j['cells']:
-                table.append(k['text'])
-                # table.append(k['score'])
-                if k['col'] > 0:
-                    col_max = k['col']
-                if k['row'] > 0:
-                    row_max = k['row']
-
-    k = np.array(table).reshape(row_max, col_max * len(table) // (col_max * row_max))
-    return k
-
 class ProjectApp(MDApp):
     API_KEY = os.environ['API_KEY']
+    model_id = os.environ['ID']
+    url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
+
+    header_label = os.environ['SITE_HEADER_LABEL']
+
+    SITE_TITLE = os.environ['SITE_TITLE']
+    ITEM = os.environ['SITE_ITEM']
+    BODY = os.environ['SITE_BODY']
+    ROW = os.environ['SITE_ROW']
+    TIME = os.environ['SITE_TIME']
+    LABEL = os.environ['SITE_LABEL']
+    DAY = os.environ['SITE_DAY']
+    CLASS_N = os.environ['CLASS_N']
+
+    project_id = os.environ['PROJECT_ID']
+    table_id_1 = os.environ['TABLE_ID_1']
+    table_id_2 = os.environ['TABLE_ID_2']
+    credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -101,8 +59,47 @@ class ProjectApp(MDApp):
         self.data_tables = None
         self.subjects_table = None
 
+    def week_schedule(self):
+        schedule_url = os.environ['SITE_NAME']  # (CHANGE)
+        try:
+            req = requests.get(schedule_url)
+            parser = bs4.BeautifulSoup(req.text, 'lxml')
+        except Exception:
+            value_schedule = "No connection"
+        else:
+            try:
+                value_schedule = parser.find(class_=self.header_label).text
+                value_schedule = re.findall(r'\d+', value_schedule)
+                value_schedule = value_schedule[0]
+            except Exception:
+                value_schedule = "No subjects in university schedule"
+        return value_schedule
+
+    def load_page(self, link):
+        data = {'file': open(link, 'rb')}
+        response = requests.post(self.url, auth=requests.auth.HTTPBasicAuth(self.API_KEY, ''), files=data)
+
+        # If response.status_code == 200 continue processing
+
+        col_max, row_max = 0, 0
+        table = []
+        data = json.loads(response.text)
+
+        for i in data['result']:
+            for j in i['prediction']:
+                for k in j['cells']:
+                    table.append(k['text'])
+                    # table.append(k['score'])
+                    if k['col'] > 0:
+                        col_max = k['col']
+                    if k['row'] > 0:
+                        row_max = k['row']
+
+        k = np.array(table).reshape(row_max, col_max * len(table) // (col_max * row_max))
+        return k
+
     def page_left(self):
-        k_1 = load_page(link=self.list_path[0])
+        k_1 = self.load_page(link=self.list_path[0])
         df_1 = pd.DataFrame(k_1)
         df_1.is_copy = False
         df_columns = ["number", "student"]
@@ -132,7 +129,7 @@ class ProjectApp(MDApp):
         return df_1, k_1
 
     def page_right(self):
-        k_2 = load_page(link=self.list_path[1])
+        k_2 = self.load_page(link=self.list_path[1])
         df_columns = []
         df_2 = pd.DataFrame(k_2)
         df_2.is_copy = False
@@ -204,29 +201,29 @@ class ProjectApp(MDApp):
                 parser = bs4.BeautifulSoup(src, "lxml")
         try:
             self.value_schedule = ''
-            value_schedule = int(week_schedule())
+            value_schedule = int(self.week_schedule())
             value_schedule = int(self.root.ids.textbox_week_number.text)
         except Exception:
-            value_schedule = parser.find(class_=SITE_TITLE).text
+            value_schedule = parser.find(class_=self.SITE_TITLE).text
             value_schedule = re.findall(r'\d+', value_schedule)
             value_schedule = int(str(value_schedule[0]))
             group_name = parser.find(class_=os.environ['GROUP_NAME']).text.split('&middot')[1].replace(" ", "")
 
-        table = parser.findAll(class_=BODY)
-        rows_ = [r for r in table[0].findAll(class_=ROW) if r.findAll(class_=DAY)]
+        table = parser.findAll(class_=self.BODY)
+        rows_ = [r for r in table[0].findAll(class_=self.ROW) if r.findAll(class_=self.DAY)]
         for r in rows_:
-            day = r.findAll(class_=DAY)[0].text
-            time_rows = [dr for dr in r.findAll(class_=ROW) if dr.findAll(class_=TIME)]
+            day = r.findAll(class_=self.DAY)[0].text
+            time_rows = [dr for dr in r.findAll(class_=self.ROW) if dr.findAll(class_=self.TIME)]
             for tr in time_rows:
-                time = tr.findAll(class_=TIME)[0].text
-                lessons = [lesson for lesson in tr.findAll(class_=ROW) if lesson.findAll(class_=ITEM)]
+                time = tr.findAll(class_=self.TIME)[0].text
+                lessons = [lesson for lesson in tr.findAll(class_=self.ROW) if lesson.findAll(class_=self.ITEM)]
                 lessons_list = []
                 for lesson in lessons:
-                    week_type = lesson.findAll(class_=LABEL)[0].findChild('span').text \
-                        if lesson.findAll(class_=LABEL) else ''
-                    item = lesson.findAll(class_=ITEM)[0] \
-                        if lesson.findAll(class_=LABEL) else lesson.findAll(class_=ITEM)[0]
-                    class_number = item.findAll(class_=CLASS_N)[0].text.replace('&nbsp', '')
+                    week_type = lesson.findAll(class_=self.LABEL)[0].findChild('span').text \
+                        if lesson.findAll(class_=self.LABEL) else ''
+                    item = lesson.findAll(class_=self.ITEM)[0] \
+                        if lesson.findAll(class_=self.LABEL) else lesson.findAll(class_=self.ITEM)[0]
+                    class_number = item.findAll(class_=self.CLASS_N)[0].text.replace('&nbsp', '')
                     item_label_reg = re.search(r'\t[\w\s,-.]+', item.text if item else None)
                     item_label = re.sub(r'(\s+·)|[\n\t]|\s{2}', '', item_label_reg.group(0)) if item_label_reg \
                         else None
@@ -373,7 +370,7 @@ class ProjectApp(MDApp):
     def start(self):
         if self.root.ids.user.text == "" and self.root.ids.password.text == "" and self.root.ids.model_id.text != "":
             try:
-                self.root.ids.textbox_week_number.text = week_schedule()
+                self.root.ids.textbox_week_number.text = self.week_schedule()
             except Exception:
                 pass
             if self.root.ids.textbox_week_number.text == "No connection" \
@@ -648,10 +645,10 @@ class ProjectApp(MDApp):
         # Screen 5
         self.df_students['date'] = pd.to_datetime(self.df_students['date'])
         self.df_subjects['date'] = pd.to_datetime(self.df_subjects['date'])
-        pandas_gbq.to_gbq(self.df_students, project_id=project_id, destination_table=table_id_1, if_exists='append',
-                          credentials=credentials)
-        pandas_gbq.to_gbq(self.df_subjects, project_id=project_id, destination_table=table_id_2, if_exists='append',
-                          credentials=credentials)
+        pandas_gbq.to_gbq(self.df_students, project_id=self.project_id,
+                          destination_table=self.table_id_1, if_exists='append', credentials=self.credentials)
+        pandas_gbq.to_gbq(self.df_subjects, project_id=self.project_id,
+                          destination_table=self.table_id_2, if_exists='append', credentials=self.credentials)
         self.root.current = 'check'
 
 
