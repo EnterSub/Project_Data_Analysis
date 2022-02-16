@@ -22,7 +22,6 @@ from kivymd.uix.datatables import MDDataTable
 
 Window.size = (360, 640)
 
-API_KEY = os.environ['API_KEY']
 model_id = os.environ['ID']
 url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
 
@@ -84,6 +83,8 @@ def load_page(link):
     return k
 
 class ProjectApp(MDApp):
+    API_KEY = os.environ['API_KEY']
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         Window.bind(on_keyboard=self.events)
@@ -370,7 +371,7 @@ class ProjectApp(MDApp):
 
     # Screen 1
     def start(self):
-        if self.root.ids.user.text == "" and self.root.ids.password.text == "":
+        if self.root.ids.user.text == "" and self.root.ids.password.text == "" and self.root.ids.model_id.text != "":
             try:
                 self.root.ids.textbox_week_number.text = week_schedule()
             except Exception:
