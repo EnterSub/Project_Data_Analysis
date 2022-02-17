@@ -368,7 +368,7 @@ class ProjectApp(MDApp):
 
     # Screen 1
     def start(self):
-        if self.root.ids.user.text == "" and self.root.ids.password.text == "" and self.root.ids.model_id.text != "":
+        if self.root.ids.user.text == "" and self.root.ids.password.text == "":
             try:
                 self.root.ids.textbox_week_number.text = self.week_schedule()
             except Exception:
