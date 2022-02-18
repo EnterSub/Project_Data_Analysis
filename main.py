@@ -23,6 +23,7 @@ from kivymd.uix.datatables import MDDataTable
 Window.size = (360, 640)
 
 class ProjectApp(MDApp):
+
     API_KEY = os.environ['API_KEY']
     model_id = os.environ['ID']
     url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
@@ -39,6 +40,7 @@ class ProjectApp(MDApp):
     CLASS_N = os.environ['CLASS_N']
 
     project_id = os.environ['PROJECT_ID']
+    table_id_authorization = os.environ['TABLE_ID_AUTHORIZATION']
     table_id_1 = os.environ['TABLE_ID_1']
     table_id_2 = os.environ['TABLE_ID_2']
     credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
@@ -58,6 +60,12 @@ class ProjectApp(MDApp):
         )
         self.data_tables = None
         self.subjects_table = None
+
+    def authorization(self):
+        sql = f"""SELECT * FROM `{self.table_id_authorization}`"""
+        df = pd.read_gbq(query=sql, project_id=self.project_id, dialect='standard', credentials=self.credentials)
+        print(df)
+
 
     def week_schedule(self):
         schedule_url = os.environ['SITE_NAME']  # (CHANGE)
