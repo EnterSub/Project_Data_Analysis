@@ -45,6 +45,12 @@ class ProjectApp(MDApp):
     table_id_2 = os.environ['TABLE_ID_2']
     credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
 
+    sql = f"""SELECT * FROM `{table_id_authorization}`"""
+    df_authorization = pd.read_gbq(query=sql,
+                                   project_id=project_id,
+                                   dialect='standard',
+                                   credentials=credentials)
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         Window.bind(on_keyboard=self.events)
@@ -62,10 +68,14 @@ class ProjectApp(MDApp):
         self.subjects_table = None
 
     def authorization(self):
-        sql = f"""SELECT * FROM `{self.table_id_authorization}`"""
-        df = pd.read_gbq(query=sql, project_id=self.project_id, dialect='standard', credentials=self.credentials)
-        print(df)
-
+        logins = list(self.df_authorization['login'])
+        passwords = list(self.df_authorization['password'])
+        access = list(self.df_authorization['access'])
+        if self.root.ids.user.text in logins and self.root.ids.password.text in passwords:
+            self.root.current = 'model_login'
+        else:
+            self.root.ids.user.text = ''
+            self.root.ids.password.text = ''
 
     def week_schedule(self):
         schedule_url = os.environ['SITE_NAME']  # (CHANGE)
@@ -376,7 +386,7 @@ class ProjectApp(MDApp):
 
     # Screen 1
     def start(self):
-        if self.root.ids.user.text == "" and self.root.ids.password.text == "":
+        if self.root.ids.id_model.text != "" and self.root.ids.key_model.text != "":
             try:
                 self.root.ids.textbox_week_number.text = self.week_schedule()
             except Exception:
@@ -387,8 +397,8 @@ class ProjectApp(MDApp):
             else:
                 self.root.current = 'menu'
         else:
-            self.root.ids.user.text = ""
-            self.root.ids.password.text = ""
+            self.root.ids.id_model.text = ""
+            self.root.ids.key_model.text = ""
 
     # Screen 2
     def show_data(self):
