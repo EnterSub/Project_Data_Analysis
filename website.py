@@ -5,9 +5,6 @@ from google.cloud import bigquery
 import pandas as pd
 import seaborn as sns
 
-table_1 = st.secrets["table_id_1"]["table_1"]
-table_2 = st.secrets["table_id_2"]["table_2"]
-
 st.set_page_config(page_title="Master project",
                    page_icon='⚙',
                    layout="wide",
@@ -26,20 +23,20 @@ with st.expander("About"):
 
 # Create API client.
 credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
+    st.secrets.gcp_service_account
 )
 client = bigquery.Client(credentials=credentials)
 
 # Uses st.cache to only rerun when the query changes or after 60 min.
 @st.cache(ttl=3600, suppress_st_warning=True, allow_output_mutation=True)
 def df():
-    query_df_students = client.query(f"SELECT lectures_all, `group`, week_n FROM `{table_1}`")
+    query_df_students = client.query(f"SELECT lectures_all, `group`, week_n FROM `{st.secrets.table_id_1.table_1}`")
     rows_raw_students = query_df_students.result()
     table_df_students = [dict(row) for row in rows_raw_students]
     df_students = pd.DataFrame()
     df_students = df_students.append(table_df_students)
 
-    query_job_subjects = client.query(f"SELECT subject, `group`, week_n, total FROM `{table_2}`")
+    query_job_subjects = client.query(f"SELECT subject, `group`, week_n, total FROM `{st.secrets.table_id_2.table_2}`")
     rows_raw_subjects = query_job_subjects.result()
     table_df_subjects = [dict(row) for row in rows_raw_subjects]
     df_subjects = pd.DataFrame()
