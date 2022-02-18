@@ -1,11 +1,12 @@
 #Copyright (c) Dmitry Moskalev
-import os
 import streamlit as st
 from google.oauth2 import service_account
 from google.cloud import bigquery
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
+
+table_1 = st.secrets["table_id_1"]["table_1"]
+table_2 = st.secrets["table_id_2"]["table_2"]
 
 st.set_page_config(page_title="Master project",
                    page_icon='⚙',
@@ -32,19 +33,15 @@ client = bigquery.Client(credentials=credentials)
 # Uses st.cache to only rerun when the query changes or after 60 min.
 @st.cache(ttl=3600, suppress_st_warning=True, allow_output_mutation=True)
 def df():
-    query_df_students = client.query(f"SELECT lectures_all,`group`,week_n FROM `{os.environ['TABLE_ID_1']}`")
+    query_df_students = client.query(f"SELECT lectures_all, `group`, week_n FROM `{table_1}`")
     rows_raw_students = query_df_students.result()
     table_df_students = [dict(row) for row in rows_raw_students]
-    #for i in table_df_students:
-    #    i['date'] = i['date'].date()
     df_students = pd.DataFrame()
     df_students = df_students.append(table_df_students)
 
-    query_job_subjects = client.query(f"SELECT subject,`group`,week_n,total FROM `{os.environ['TABLE_ID_2']}`")
+    query_job_subjects = client.query(f"SELECT subject, `group`, week_n, total FROM `{table_2}`")
     rows_raw_subjects = query_job_subjects.result()
     table_df_subjects = [dict(row) for row in rows_raw_subjects]
-    #for i in table_df_subjects:
-    #    i['date'] = i['date'].date()
     df_subjects = pd.DataFrame()
     df_subjects = df_subjects.append(table_df_subjects)
     return df_students, df_subjects
@@ -56,11 +53,9 @@ st.write(f"Values for {group}: {sorted(set(df_students[df_students['group'] == g
 
 df_students_stripplot = sns.stripplot(x=df_students[df_students['group'] == group]["week_n"],
                                       y=df_students[df_students['group'] == group]["lectures_all"],
-                                      hue=df_students[df_students['group'] == group]["week_n"],
                                       data=df_students[df_students['group'] == group])
 df_subjects_stripplot = sns.stripplot(x=df_subjects[df_subjects['group'] == group]["week_n"],
                                       y=df_subjects[df_subjects['group'] == group]["total"],
-                                      hue=df_subjects[df_subjects['group'] == group]["week_n"],
                                       data=df_subjects[df_subjects['group'] == group])
 
 df_students_pairplot = sns.pairplot(df_students[df_students['group'] == group],
@@ -84,11 +79,6 @@ df_subjects_stats = df_subjects[df_subjects['group'] == group].plot.hist(x='tota
                                                                          y='week_n',
                                                                          bins=max(df_subjects[df_subjects['group'] == group]['week_n']), alpha=0.5)
 
-# df_students_heatmap = sns.heatmap(df_students[df_students['group'] == group].corr(method='pearson'), vmin=-1, vmax=1,
-#                                   annot=True, cmap='RdBu')
-# df_subjects_heatmap = sns.heatmap(df_subjects[df_subjects['group'] == group].corr(method='pearson'), vmin=-1, vmax=1,
-#                                   annot=True, cmap='RdBu')
-
 graphic1 = df_students[df_students['group'] == group].plot.scatter(x='week_n',
                                                                    y='group',
                                                                    c='lectures_all',
@@ -108,7 +98,6 @@ try:
         st.pyplot(df_students_pairplot.figure)
         st.pyplot(df_students_stats.figure)
         st.pyplot(df_students_graphic.figure)
-        #st.pyplot(df_students_heatmap.figure)
         st.pyplot(graphic1.figure)
 
     with col2:
@@ -117,7 +106,6 @@ try:
         st.pyplot(df_subjects_pairplot.figure)
         st.pyplot(df_subjects_stats.figure)
         st.pyplot(df_subjects_graphic.figure)
-        #st.pyplot(df_subjects_heatmap.figure)
         st.pyplot(graphic2.figure)
 
 except ValueError:
