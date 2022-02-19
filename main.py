@@ -71,8 +71,9 @@ class ProjectApp(MDApp):
         logins = list(self.df_authorization['login'])
         passwords = list(self.df_authorization['password'])
         access = list(self.df_authorization['access'])
-        if self.root.ids.user.text in logins and self.root.ids.password.text in passwords:
-            self.root.current = 'model_login'
+        for i, j, n in zip(logins, passwords, access):
+            if self.root.ids.user.text == i and self.root.ids.password.text == j:
+                self.root.current = 'model_login'
         else:
             self.root.ids.user.text = ''
             self.root.ids.password.text = ''
