@@ -24,12 +24,26 @@ Window.size = (360, 640)
 
 class ProjectApp(MDApp):
 
-    API_KEY = os.environ['API_KEY']
-    model_id = os.environ['ID']
-    url = os.environ['URL_TO_FILE'] + model_id + os.environ['URL_TYPE']
+    project_id = os.environ['PROJECT_ID']
+    table_id_authorization = os.environ['TABLE_ID_AUTHORIZATION']
+    credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
+
+    sql = f"""SELECT * FROM `{table_id_authorization}`"""
+    df_authorization = pd.read_gbq(query=sql,
+                                   project_id=project_id,
+                                   dialect='standard',
+                                   credentials=credentials)
+
+    logins = list(df_authorization['login'])
+    passwords = list(df_authorization['password'])
+    model_id = list(df_authorization['id_model'])
+    model_key = list(df_authorization['key_model'])
+    access = list(df_authorization['access_type'])
+
+    table_id_1 = os.environ['TABLE_ID_1']
+    table_id_2 = os.environ['TABLE_ID_2']
 
     header_label = os.environ['SITE_HEADER_LABEL']
-
     SITE_TITLE = os.environ['SITE_TITLE']
     ITEM = os.environ['SITE_ITEM']
     BODY = os.environ['SITE_BODY']
@@ -38,18 +52,6 @@ class ProjectApp(MDApp):
     LABEL = os.environ['SITE_LABEL']
     DAY = os.environ['SITE_DAY']
     CLASS_N = os.environ['CLASS_N']
-
-    project_id = os.environ['PROJECT_ID']
-    table_id_authorization = os.environ['TABLE_ID_AUTHORIZATION']
-    table_id_1 = os.environ['TABLE_ID_1']
-    table_id_2 = os.environ['TABLE_ID_2']
-    credentials = service_account.Credentials.from_service_account_file('bigquery_key.json')
-
-    sql = f"""SELECT * FROM `{table_id_authorization}`"""
-    df_authorization = pd.read_gbq(query=sql,
-                                   project_id=project_id,
-                                   dialect='standard',
-                                   credentials=credentials)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -68,11 +70,10 @@ class ProjectApp(MDApp):
         self.subjects_table = None
 
     def authorization(self):
-        logins = list(self.df_authorization['login'])
-        passwords = list(self.df_authorization['password'])
-        access = list(self.df_authorization['access'])
-        for i, j, n in zip(logins, passwords, access):
+        for i, j, n, m, l in zip(self.logins, self.passwords, self.model_id, self.model_key, self.access):
             if self.root.ids.user.text == i and self.root.ids.password.text == j:
+                self.root.ids.id_model.text = n
+                self.root.ids.key_model.text = m
                 self.root.current = 'model_login'
         else:
             self.root.ids.user.text = ''
@@ -95,8 +96,9 @@ class ProjectApp(MDApp):
         return value_schedule
 
     def load_page(self, link):
+        url = os.environ['URL_TO_FILE'] + self.root.ids.id_model.text + os.environ['URL_TYPE']
         data = {'file': open(link, 'rb')}
-        response = requests.post(self.url, auth=requests.auth.HTTPBasicAuth(self.API_KEY, ''), files=data)
+        response = requests.post(url, auth=requests.auth.HTTPBasicAuth(self.root.ids.key_model.text, ''), files=data)
 
         # If response.status_code == 200 continue processing
 
