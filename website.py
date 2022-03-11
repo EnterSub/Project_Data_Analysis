@@ -4,9 +4,8 @@ from google.oauth2 import service_account
 from google.cloud import bigquery
 import pandas as pd
 import seaborn as sns
-from PIL import Image
 
-st.set_page_config(page_title="Master project",
+st.set_page_config(page_title="Student Digitizer",
                    page_icon='⚙',
                    layout="wide",
                    initial_sidebar_state="collapsed",
@@ -15,7 +14,7 @@ st.set_page_config(page_title="Master project",
 st.title("Master thesis project")
 st.markdown("Developing program system for analyzing digital student's footprint")
 
-st.image("Streamlit.gif")
+#st.image("")
 
 with st.expander("About"):
     st.text("""

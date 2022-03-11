@@ -22,7 +22,7 @@ from kivymd.uix.datatables import MDDataTable
 
 Window.size = (360, 640)
 
-class ProjectApp(MDApp):
+class Student_Digitizer(MDApp):
 
     project_id = os.environ['PROJECT_ID']
     table_id_authorization = os.environ['TABLE_ID_AUTHORIZATION']
@@ -711,4 +711,4 @@ class ProjectApp(MDApp):
         return Builder.load_file('main.kv')
 
 
-ProjectApp().run()
+Student_Digitizer().run()
