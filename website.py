@@ -10,8 +10,8 @@ st.set_page_config(page_title="Master project",
                    layout="wide",
                    initial_sidebar_state="collapsed",
                    menu_items=None)
-
-st.title('Master project')
+st.title("Master thesis project")
+st.subheader("Developing program system for analyzing digital student's footprint")
 
 with st.expander("About"):
     st.text("""
@@ -23,6 +23,9 @@ with st.expander("About"):
         3. After that results will be printed as visualization
         4. Left row indicates about students activity, right row about attendance per subjects
         5. For better efficiency between BigQuery and StreamLit current query saved in cache for 1 hour
+        
+        Developer:
+        Moskalev Dmitry
         
     """)
 
