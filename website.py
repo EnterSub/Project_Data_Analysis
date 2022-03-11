@@ -15,10 +15,15 @@ st.title('Master project')
 
 with st.expander("About"):
     st.text("""
-        Master project.
+        Project of developing program system for analyzing digital student's footprint.
 
         FAQ:
-        1. Select group
+        1. Select item from list of available groups
+        2. The website will show values that chosen group contains
+        3. After that results will be printed as visualization
+        4. Left row indicates about students activity, right row about attendance per subjects
+        5. For better efficiency between BigQuery and StreamLit current query saved in cache for 1 hour
+        
     """)
 
 # Create API client.
