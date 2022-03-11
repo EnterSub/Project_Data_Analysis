@@ -11,14 +11,13 @@ st.set_page_config(page_title="Student Digitizer",
                    initial_sidebar_state="collapsed",
                    menu_items=None)
 
-st.title("Master thesis project")
-st.markdown("Developing program system for analyzing digital student's footprint")
+st.title("Student Digitizer")
 
 #st.image("")
 
 with st.expander("About"):
     st.text("""
-        Project of developing program system for analyzing digital student's footprint.
+        Project for developing program system for analyzing digital student's footprint.
 
         FAQ:
         1. Select item from list of available groups
