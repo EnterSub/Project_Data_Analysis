@@ -4,14 +4,18 @@ from google.oauth2 import service_account
 from google.cloud import bigquery
 import pandas as pd
 import seaborn as sns
+from PIL import Image
 
 st.set_page_config(page_title="Master project",
                    page_icon='⚙',
                    layout="wide",
                    initial_sidebar_state="collapsed",
                    menu_items=None)
+
 st.title("Master thesis project")
-st.subheader("Developing program system for analyzing digital student's footprint")
+st.markdown("Developing program system for analyzing digital student's footprint")
+
+st.image("Streamlit.gif")
 
 with st.expander("About"):
     st.text("""
