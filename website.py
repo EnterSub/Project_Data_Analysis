@@ -7,13 +7,11 @@ import seaborn as sns
 
 st.set_page_config(page_title="Student Digitizer",
                    page_icon='⚙',
-                   layout="wide",
+                   layout="centered",
                    initial_sidebar_state="collapsed",
                    menu_items=None)
 
 st.title("Student Digitizer")
-
-#st.image("")
 
 with st.expander("About"):
     st.text("""
@@ -23,13 +21,17 @@ with st.expander("About"):
         1. Select item from list of available groups
         2. The website will show values that chosen group contains
         3. After that results will be printed as visualization
-        4. Left row indicates about students activity, right row about attendance per subjects
-        5. For better efficiency between BigQuery and StreamLit current query saved in cache for 1 hour
-        
+        4. Left row indicates about students activity,
+           right row about attendance per subjects
+        5. For better efficiency between BigQuery and StreamLit
+           current query saved in cache for 1 hour
+
         Developer:
         Moskalev Dmitry
-        
+
     """)
+
+st.image("Logo.png")
 
 # Create API client.
 credentials = service_account.Credentials.from_service_account_info(
