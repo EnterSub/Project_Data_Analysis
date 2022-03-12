@@ -672,7 +672,6 @@ class Student_Digitizer(MDApp):
                           destination_table=self.table_id_2, if_exists='append', credentials=self.credentials)
         self.root.current = 'check'
 
-
     def show_table(self):
         self.df, self.df_students, self.df_subjects = self.collect()
         self.list_path.clear()
