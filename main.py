@@ -101,8 +101,6 @@ class Student_Digitizer(MDApp):
         data = {'file': open(link, 'rb')}
         response = requests.post(url, auth=requests.auth.HTTPBasicAuth(self.root.ids.key_model.text, ''), files=data)
 
-        # If response.status_code == 200 continue processing
-
         col_max, row_max = 0, 0
         table = []
         data = json.loads(response.text)
