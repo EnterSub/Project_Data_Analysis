@@ -52,6 +52,7 @@ class Student_Digitizer(MDApp):
     LABEL = os.environ['SITE_LABEL']
     DAY = os.environ['SITE_DAY']
     CLASS_N = os.environ['CLASS_N']
+    GROUP_NAME = os.environ['GROUP_NAME']
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -68,6 +69,7 @@ class Student_Digitizer(MDApp):
         )
         self.data_tables = None
         self.subjects_table = None
+
 
     def authorization(self):
         for i, j, n, m, l in zip(self.logins, self.passwords, self.model_id, self.model_key, self.access):
@@ -173,18 +175,19 @@ class Student_Digitizer(MDApp):
         self.dialog = ""
         if not self.dialog:
             self.dialog = MDDialog(
-                text=f"Error:\n{self.root.ids.textbox_week_number.text}",
+                text=f"Ошибка:\n{self.root.ids.textbox_week_number.text}" if self.root.ids.lang.active
+                else f"Error:\n{self.root.ids.textbox_week_number.text}",
                 buttons=[
                     MDFillRoundFlatButton(
                         font_style="Button",
                         md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
-                        text="Manual load",
+                        text="Загрузка из файла" if self.root.ids.lang.active else "Manual load",
                         on_release=lambda _: screen_update()),
 
                     MDFillRoundFlatButton(
                     font_style="Button",
                     md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
-                    text="Cancel",
+                    text="Закрыть" if self.root.ids.lang.active else "Cancel",
                     on_release=lambda _: self.dialog.dismiss())
                 ])
         self.dialog.open()
@@ -228,7 +231,7 @@ class Student_Digitizer(MDApp):
             value_schedule = parser.find(class_=self.SITE_TITLE).text
             value_schedule = re.findall(r'\d+', value_schedule)
             value_schedule = int(str(value_schedule[0]))
-            group_name = parser.find(class_=os.environ['GROUP_NAME']).text.split('&middot')[1].replace(" ", "")
+            group_name = parser.find(class_=self.GROUP_NAME).text.split('&middot')[1].replace(" ", "")
 
         table = parser.findAll(class_=self.BODY)
         rows_ = [r for r in table[0].findAll(class_=self.ROW) if r.findAll(class_=self.DAY)]
