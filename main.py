@@ -70,7 +70,6 @@ class Student_Digitizer(MDApp):
         self.data_tables = None
         self.subjects_table = None
 
-
     def authorization(self):
         for i, j, n, m, l in zip(self.logins, self.passwords, self.model_id, self.model_key, self.access):
             if self.root.ids.user.text == i and self.root.ids.password.text == j:
