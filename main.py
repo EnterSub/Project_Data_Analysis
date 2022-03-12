@@ -666,7 +666,6 @@ class Student_Digitizer(MDApp):
         # Screen 5
         self.df_students['date'] = pd.to_datetime(self.df_students['date'])
         self.df_subjects['date'] = pd.to_datetime(self.df_subjects['date'])
-
         pandas_gbq.to_gbq(self.df_students, destination_table=self.table_id_1,
                           project_id=self.project_id, if_exists='append', credentials=self.credentials)
         pandas_gbq.to_gbq(self.df_subjects, project_id=self.project_id, destination_table=self.table_id_2,
