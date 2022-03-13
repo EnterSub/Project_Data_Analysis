@@ -1,6 +1,6 @@
 #Copyright (c) Dmitry Moskalev
+#:import webbrowser webbrowser
 ScreenManager:
-
     MDScreen:
         name: 'login'
         md_bg_color: app.theme_cls.bg_light
@@ -102,7 +102,6 @@ ScreenManager:
                 line_color: app.theme_cls.primary_color
                 md_bg_color: 0, 1, 0, .1
 
-
             MDFillRoundFlatButton:
                 size_hint_x: .5
                 size_hint_y: None
@@ -122,6 +121,76 @@ ScreenManager:
                 on_press:
                     root.transition.direction = 'right'
                     app.authorization()
+
+    MDScreen:
+        name: 'information'
+        md_bg_color: app.theme_cls.bg_light
+
+        MDLabel:
+            size_hint_x: .95
+            size_hint_y: None
+            font_style: "Caption"
+            text: "Инструкция\n\n1. Авторизируйтесь в программе\n2. Выберите группу и другие параметры\n3. Загрузите изображения студенческого журнала\n4. Проверьте правильность данных\n5. Загрузите отчет\n\nДокументация:\n..." if lang.active else "FAQ\n\n1. Log in to the application\n2. Choose group and other parametres\n3. Load images of student journal\n4. Check input and output data\n5. Load data\n\nDocumentation:\n..."
+            pos_hint: {"center_x": .5, "center_y": .8}
+            valign: 'middle'
+            halign: 'center'
+
+        MDLabel:
+            size_hint_x: .95
+            size_hint_y: None
+            font_style: "Caption"
+            text: "\nПродолжая использование приложения Вы соглашаетесь с тем, что:\n1. Используете приложение в учебных ознакомительных целях\n2. Автор не несет ответственность за загружаемые данные другими пользователями, работоспособность отдельных компонентов или приложения в целом\n3. Все права на приложение принадлежат автору." if lang.active else "By continue using the application, you agree that:\n1. You are using the app for educational purposes\n 2. The author is not responsible for the data uploaded by other users, the performance of individual components or the application as a whole\n3. All rights to the application belong to the author."
+            pos_hint: {"center_x": .5, "center_y": .5}
+            valign: 'middle'
+            halign: 'center'
+
+        MDLabel:
+            size_hint_x: .95
+            size_hint_y: None
+            font_style: "Caption"
+            text: "Контакты" if lang.active else "Contacts"
+            pos_hint: {"center_x": .5, "center_y": .29}
+            valign: 'middle'
+            halign: 'center'
+
+        MDChip:
+            size_hint_x: .1
+            size_hint_y: None
+            markup: True
+            pos_hint: {"center_x": .2, "center_y": .2}
+            icon_left: "linkedin"
+            md_bg_color: 0, 0, 0, 0
+            on_press:
+                webbrowser.open('https://www.google.com/')
+
+        MDChip:
+            size_hint_x: .1
+            size_hint_y: None
+            markup: True
+            pos_hint: {"center_x": .5, "center_y": .2}
+            icon_left: "github"
+            md_bg_color: 0, 0, 0, 0
+            on_press:
+                webbrowser.open('https://www.google.com/')
+
+        MDChip:
+            size_hint_x: .1
+            size_hint_y: None
+            markup: True
+            pos_hint: {"center_x": .8, "center_y": .2}
+            icon_left: "gmail"
+            md_bg_color: 0, 0, 0, 0
+            on_press:
+                webbrowser.open('https://www.google.com/')
+
+        MDFillRoundFlatButton:
+            size_hint_x: .5
+            size_hint_y: None
+            font_style: "Button"
+            text: "Назад" if lang.active else "Back"
+            pos_hint: {"center_x": .5, "center_y": .05}
+            md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
+            on_press: root.current = 'login'
 
     MDScreen:
         name: 'model_login'
