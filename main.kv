@@ -66,7 +66,7 @@ ScreenManager:
             MDTextButton:
                 size_hint_x: .95
                 size_hint_y: None
-                font_style: "Overline"
+                font_style: "Caption"
                 text: "Забыли пароль?" if lang.active else "Forgot your password?"
                 pos_hint: {"center_x": .5, "center_y": .25}
                 on_press: app.show_information()
@@ -78,15 +78,30 @@ ScreenManager:
                 size_hint_y: None
                 font_style: "Button"
                 text: f"Русский\nязык" if lang.active else f"English\nlanguage"
-                pos_hint: {"center_x": .5, "center_y": .17}
+                pos_hint: {"center_x": .5, "center_y": .19}
                 valign: 'middle'
                 halign: 'right' if lang.active else 'left'
 
             MDSwitch:
                 id: lang
-                pos_hint: {'center_x': .5, 'center_y': .17}
+                width: dp(48)
+                pos_hint: {'center_x': .5, 'center_y': .19}
                 valign: 'middle'
                 halign: 'center'
+
+            MDTextButton:
+                id: information
+                size_hint_x: .95
+                size_hint_y: None
+                font_style: "Button"
+                text: "Информация о приложении" if lang.active else "Application information"
+                pos_hint: {"center_x": .5, "center_y": .125}
+                on_press: root.current = 'information'
+                valign: 'middle'
+                halign: 'center'
+                line_color: app.theme_cls.primary_color
+                md_bg_color: 0, 1, 0, .1
+
 
             MDFillRoundFlatButton:
                 size_hint_x: .5
@@ -106,7 +121,6 @@ ScreenManager:
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
-                    #root.current = 'model_login'
                     app.authorization()
 
     MDScreen:
