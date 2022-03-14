@@ -103,20 +103,20 @@ ScreenManager:
                 md_bg_color: 0, 1, 0, .1
 
             MDFillRoundFlatButton:
-                size_hint_x: .5
+                size_hint_x: .475
                 size_hint_y: None
                 font_style: "Button"
                 text: "Выход" if lang.active else "Close"
-                pos_hint: {"center_x": .25, "center_y": .05}
+                pos_hint: {"center_x": .2625, "center_y": .05}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press: app.stop()
 
             MDFillRoundFlatButton:
-                size_hint_x: .5
+                size_hint_x: .475
                 size_hint_y: None
                 font_style: "Button"
                 text: "Вход" if lang.active else "Login"
-                pos_hint: {"center_x": .75, "center_y": .05}
+                pos_hint: {"center_x": .7375, "center_y": .05}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
@@ -203,7 +203,7 @@ ScreenManager:
                 webbrowser.open('https://github.com/entersub')
 
         MDFillRoundFlatButton:
-            size_hint_x: .5
+            size_hint_x: .475
             size_hint_y: None
             font_style: "Button"
             text: "Назад" if lang.active else "Back"
@@ -272,20 +272,20 @@ ScreenManager:
                     multiline: False
 
             MDFillRoundFlatButton:
-                size_hint_x: .5
+                size_hint_x: .475
                 size_hint_y: None
                 font_style: "Button"
                 text: "Назад" if lang.active else "Back"
-                pos_hint: {"center_x": .25, "center_y": .05}
+                pos_hint: {"center_x": .2625, "center_y": .05}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press: root.current = 'login'
 
             MDFillRoundFlatButton:
-                size_hint_x: .5
+                size_hint_x: .475
                 size_hint_y: None
                 font_style: "Button"
                 text: "Далее" if lang.active else "Next"
-                pos_hint: {"center_x": .75, "center_y": .05}
+                pos_hint: {"center_x": .7375, "center_y": .05}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press: app.start()
 
@@ -323,9 +323,9 @@ ScreenManager:
         MDFillRoundFlatButton:
             font_style: "Button"
             text: "Далее" if lang.active else "OK"
-            size_hint_x: .75
+            size_hint_x: .7375
             size_hint_y: None
-            pos_hint: {'center_x': .5,'center_y': .14}
+            pos_hint: {'center_x': .475,'center_y': .14}
             md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
             on_press:
                 root.transition.direction = 'right'
@@ -335,9 +335,9 @@ ScreenManager:
         MDFillRoundFlatButton:
             font_style: "Button"
             text: "Назад" if lang.active else "Back"
-            size_hint_x: .25
+            size_hint_x: .2625
             size_hint_y: None
-            pos_hint: {'center_x': .5,'center_y': .05}
+            pos_hint: {'center_x': .475,'center_y': .05}
             md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
             on_press:
                 root.transition.direction = 'right'
@@ -403,9 +403,9 @@ ScreenManager:
             MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "Далее" if lang.active else "OK"
-                size_hint_x: .75
+                size_hint_x: .725
                 size_hint_y: None
-                pos_hint: {'center_x': .5,'center_y': .14}
+                pos_hint: {'center_x': .475,'center_y': .14}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
@@ -415,9 +415,9 @@ ScreenManager:
             MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "Назад" if lang.active else "Back"
-                size_hint_x: .25
+                size_hint_x: .225
                 size_hint_y: None
-                pos_hint: {'center_x': .5,'center_y': .05}
+                pos_hint: {'center_x': .475,'center_y': .05}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
@@ -461,9 +461,9 @@ ScreenManager:
                     MDFillRoundFlatButton:
                         font_style: "Button"
                         text: "Назад" if lang.active else "Back"
-                        size_hint_x: .5
+                        size_hint_x: .475
                         size_hint_y: None
-                        pos_hint: {"center_x": .25, "center_y": .5}
+                        pos_hint: {"center_x": .2625, "center_y": .5}
                         md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                         on_press:
                             root.transition.direction = 'right'
@@ -472,9 +472,9 @@ ScreenManager:
                     MDFillRoundFlatButton:
                         font_style: "Button"
                         text: "Далее" if lang.active else "OK"
-                        size_hint_x: .5
+                        size_hint_x: .475
                         size_hint_y: None
-                        pos_hint: {"center_x": .75, "center_y": .5}
+                        pos_hint: {"center_x": .7375, "center_y": .5}
                         md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                         on_press:
                             root.transition.direction = 'right'
@@ -531,9 +531,9 @@ ScreenManager:
                 id: button_processing
                 font_style: "Button"
                 text: "Далее" if lang.active else "OK"
-                size_hint_x: .75
+                size_hint_x: .7375
                 size_hint_y: None
-                pos_hint: {'center_x': .5,'center_y': .14}
+                pos_hint: {'center_x': .475,'center_y': .14}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
@@ -543,9 +543,9 @@ ScreenManager:
             MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "Назад" if lang.active else "Back"
-                size_hint_x: .25
+                size_hint_x: .2625
                 size_hint_y: None
-                pos_hint: {'center_x': .5,'center_y': .05}
+                pos_hint: {'center_x': .475,'center_y': .05}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
@@ -587,18 +587,18 @@ ScreenManager:
                     MDFillRoundFlatButton:
                         font_style: "Button"
                         text: "Назад" if lang.active else "Back"
-                        size_hint_x: .5
+                        size_hint_x: .475
                         size_hint_y: None
-                        pos_hint: {"center_x": .25, "center_y": .5}
+                        pos_hint: {"center_x": .2625, "center_y": .5}
                         md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                         on_press: root.current = 'processing'
 
                     MDFillRoundFlatButton:
                         font_style: "Button"
                         text: "Обработка" if lang.active else "Collect"
-                        size_hint_x: .5
+                        size_hint_x: .475
                         size_hint_y: None
-                        pos_hint: {"center_x": .75, "center_y": .5}
+                        pos_hint: {"center_x": .7375, "center_y": .5}
                         md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                         on_press: app.callback_button_collect()
 
@@ -626,18 +626,18 @@ ScreenManager:
             MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "Выход" if lang.active else "Exit"
-                size_hint_x: .75
+                size_hint_x: .7375
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .14}
+                pos_hint: {"center_x": .475, "center_y": .14}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press: app.stop()
 
             MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "Загрузка" if lang.active else "Upload"
-                size_hint_x: .25
+                size_hint_x: .2625
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .05}
+                pos_hint: {"center_x": .475, "center_y": .05}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
