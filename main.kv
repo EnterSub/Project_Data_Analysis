@@ -22,14 +22,14 @@ ScreenManager:
             MDLabel:
                 font_style: "Button"
                 text: "Авторизация" if lang.active else "Authentication"
-                pos_hint: {"center_x": .5, "center_y": .5}
+                pos_hint: {"center_x": .5, "center_y": .55}
                 valign: 'middle'
                 halign: 'center'
 
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .42}
+                pos_hint: {"center_x": .5, "center_y": .47}
 
                 MDTextField:
                     id: user
@@ -47,7 +47,7 @@ ScreenManager:
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .315}
+                pos_hint: {"center_x": .5, "center_y": .365}
 
                 MDTextField:
                     id: password
@@ -68,7 +68,7 @@ ScreenManager:
                 size_hint_y: None
                 font_style: "Caption"
                 text: "Забыли пароль?" if lang.active else "Forgot your password?"
-                pos_hint: {"center_x": .5, "center_y": .25}
+                pos_hint: {"center_x": .5, "center_y": .3}
                 on_press: app.show_information()
                 valign: 'middle'
                 halign: 'center'
@@ -78,16 +78,33 @@ ScreenManager:
                 size_hint_y: None
                 font_style: "Button"
                 text: f"Русский\nязык" if lang.active else f"English\nlanguage"
-                pos_hint: {"center_x": .5, "center_y": .19}
+                pos_hint: {"center_x": .5, "center_y": .26}
                 valign: 'middle'
                 halign: 'right' if lang.active else 'left'
 
             MDSwitch:
                 id: lang
                 width: dp(48)
+                pos_hint: {'center_x': .5, 'center_y': .26}
+                valign: 'middle'
+                halign: 'center'
+
+            MDLabel:
+                size_hint_x: .95
+                size_hint_y: None
+                font_style: "Button"
+                text: "Темная тема" if lang.active and theme.active else "Светлая тема" if lang.active and not theme.active else "Light Theme" if not lang.active and not theme.active else "Dark Theme"
+                pos_hint: {"center_x": .5, "center_y": .19}
+                valign: 'middle'
+                halign: 'right' if theme.active else 'left'
+
+            MDSwitch:
+                id: theme
+                width: dp(48)
                 pos_hint: {'center_x': .5, 'center_y': .19}
                 valign: 'middle'
                 halign: 'center'
+                on_active: app.theme_cls.theme_style = "Dark" if self.active else "Light"
 
             MDTextButton:
                 id: information
