@@ -705,6 +705,7 @@ class Student_Digitizer(MDApp):
             self.root.current = 'menu'
 
     def build(self):
+        self.theme_cls.primary_palette = "Green"
         return Builder.load_file('main.kv')
 
 
