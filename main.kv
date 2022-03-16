@@ -158,8 +158,8 @@ ScreenManager:
             size_hint_x: .95
             size_hint_y: None
             font_style: "Caption"
-            text: "Инструкция\n1. Авторизируйтесь в приложении\n2. Выберите группу и другие параметры\n3. Загрузите изображения студенческого журнала\n4. Проверьте правильность данных\n5. Загрузите отчет\nДокументация:" if lang.active else "FAQ\n1. Log in to the application\n2. Choose group and other parametres\n3. Load images of student journal\n4. Check input and output data\n5. Load data\nDocumentation:"
-            pos_hint: {"center_x": .5, "center_y": .8}
+            text: "Инструкция\n1. Авторизируйтесь в приложении\n2. Выберите группу и другие параметры\n3. Загрузите изображения студенческого журнала\n4. Проверьте правильность данных\n5. Загрузите отчет\n\nЛицензия & Подробнее:" if lang.active else "FAQ\n1. Log in to the application\n2. Choose group and other parametres\n3. Load images of student journal\n4. Check input and output data\n5. Load data\n\nLicense & Details:"
+            pos_hint: {"center_x": .5, "center_y": .775}
             valign: 'center'
             halign: 'center'
 
@@ -167,7 +167,7 @@ ScreenManager:
             size_hint_x: .1
             size_hint_y: None
             markup: True
-            pos_hint: {"center_x": .5, "center_y": .67}
+            pos_hint: {"center_x": .5, "center_y": .605} if lang.active else {"center_x": .5, "center_y": .62}
             icon: "file-pdf-box"
             on_press:
                 webbrowser.open('https://github.com/EnterSub/Project_Data_Analysis#readme')
@@ -176,8 +176,8 @@ ScreenManager:
             size_hint_x: .95
             size_hint_y: None
             font_style: "Caption"
-            text: "\nПродолжая использование приложения Вы соглашаетесь с тем, что:\n1. Используете файлы приложения в учебных некоммерческих целях\n2. Автор не несет ответственность за загружаемые данные другими пользователями, работоспособность отдельных компонентов или приложения в целом\n3. Все права на приложение принадлежат автору" if lang.active else "By continue using the application, you agree that:\n1. You are using application files for educational non-commercial purposes\n 2. The author is not responsible for the data uploaded by other users, the performance of individual components or the application as a whole\n3. All rights to the application belong to the author"
-            pos_hint: {"center_x": .5, "center_y": .5}
+            text: "\nПродолжая использование приложения Вы соглашаетесь с тем, что:\n1. Используете файлы приложения в учебных некоммерческих целях\n2. Автор не несет ответственность за данные, загружаемые другими пользователями, работоспособность отдельных компонентов или приложения в целом\n3. Права на приложение принадлежат автору" if lang.active else "By continue using the application, You agree that:\n1. You are using application files for educational non-commercial purposes\n 2. The author is not responsible for uploaded data by other users, the performance of individual components or the application as well\n3. All rights to the application belong to the author"
+            pos_hint: {"center_x": .5, "center_y": .455} if lang.active else {"center_x": .5, "center_y": .47}
             valign: 'bottom'
             halign: 'center'
 
@@ -186,7 +186,7 @@ ScreenManager:
             size_hint_y: None
             font_style: "Button"
             text: "Автор:\nДмитрий Москалев" if lang.active else "Author:\nDmitry Moskalev"
-            pos_hint: {"center_x": .5, "center_y": .29}
+            pos_hint: {"center_x": .5, "center_y": .27} if lang.active else {"center_x": .5, "center_y": .3}
             valign: 'middle'
             halign: 'center'
 
@@ -195,7 +195,7 @@ ScreenManager:
             size_hint_y: None
             font_style: "Caption"
             text: "Контакты:" if lang.active else "Contacts:"
-            pos_hint: {"center_x": .5, "center_y": .2}
+            pos_hint: {"center_x": .5, "center_y": .205} if lang.active else {"center_x": .5, "center_y": .23}
             valign: 'middle'
             halign: 'center'
 
@@ -203,7 +203,7 @@ ScreenManager:
             size_hint_x: .1
             size_hint_y: None
             markup: True
-            pos_hint: {"center_x": .2, "center_y": .15}
+            pos_hint: {"center_x": .2, "center_y": .15} if lang.active else {"center_x": .2, "center_y": .175}
             icon: "linkedin"
             on_press:
                 webbrowser.open('https://www.linkedin.com/in/dmitry-moskalev/')
@@ -212,7 +212,7 @@ ScreenManager:
             size_hint_x: .1
             size_hint_y: None
             markup: True
-            pos_hint: {"center_x": .5, "center_y": .15}
+            pos_hint: {"center_x": .5, "center_y": .15} if lang.active else {"center_x": .5, "center_y": .175}
             icon: "web"
             on_press:
                 webbrowser.open('https://www.workinds.com/')
@@ -221,7 +221,7 @@ ScreenManager:
             size_hint_x: .1
             size_hint_y: None
             markup: True
-            pos_hint: {"center_x": .8, "center_y": .15}
+            pos_hint: {"center_x": .8, "center_y": .15} if lang.active else {"center_x": .8, "center_y": .175}
             icon: "github"
             on_press:
                 webbrowser.open('https://github.com/entersub')
