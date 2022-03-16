@@ -33,7 +33,7 @@ ScreenManager:
 
                 MDTextField:
                     id: user
-                    text_color_focus: 0,0,0,1
+                    text_color_focus: (1,1,1,1) if theme.active else (0,0,0,1)
                     color_mode: "custom"
                     mode: "fill"
                     hint_text: "Логин" if lang.active else "Username"
@@ -51,7 +51,7 @@ ScreenManager:
 
                 MDTextField:
                     id: password
-                    text_color_focus: 0,0,0,1
+                    text_color_focus: (1,1,1,1) if theme.active else (0,0,0,1)
                     color_mode: "custom"
                     mode: "fill"
                     hint_text: "Пароль" if lang.active else "Password"
@@ -104,7 +104,9 @@ ScreenManager:
                 pos_hint: {'center_x': .5, 'center_y': .19}
                 valign: 'middle'
                 halign: 'center'
-                on_active: app.theme_cls.theme_style = "Dark" if self.active else "Light"
+                on_active:
+                    app.theme_cls.theme_style = "Dark" if self.active else "Light"
+                    app.theme_cls.primary_palette = "Gray" if self.active else "Green"
 
             MDTextButton:
                 id: information
@@ -152,13 +154,12 @@ ScreenManager:
             valign: 'bottom'
             halign: 'center'
 
-        MDChip:
+        MDIconButton:
             size_hint_x: .1
             size_hint_y: None
             markup: True
             pos_hint: {"center_x": .5, "center_y": .68}
-            icon_left: "file-pdf-box"
-            md_bg_color: 0, 0, 0, 0
+            icon: "file-pdf-box"
             on_press:
                 webbrowser.open('https://www.google.com/')
 
@@ -189,33 +190,30 @@ ScreenManager:
             valign: 'middle'
             halign: 'center'
 
-        MDChip:
+        MDIconButton:
             size_hint_x: .1
             size_hint_y: None
             markup: True
             pos_hint: {"center_x": .2, "center_y": .15}
-            icon_left: "linkedin"
-            md_bg_color: 0, 0, 0, 0
+            icon: "linkedin"
             on_press:
                 webbrowser.open('https://www.linkedin.com/in/dmitry-moskalev/')
 
-        MDChip:
+        MDIconButton:
             size_hint_x: .1
             size_hint_y: None
             markup: True
             pos_hint: {"center_x": .5, "center_y": .15}
-            icon_left: "web"
-            md_bg_color: 0, 0, 0, 0
+            icon: "web"
             on_press:
                 webbrowser.open('https://www.workinds.com/')
 
-        MDChip:
+        MDIconButton:
             size_hint_x: .1
             size_hint_y: None
             markup: True
             pos_hint: {"center_x": .8, "center_y": .15}
-            icon_left: "github"
-            md_bg_color: 0, 0, 0, 0
+            icon: "github"
             on_press:
                 webbrowser.open('https://github.com/entersub')
 
@@ -257,7 +255,7 @@ ScreenManager:
 
                 MDTextField:
                     id: id_model
-                    text_color_focus: 0,0,0,1
+                    text_color_focus: (1,1,1,1) if theme.active else (0,0,0,1)
                     color_mode: "custom"
                     mode: "fill"
                     hint_text: "Идентификатор" if lang.active else "ID"
@@ -276,7 +274,7 @@ ScreenManager:
 
                 MDTextField:
                     id: key_model
-                    text_color_focus: 0,0,0,1
+                    text_color_focus: (1,1,1,1) if theme.active else (0,0,0,1)
                     color_mode: "custom"
                     mode: "fill"
                     hint_text: "API ключ" if lang.active else "API key"
@@ -342,7 +340,7 @@ ScreenManager:
             text: "Далее" if lang.active else "OK"
             size_hint_x: .75
             size_hint_y: None
-            pos_hint: {'center_x': .5,'center_y': .14}
+            pos_hint: {'center_x': .5,'center_y': .125}
             md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
             on_press:
                 root.transition.direction = 'right'
@@ -376,18 +374,16 @@ ScreenManager:
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .42}
+                pos_hint: {"center_x": .5, "center_y": .39}
 
                 MDTextField:
                     id: textbox
-                    text_color_focus: 0,0,0,1
+                    text_color_focus: (1,1,1,1) if theme.active else (0,0,0,1)
                     color_mode: "custom"
                     mode: "fill"
                     hint_text: "Введите название группы" if lang.active else "Enter group name"
                     required: True
                     error_color: 'brown'
-                    #helper_text: "Введите значение для обработки активности студентов" if lang.active else "Enter value to process student's activity"
-                    #helper_text_mode: "on_error"
                     icon_right: "account-group"
                     pos_hint: {'center_x': .5, 'center_y': .5}
                     size_hint_x: 1
@@ -397,18 +393,16 @@ ScreenManager:
             MDFloatLayout:
                 size_hint_x: .95
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .315}
+                pos_hint: {"center_x": .5, "center_y": .285}
 
                 MDTextField:
                     id: textbox_week_number
-                    text_color_focus: 0,0,0,1
+                    text_color_focus: (1,1,1,1) if theme.active else (0,0,0,1)
                     color_mode: "custom"
                     mode: "fill"
                     hint_text: "Введите номер недели" if lang.active else "Enter week number"
                     required: False
                     error_color: 'brown'
-                    #helper_text: "Введите номер недели" if lang.active else "Enter week number"
-                    #helper_text_mode: "on_error"
                     icon_right: "calendar-blank"
                     pos_hint: {'center_x': .5, 'center_y': .5}
                     size_hint_x: 1
@@ -533,7 +527,7 @@ ScreenManager:
                 font_style: "Subtitle1"
                 valign: 'middle'
                 halign: 'center'
-                pos_hint: {"center_x": .5, "center_y": .32}
+                pos_hint: {"center_x": .5, "center_y": .28}
 
             MDLabel:
                 id: file2
@@ -541,7 +535,7 @@ ScreenManager:
                 font_style: "Subtitle1"
                 valign: 'middle'
                 halign: 'center'
-                pos_hint: {"center_x": .5, "center_y": .23}
+                pos_hint: {"center_x": .5, "center_y": .205}
 
             MDFillRoundFlatButton:
                 id: button_processing
@@ -549,7 +543,7 @@ ScreenManager:
                 text: "Далее" if lang.active else "OK"
                 size_hint_x: .75
                 size_hint_y: None
-                pos_hint: {'center_x': .5,'center_y': .14}
+                pos_hint: {'center_x': .5,'center_y': .125}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press:
                     root.transition.direction = 'right'
@@ -644,7 +638,7 @@ ScreenManager:
                 text: "Выход" if lang.active else "Exit"
                 size_hint_x: .75
                 size_hint_y: None
-                pos_hint: {"center_x": .5, "center_y": .14}
+                pos_hint: {"center_x": .5, "center_y": .125}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press: app.stop()
 
