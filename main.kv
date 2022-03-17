@@ -246,7 +246,7 @@ ScreenManager:
             size_hint_y: .75
             Image:
                 id: image1
-                source: "login.gif"
+                source: "login_another.gif" if theme.active else "login.gif"
                 anim_delay: 1/24
                 pos_hint: {"x": .15, "y": .5}
 
@@ -384,7 +384,7 @@ ScreenManager:
 
             Image:
                 id: image2
-                source: "process.gif"
+                source: "process_another.gif" if theme.active else "process.gif"
                 pos_hint: {"x": 0, "y": .23}
 
             MDFloatLayout:
@@ -522,22 +522,22 @@ ScreenManager:
 
             Image:
                 id: image3
-                source: "manager.gif"
+                source: "manager_another.gif" if theme.active else "manager.gif"
                 pos_hint: {"x": 0, "y": 0.1}
 
             MDLabel:
-                font_style: "Subtitle1"
+                font_style: "Caption"
                 text: "Загрузить изображения" if lang.active else "Please provide images"
-                valign: 'middle'
+                valign: 'top'
                 halign: 'center'
-                pos_hint: {"center_x": .5, "center_y": .9}
+                pos_hint: {"center_x": .5, "center_y": .95}
 
             MDFillRoundFlatButton:
                 font_style: "Button"
                 text: "Файловый менеджер" if lang.active else "File manager"
                 size_hint_x: .75
                 size_hint_y: None
-                pos_hint: {'center_x': .5, 'center_y': .8}
+                pos_hint: {'center_x': .5, 'center_y': .895}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 on_press: app.file_manager_open()
 
@@ -647,7 +647,7 @@ ScreenManager:
 
             Image:
                 id: image4
-                source: "successful.gif"
+                source: "check_another.gif" if theme.active else "check.gif"
                 pos_hint: {"x": 0, "y": 0.1}
 
             MDLabel:
