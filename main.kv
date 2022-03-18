@@ -136,6 +136,7 @@ ScreenManager:
                 size_hint_x: .5
                 size_hint_y: None
                 font_style: "Button"
+                disabled: False if user.text else True
                 text: "Вход" if lang.active else "Login"
                 pos_hint: {"center_x": .75, "center_y": .05}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
@@ -351,7 +352,7 @@ ScreenManager:
 
         MDLabel:
             id: file
-            text: f"Html файл: " if lang.active else f"Html file: "
+            text: "Html файл: " if lang.active else "Html file: "
             font_style: "Caption"
             valign: 'middle'
             halign: 'center'
@@ -359,6 +360,7 @@ ScreenManager:
 
         MDFillRoundFlatButton:
             font_style: "Button"
+            disabled: False if len(file.text) > 11 else True
             text: "Далее" if lang.active else "OK"
             size_hint_x: .75
             size_hint_y: None
@@ -436,6 +438,7 @@ ScreenManager:
 
             MDFillRoundFlatButton:
                 font_style: "Button"
+                disabled: False if textbox.text and textbox_week_number.text else True
                 text: "Далее" if lang.active else "OK"
                 size_hint_x: .75
                 size_hint_y: None
@@ -566,7 +569,7 @@ ScreenManager:
 
             MDLabel:
                 id: file1
-                text: "1 файл: " if lang.active else f"1 file: "
+                text: "1 файл: " if lang.active else "1 file: "
                 font_style: "Caption"
                 valign: 'middle'
                 halign: 'center'
@@ -574,7 +577,7 @@ ScreenManager:
 
             MDLabel:
                 id: file2
-                text: "2 файл: " if lang.active else f"2 file: "
+                text: "2 файл: " if lang.active else "2 file: "
                 font_style: "Caption"
                 valign: 'middle'
                 halign: 'center'
@@ -583,6 +586,7 @@ ScreenManager:
             MDFillRoundFlatButton:
                 id: button_processing
                 font_style: "Button"
+                disabled: False if len(file1.text) >= 10 and len(file2.text) >= 10 else True
                 text: "Далее" if lang.active else "OK"
                 size_hint_x: .75
                 size_hint_y: None
