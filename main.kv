@@ -114,11 +114,13 @@ ScreenManager:
                 font_style: "Button"
                 text: "Информация о приложении" if lang.active else "Application information"
                 pos_hint: {"center_x": .5, "center_y": .125}
-                on_press: root.current = 'information'
                 valign: 'middle'
                 halign: 'center'
                 line_color: app.theme_cls.primary_color
                 md_bg_color: 0, 1, 0, .1
+                on_press:
+                    root.transition.direction = 'left'
+                    root.current = 'information'
 
             MDFillRoundFlatButton:
                 size_hint_x: .5
@@ -139,7 +141,7 @@ ScreenManager:
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 text_color: (1,1,1,1) if theme.active else (0,0,0,1)
                 on_press:
-                    root.transition.direction = 'right'
+                    root.transition.direction = 'left'
                     app.authorization()
 
     MDScreen:
@@ -235,7 +237,9 @@ ScreenManager:
             pos_hint: {"center_x": .5, "center_y": .05}
             md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
             text_color: (1,1,1,1) if theme.active else (0,0,0,1)
-            on_press: root.current = 'login'
+            on_press:
+                root.transition.direction = 'right'
+                root.current = 'login'
 
     MDScreen:
         name: 'model_login'
@@ -305,7 +309,9 @@ ScreenManager:
                 pos_hint: {"center_x": .25, "center_y": .05}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 text_color: (1,1,1,1) if theme.active else (0,0,0,1)
-                on_press: root.current = 'login'
+                on_press:
+                    root.transition.direction = 'right'
+                    root.current = 'login'
 
             MDFillRoundFlatButton:
                 size_hint_x: .5
@@ -315,7 +321,9 @@ ScreenManager:
                 pos_hint: {"center_x": .75, "center_y": .05}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 text_color: (1,1,1,1) if theme.active else (0,0,0,1)
-                on_press: app.start()
+                on_press:
+                    root.transition.direction = 'left'
+                    app.start()
 
     MDScreen:
         name: 'manual_load'
@@ -358,7 +366,7 @@ ScreenManager:
             md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
             text_color: (1,1,1,1) if theme.active else (0,0,0,1)
             on_press:
-                root.transition.direction = 'right'
+                root.transition.direction = 'left'
                 app.show_data()
                 root.current = 'subjects'
 
@@ -371,7 +379,7 @@ ScreenManager:
             md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
             text_color: (1,1,1,1) if theme.active else (0,0,0,1)
             on_press:
-                root.transition.direction = 'left'
+                root.transition.direction = 'right'
                 root.current = 'login'
 
     MDScreen:
@@ -435,7 +443,7 @@ ScreenManager:
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 text_color: (1,1,1,1) if theme.active else (0,0,0,1)
                 on_press:
-                    root.transition.direction = 'right'
+                    root.transition.direction = 'left'
                     app.show_data()
                     root.current = 'subjects'
 
@@ -448,7 +456,7 @@ ScreenManager:
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 text_color: (1,1,1,1) if theme.active else (0,0,0,1)
                 on_press:
-                    root.transition.direction = 'left'
+                    root.transition.direction = 'right'
                     root.current = 'login'
 
     MDScreen:
@@ -495,7 +503,7 @@ ScreenManager:
                         md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                         text_color: (1,1,1,1) if theme.active else (0,0,0,1)
                         on_press:
-                            root.transition.direction = 'left'
+                            root.transition.direction = 'right'
                             root.current = 'model_login'
 
                     MDFillRoundFlatButton:
@@ -507,7 +515,7 @@ ScreenManager:
                         md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                         text_color: (1,1,1,1) if theme.active else (0,0,0,1)
                         on_press:
-                            root.transition.direction = 'right'
+                            root.transition.direction = 'left'
                             root.current = 'processing'
 
     MDScreen:
@@ -567,7 +575,7 @@ ScreenManager:
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 text_color: (1,1,1,1) if theme.active else (0,0,0,1)
                 on_press:
-                    root.transition.direction = 'right'
+                    root.transition.direction = 'left'
                     root.current = 'table'
                     app.show_table()
 
@@ -580,7 +588,7 @@ ScreenManager:
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                 text_color: (1,1,1,1) if theme.active else (0,0,0,1)
                 on_press:
-                    root.transition.direction = 'left'
+                    root.transition.direction = 'right'
                     root.current = 'subjects'
 
     MDScreen:
@@ -624,7 +632,9 @@ ScreenManager:
                         pos_hint: {"center_x": .25, "center_y": .5}
                         md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                         text_color: (1,1,1,1) if theme.active else (0,0,0,1)
-                        on_press: root.current = 'processing'
+                        on_press:
+                            root.transition.direction = 'right'
+                            root.current = 'processing'
 
                     MDFillRoundFlatButton:
                         font_style: "Button"
@@ -634,7 +644,9 @@ ScreenManager:
                         pos_hint: {"center_x": .75, "center_y": .5}
                         md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
                         text_color: (1,1,1,1) if theme.active else (0,0,0,1)
-                        on_press: app.callback_button_collect()
+                        on_press:
+                            root.transition.direction = 'left'
+                            app.callback_button_collect()
 
     MDScreen:
         name: 'check'
