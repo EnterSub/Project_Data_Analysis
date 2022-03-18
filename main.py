@@ -611,6 +611,8 @@ class Student_Digitizer(MDApp):
 
     # Screen 3
     def file_manager_open(self):
+        self.manual_file_path = []
+        self.file_path = []
         self.file_manager.show('/')  # Output manager to the screen
         # self.file_manager.show(SD_CARD)  # (CHANGE)
         self.manager_open = True
@@ -640,14 +642,36 @@ class Student_Digitizer(MDApp):
                 self.list_path.append(path)
         self.exit_manager()
 
+        for count, path in enumerate(self.list_file_path, 0):
+            manual_path_update = list(path)[::-1]
+            for i in iter(manual_path_update):
+                if i in ['\\', '/']:
+                    break
+                self.manual_file_path.append(i)
+            if count < 1:
+                self.manual_file_path.append(';')
+        manual_file = ''.join(self.manual_file_path)[::-1].split(';')[::-1]
+
+        for count, path in enumerate(self.list_path, 0):
+            path_update = list(path)[::-1]
+            for i in iter(path_update):
+                if i in ['\\', '/']:
+                    break
+                self.file_path.append(i)
+            if count < 1:
+                self.file_path.append(';')
+        file = ''.join(self.file_path)[::-1].split(';')[::-1]
+
+        #manual_load
         try:
-            self.root.ids.file.text = f"{self.root.ids.file.text}\n{self.list_file_path[0]}"
+            self.root.ids.file.text = f"{self.root.ids.file.text}\n{manual_file[0]}"
         except Exception:
             pass
 
+        #processing
         try:
-            self.root.ids.file1.text = f"{self.root.ids.file1.text}\n{self.list_path[0]}"
-            self.root.ids.file2.text = f"{self.root.ids.file2.text}\n{self.list_path[1]}"
+            self.root.ids.file1.text = f"{self.root.ids.file1.text}\n{file[0]}"
+            self.root.ids.file2.text = f"{self.root.ids.file2.text}\n{file[1]}"
         except Exception:
             pass
         return self.list_file_path, self.list_path
