@@ -519,6 +519,20 @@ ScreenManager:
                             root.current = 'processing'
 
     MDScreen:
+        name: 'spinner_screen'
+        md_bg_color: app.theme_cls.bg_light
+        on_enter:
+            app.show_table()
+
+        MDLabel:
+            font_style: "Caption"
+            text: "Обработка изображений\n..." if lang.active else "Image processing\n..."
+            valign: 'top'
+            halign: 'center'
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+
+    MDScreen:
         name: 'processing'
         md_bg_color: app.theme_cls.bg_light
         on_pre_enter:
@@ -547,6 +561,7 @@ ScreenManager:
                 size_hint_y: None
                 pos_hint: {'center_x': .5, 'center_y': .895}
                 md_bg_color: (138.0/255.0,161.0/255.0,107.0/255.0,.5)
+                text_color: (1,1,1,1) if theme.active else (0,0,0,1)
                 on_press: app.file_manager_open()
 
             MDLabel:
@@ -576,8 +591,7 @@ ScreenManager:
                 text_color: (1,1,1,1) if theme.active else (0,0,0,1)
                 on_press:
                     root.transition.direction = 'left'
-                    root.current = 'table'
-                    app.show_table()
+                    root.current = 'spinner_screen'
 
             MDFillRoundFlatButton:
                 font_style: "Button"

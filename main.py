@@ -719,6 +719,7 @@ class Student_Digitizer(MDApp):
                 self.root.ids.table_box.add_widget(self.data_tables)
             else:
                 self.data_tables.update_row_data(self.data_tables, row_data)
+            self.root.current = 'table'
         else:
             self.root.current = 'processing'  # Move to the Screen3
 
