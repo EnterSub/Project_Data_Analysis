@@ -39,7 +39,7 @@ credentials = service_account.Credentials.from_service_account_info(
 )
 client = bigquery.Client(credentials=credentials)
 
-# Uses st.cache to only rerun when the query changes or after 60 min.
+# Using st.cache to only rerun when the query changes or after 60 min.
 @st.cache(ttl=3600, suppress_st_warning=True, allow_output_mutation=True)
 def df():
     query_df_students = client.query(f"SELECT lectures_all, `group`, week_n FROM `{st.secrets.table_id_1.table_1}`")
@@ -70,10 +70,12 @@ df_subjects_pairplot = sns.pairplot(df_subjects[df_subjects['group'] == group],
                                     hue="total")
 
 graphic = df_subjects[df_subjects['group'] == group].plot.scatter(x='week_n',
-                                                                   y='total',
-                                                                   c='week_n',
-                                                                   colormap='viridis')
+                                                                  y='total',
+                                                                  c='week_n',
+                                                                  colormap='viridis')
+
 st.info("Students and subjects distributions")
+
 try:
     st.write('Distribution of missing classes by each student for all subjects per week')
     st.pyplot(df_students_stripplot.figure)
