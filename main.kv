@@ -323,7 +323,7 @@ ScreenManager:
         on_pre_enter: root.ids.file.text = "Html файл: " if lang.active else "Html file: "
 
         MDLabel:
-            font_style: "Subtitle1"
+            font_style: "Caption"
             text: "Выберите файл" if lang.active else "Choose file"
             valign: 'middle'
             halign: 'center'
@@ -344,7 +344,7 @@ ScreenManager:
         MDLabel:
             id: file
             text: f"Html файл: " if lang.active else f"Html file: "
-            font_style: "Subtitle1"
+            font_style: "Caption"
             valign: 'middle'
             halign: 'center'
             pos_hint: {"center_x": .5, "center_y": .32}
@@ -544,7 +544,7 @@ ScreenManager:
             MDLabel:
                 id: file1
                 text: "1 файл: " if lang.active else f"1 file: "
-                font_style: "Subtitle1"
+                font_style: "Caption"
                 valign: 'middle'
                 halign: 'center'
                 pos_hint: {"center_x": .5, "center_y": .28}
@@ -552,7 +552,7 @@ ScreenManager:
             MDLabel:
                 id: file2
                 text: "2 файл: " if lang.active else f"2 file: "
-                font_style: "Subtitle1"
+                font_style: "Caption"
                 valign: 'middle'
                 halign: 'center'
                 pos_hint: {"center_x": .5, "center_y": .205}
