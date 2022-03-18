@@ -17,7 +17,7 @@ from kivymd.uix.button import MDFillRoundFlatButton
 from kivymd.uix.filemanager import MDFileManager
 from kivy.metrics import dp
 from kivymd.uix.datatables import MDDataTable
-# from android.storage import primary_external_storage_path
+#from android.storage import primary_external_storage_path
 #SD_CARD = primary_external_storage_path()
 
 Window.size = (360, 640)
@@ -109,7 +109,7 @@ class Student_Digitizer(MDApp):
             for j in i['prediction']:
                 for k in j['cells']:
                     table.append(k['text'])
-                    # table.append(k['score'])
+                    #table.append(k['score'])
                     if k['col'] > 0:
                         col_max = k['col']
                     if k['row'] > 0:
@@ -426,9 +426,9 @@ class Student_Digitizer(MDApp):
         df_current = func[1]
         value_schedule = func[3]
         df_1, k_1 = self.page_left()
-        # df_1_shape = k_1
+        #df_1_shape = k_1
         df_2, k_2 = self.page_right()
-        # df_2_shape = k_2
+        #df_2_shape = k_2
 
         if len(self.root.ids.textbox.text) > 0:
             df_1.loc[0, 'number'] = self.root.ids.textbox.text
