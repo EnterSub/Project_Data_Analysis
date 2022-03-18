@@ -69,49 +69,28 @@ df_students_pairplot = sns.pairplot(df_students[df_students['group'] == group],
 df_subjects_pairplot = sns.pairplot(df_subjects[df_subjects['group'] == group],
                                     hue="total")
 
-df_students_graphic = df_students[df_students['group'] == group].plot.hexbin(x='lectures_all',
-                                                                             y='week_n',
-                                                                             gridsize=20,
-                                                                             cmap="viridis")
-df_subjects_graphic = df_subjects[df_subjects['group'] == group].plot.hexbin(x='total',
-                                                                             y='week_n',
-                                                                             gridsize=20,
-                                                                             cmap="viridis")
-
-df_students_stats = df_students[df_students['group'] == group].plot.hist(x='lectures_all',
-                                                                         y='week_n',
-                                                                         bins=max(df_students[df_students['group'] == group]['week_n']), alpha=0.5)
-df_subjects_stats = df_subjects[df_subjects['group'] == group].plot.hist(x='total',
-                                                                         y='week_n',
-                                                                         bins=max(df_subjects[df_subjects['group'] == group]['week_n']), alpha=0.5)
-
-graphic1 = df_students[df_students['group'] == group].plot.scatter(x='week_n',
-                                                                   y='group',
-                                                                   c='lectures_all',
+graphic = df_subjects[df_subjects['group'] == group].plot.scatter(x='week_n',
+                                                                   y='total',
+                                                                   c='week_n',
                                                                    colormap='viridis')
-graphic2 = df_subjects[df_subjects['group'] == group].plot.scatter(x='week_n',
-                                                                   y='group',
-                                                                   c='total',
-                                                                   colormap='viridis')
+st.info("Students and subjects distributions")
 try:
-    st.info('Distribution of total missing classes for all subjects per weeks')
+    st.write('Distribution of missing classes by each student for all subjects per week')
     st.pyplot(df_students_stripplot.figure)
+
+    st.write("""
+    Count of students that missed each subject in chosen week.\n
+    Each point means different subject.""")
+    st.pyplot(graphic.figure)
 
     col1, col2 = st.columns([1.0, 1.0])
 
     with col1:
-        st.header("Student distributions")
+        st.write('Missing class percentage by students')
         st.pyplot(df_students_pairplot.figure)
-        st.pyplot(df_students_stats.figure)
-        st.pyplot(df_students_graphic.figure)
-        st.pyplot(graphic1.figure)
 
     with col2:
-        st.header("Subject distributions")
+        st.write("Percentage of subjects count missed by students")
         st.pyplot(df_subjects_pairplot.figure)
-        st.pyplot(df_subjects_stats.figure)
-        st.pyplot(df_subjects_graphic.figure)
-        st.pyplot(graphic2.figure)
-
 except ValueError:
     st.info("Error")
