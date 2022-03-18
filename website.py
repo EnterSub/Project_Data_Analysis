@@ -21,17 +21,17 @@ with st.expander("About"):
         1. Select item from list of available groups
         2. The website will show values that chosen group contains
         3. After that results will be printed as visualization
-        4. Left row indicates about students activity,
-           right row about attendance per subjects
+        4. Left column indicates about students activity,
+           right column shows attendance per subjects
         5. For better efficiency between BigQuery and StreamLit
            current query saved in cache for 1 hour
 
         Developer:
-        Moskalev Dmitry
+        Dmitry Moskalev
 
     """)
 
-st.image("Logo.png")
+st.image("Logo.png", caption='Student Digitizer')
 
 # Create API client.
 credentials = service_account.Credentials.from_service_account_info(
@@ -63,9 +63,6 @@ st.write(f"Values for {group}: {sorted(set(df_students[df_students['group'] == g
 df_students_stripplot = sns.stripplot(x=df_students[df_students['group'] == group]["week_n"],
                                       y=df_students[df_students['group'] == group]["lectures_all"],
                                       data=df_students[df_students['group'] == group])
-df_subjects_stripplot = sns.stripplot(x=df_subjects[df_subjects['group'] == group]["week_n"],
-                                      y=df_subjects[df_subjects['group'] == group]["total"],
-                                      data=df_subjects[df_subjects['group'] == group])
 
 df_students_pairplot = sns.pairplot(df_students[df_students['group'] == group],
                                     hue="lectures_all")
@@ -96,22 +93,21 @@ graphic2 = df_subjects[df_subjects['group'] == group].plot.scatter(x='week_n',
                                                                    y='group',
                                                                    c='total',
                                                                    colormap='viridis')
-
-
-col1, col2 = st.columns([1.0, 1.0])
-
 try:
+    st.info('Distribution of total missing classes for all subjects per weeks')
+    st.pyplot(df_students_stripplot.figure)
+
+    col1, col2 = st.columns([1.0, 1.0])
+
     with col1:
-        st.header("Students")
-        st.pyplot(df_students_stripplot.figure)
+        st.header("Student distributions")
         st.pyplot(df_students_pairplot.figure)
         st.pyplot(df_students_stats.figure)
         st.pyplot(df_students_graphic.figure)
         st.pyplot(graphic1.figure)
 
     with col2:
-        st.header("Subjects")
-        st.pyplot(df_subjects_stripplot.figure)
+        st.header("Subject distributions")
         st.pyplot(df_subjects_pairplot.figure)
         st.pyplot(df_subjects_stats.figure)
         st.pyplot(df_subjects_graphic.figure)
