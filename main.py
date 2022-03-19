@@ -614,7 +614,7 @@ class Student_Digitizer(MDApp):
         self.manual_file_path = []
         self.file_path = []
         self.file_manager.show('/')  # Output manager to the screen
-        # self.file_manager.show(SD_CARD)  # (CHANGE)
+        #self.file_manager.show(SD_CARD)  # (CHANGE)
         self.manager_open = True
 
     def select_path(self, path):
