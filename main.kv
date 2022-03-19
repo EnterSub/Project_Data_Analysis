@@ -528,6 +528,7 @@ ScreenManager:
             app.show_table()
 
         MDLabel:
+            id: spinner_label
             font_style: "Caption"
             text: "Обработка изображений\n..." if lang.active else "Image processing\n..."
             valign: 'top'
@@ -610,6 +611,20 @@ ScreenManager:
                     root.current = 'subjects'
 
     MDScreen:
+        name: 'spinner_screen_database'
+        md_bg_color: app.theme_cls.bg_light
+        on_enter:
+            app.callback_button_collect()
+
+        MDLabel:
+            id: spinner_label_database
+            font_style: "Caption"
+            text: "Загрузка данных\n..." if lang.active else "Loading data\n..."
+            valign: 'top'
+            halign: 'center'
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+    MDScreen:
         id: data_scr
         name: 'table'
         md_bg_color: app.theme_cls.bg_light
@@ -664,7 +679,7 @@ ScreenManager:
                         text_color: (1,1,1,1) if theme.active else (0,0,0,1)
                         on_press:
                             root.transition.direction = 'left'
-                            app.callback_button_collect()
+                            root.current = 'spinner_screen_database'
 
     MDScreen:
         name: 'check'
