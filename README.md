@@ -1,10 +1,10 @@
 # Student Digitizer
 Building an ETL process system
 
-## Demo:
+## Demo
 ![Streamlit](https://user-images.githubusercontent.com/44023937/158234774-d0f706b5-3162-4963-ac70-ec7076f384e3.gif)
 
-## Documentation:
+## Documentation
 Current version: 1.0
 
 1. After launching app you can login to the application using your data or write to the contacts for registration
@@ -16,7 +16,7 @@ Current version: 1.0
 7. If the data is correct collect data using button
 8. For simpler processing you can load another pages of student journal without reloading application
 
-## License:
+## License
 By continue using the application, You agree that:
 1. You are using application files for educational non-commercial purposes
 2. The author is not responsible for uploaded data by other users, the performance of individual components or the application as well
