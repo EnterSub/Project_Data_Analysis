@@ -178,7 +178,7 @@ class Student_Digitizer(MDApp):
                     MDFillRoundFlatButton(
                         font_style="Button",
                         md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
-                        text="Загрузка из файла" if self.root.ids.lang.active else "Manual load",
+                        text="Загрузка файла" if self.root.ids.lang.active else "Manual load",
                         on_release=lambda _: screen_update()),
 
                     MDFillRoundFlatButton(
