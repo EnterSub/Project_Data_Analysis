@@ -31,7 +31,7 @@ with st.expander("About"):
 
     """)
 
-st.image("Logo.png", caption='Student Digitizer')
+st.image("assets/Logo.png", caption='Student Digitizer')
 
 # Create API client.
 credentials = service_account.Credentials.from_service_account_info(
