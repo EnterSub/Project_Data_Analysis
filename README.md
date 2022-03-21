@@ -2,7 +2,12 @@
 Building an ETL process system
 
 ## Demo
-![Streamlit](https://user-images.githubusercontent.com/44023937/158234774-d0f706b5-3162-4963-ac70-ec7076f384e3.gif)
+Dashboard (Tableau):
+![Tableau](https://user-images.githubusercontent.com/44023937/159197856-71ce4c09-d7ee-4b51-bd1e-d7d0031a0337.gif)
+
+Website visualization (Streamlit):
+![Streamlit](https://user-images.githubusercontent.com/44023937/159197920-d9bf154c-b808-4b05-821f-0c6d0179ccf9.gif)
+
 
 ## Documentation
 Current version: 1.0
