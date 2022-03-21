@@ -9,10 +9,10 @@ Building an ETL process system
 ![Application_theme1_ru](https://user-images.githubusercontent.com/44023937/159205398-f4f74009-a514-4d87-af63-006ebce77df0.gif)
 ![Application_theme2_ru](https://user-images.githubusercontent.com/44023937/159205415-577b0809-d98a-4e74-a97d-14886b1fd510.gif)
 
-### Dashboard:
+### Dashboard
 ![Tableau](https://user-images.githubusercontent.com/44023937/159197856-71ce4c09-d7ee-4b51-bd1e-d7d0031a0337.gif)
 
-### Website visualization:
+### Website visualization
 ![Streamlit](https://user-images.githubusercontent.com/44023937/159197920-d9bf154c-b808-4b05-821f-0c6d0179ccf9.gif)
 
 
