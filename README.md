@@ -1,5 +1,5 @@
 # Student Digitizer
-Building an ETL process system
+Building an ETL process system for digitalizating student journal with user-friendly output visualizations in Android application
 
 ## Demo
 ### Android application
