@@ -12,6 +12,8 @@ Building an ETL process system for digitalizating student journal with user-frie
 ### Dashboard
 ![Tableau](https://user-images.githubusercontent.com/44023937/159197856-71ce4c09-d7ee-4b51-bd1e-d7d0031a0337.gif)
 
+Dashboard: https://public.tableau.com/app/profile/dmitry.moskalev/viz/StudentDigitizer/Dashboard1
+
 ### Website visualization
 ![Streamlit](https://user-images.githubusercontent.com/44023937/159197920-d9bf154c-b808-4b05-821f-0c6d0179ccf9.gif)
 
@@ -32,4 +34,4 @@ Current version: 1.0
 By continue using the application, You agree that:
 1. You are using application files for educational non-commercial purposes
 2. The author is not responsible for uploaded data by other users, the performance of individual components or the application as well
-3. Rights to the code and application belong to the author, files from https://lottiefiles.com are used under https://lottiefiles.com/page/license license, OCR model from https://nanonets.com/ is used under https://legal.nanonets.com/terms agreement
+3. Rights to the code and application belong to the author, files from https://lottiefiles.com are used under https://lottiefiles.com/page/license license, OCR model from https://nanonets.com/ is used under https://legal.nanonets.com/terms agreement and Google BigQuery is used under https://cloud.google.com/product-terms/ agreement.
