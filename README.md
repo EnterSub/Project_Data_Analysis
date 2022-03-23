@@ -6,8 +6,6 @@ Building an ETL process system for digitalizating student journal with user-frie
 
 ![Application_theme1_en](https://user-images.githubusercontent.com/44023937/159205354-20ca9a34-000a-419d-bbca-e0980b1ff8a1.gif)
 ![Application_theme2_en](https://user-images.githubusercontent.com/44023937/159205369-63c4e6fd-527f-436b-b1ce-c34bcaccad80.gif)
-![Application_theme1_ru](https://user-images.githubusercontent.com/44023937/159205398-f4f74009-a514-4d87-af63-006ebce77df0.gif)
-![Application_theme2_ru](https://user-images.githubusercontent.com/44023937/159205415-577b0809-d98a-4e74-a97d-14886b1fd510.gif)
 
 ### Dashboard
 ![Tableau](https://user-images.githubusercontent.com/44023937/159197856-71ce4c09-d7ee-4b51-bd1e-d7d0031a0337.gif)
