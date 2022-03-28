@@ -203,7 +203,7 @@ class Student_Digitizer(MDApp):
                 buttons=[MDFillRoundFlatButton(
                     font_style="Button",
                     md_bg_color=(138.0 / 255.0, 161.0 / 255.0, 107.0 / 255.0, .5),
-                    text="Cancel",
+                    text="Закрыть" if self.root.ids.lang.active else "Cancel",
                     on_release=lambda _: self.dialog.dismiss())])
         self.dialog.open()
 
