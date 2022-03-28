@@ -688,7 +688,6 @@ class Student_Digitizer(MDApp):
 
     def callback_button_collect(self):
         # Screen 5
-        self.root.current = 'spinner_screen_database'
         self.df_students['date'] = pd.to_datetime(self.df_students['date'])
         self.df_subjects['date'] = pd.to_datetime(self.df_subjects['date'])
         pandas_gbq.to_gbq(self.df_students, destination_table=self.table_id_1,
