@@ -1,5 +1,5 @@
 # Student Digitizer
-Student Digitizer is a information system for analyzing and collecting digital footprint of students based on ETL pipeline inside user-friendly mobile application.
+Student Digitizer is an information system for analyzing and collecting digital footprint of students based on ETL pipeline inside user-friendly mobile application.
 
 ## Demo
 ### Android application
@@ -10,7 +10,7 @@ Student Digitizer is a information system for analyzing and collecting digital f
 ### Dashboard
 ![Tableau](https://user-images.githubusercontent.com/44023937/159197856-71ce4c09-d7ee-4b51-bd1e-d7d0031a0337.gif)
 
-Available version of Student Digitizer [Dashboard](https://public.tableau.com/app/profile/dmitry.moskalev/viz/StudentDigitizer/Dashboard_1)
+Available version of Student Digitizer [DASHBOARD](https://public.tableau.com/app/profile/dmitry.moskalev/viz/StudentDigitizer/Dashboard_1)
 
 ### Website visualization
 ![Streamlit](https://user-images.githubusercontent.com/44023937/159197920-d9bf154c-b808-4b05-821f-0c6d0179ccf9.gif)
@@ -26,7 +26,7 @@ Current version: 1.0
 5. Upload clearly 2 images of student journal and click to the process button
 6. Wait until all processing will be done and check output with some additional information digital results
 7. If the data is correct collect data using button
-8. For simpler processing you can load another pages of student journal without reloading application
+8. For simpler processing you can load other pages of student journal without reloading application
 
 ## License
 By continue using the application, You agree that:
