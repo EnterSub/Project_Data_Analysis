@@ -1,5 +1,5 @@
 # Student Digitizer
-Building an ETL process system for digitalizating student journal with user-friendly output visualizations in Android application
+Student Digitizer is a information system for analyzing and collecting digital footprint of students based on ETL pipeline inside user-friendly mobile application.
 
 ## Demo
 ### Android application
@@ -10,7 +10,7 @@ Building an ETL process system for digitalizating student journal with user-frie
 ### Dashboard
 ![Tableau](https://user-images.githubusercontent.com/44023937/159197856-71ce4c09-d7ee-4b51-bd1e-d7d0031a0337.gif)
 
-Available version of Student Digitizer [Dashboard](https://public.tableau.com/app/profile/dmitry.moskalev/viz/StudentDigitizer/Dashboard1)
+Available version of Student Digitizer [Dashboard](https://public.tableau.com/app/profile/dmitry.moskalev/viz/StudentDigitizer/Dashboard_1)
 
 ### Website visualization
 ![Streamlit](https://user-images.githubusercontent.com/44023937/159197920-d9bf154c-b808-4b05-821f-0c6d0179ccf9.gif)
