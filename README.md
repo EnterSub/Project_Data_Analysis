@@ -10,7 +10,7 @@ Student Digitizer is an information system for analyzing and collecting digital 
 ## Dashboard
 ![Tableau](https://user-images.githubusercontent.com/44023937/159197856-71ce4c09-d7ee-4b51-bd1e-d7d0031a0337.gif)
 
-Available version of Student Digitizer [DASHBOARD](https://public.tableau.com/app/profile/dmitry.moskalev/viz/StudentDigitizer/Dashboard_1)
+### Available version of Student Digitizer [DASHBOARD](https://public.tableau.com/app/profile/dmitry.moskalev/viz/StudentDigitizer/Dashboard_1)
 
 ## Website visualization
 ![Streamlit](https://user-images.githubusercontent.com/44023937/159197920-d9bf154c-b808-4b05-821f-0c6d0179ccf9.gif)
