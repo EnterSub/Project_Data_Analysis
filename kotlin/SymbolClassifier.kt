@@ -137,7 +137,7 @@ class SymbolDigitizer(private val context: Context) {
   }
 
   companion object {
-    private const val TAG = "SymbolDigitizer"
+    private const val TAG = "SymbolClassifier"
 
     private const val FLOAT_TYPE_SIZE = 4
     private const val PIXEL_SIZE = 1
