@@ -1,5 +1,5 @@
 # Student Digitizer
-Student Digitizer is an information system for analyzing and collecting digital footprint of students based on ETL pipeline inside user-friendly mobile application.
+Student Digitizer is an informational system for collecting and analyzing student’s digital footprint that based on ETL pipeline inside user-friendly mobile application.
 
 ## Demo
 ### Android application
