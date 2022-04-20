@@ -28,6 +28,9 @@ Current version: 1.0
 7. Check the output data and collect it using button
 8. For simpler processing you can load other pages of student's journal without reloading application
 
+## Offline application
+Kotlin offline application
+
 ## License
 By continue using the application, You agree that:
 1. You are using application files for educational non-commercial purposes
