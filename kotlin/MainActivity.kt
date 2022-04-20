@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     drawView?.setBackgroundColor(Color.BLACK)
     clearButton = findViewById(R.id.clear_button)
     predictedTextView = findViewById(R.id.predicted_text)
-
     // Setup clear drawing button.
     clearButton?.setOnClickListener {
       drawView?.clearCanvas()
@@ -38,12 +37,10 @@ class MainActivity : AppCompatActivity() {
     // Setup classification trigger so that it classify after every stroke drew.
     drawView?.setOnTouchListener { _, event ->
       drawView?.onTouchEvent(event)
-
       // Then if user finished a touch event, run classification
       if (event.action == MotionEvent.ACTION_UP) {
         classifyDrawing()
       }
-
       true
     }
 
@@ -61,7 +58,6 @@ class MainActivity : AppCompatActivity() {
 
   private fun classifyDrawing() {
     val bitmap = drawView?.getBitmap()
-
     if ((bitmap != null) && (symbolClassifier.isInitialized)) {
       symbolClassifier
         .classifyAsync(bitmap)
