@@ -41,7 +41,7 @@ class SymbolDigitizer(private val context: Context) {
   @Throws(IOException::class)
   private fun initializeInterpreter() {
     val assetManager = context.assets
-    val model = loadModelFile(assetManager, "mnist.tflite") // Load the TF Lite model from asset folder
+    val model = loadModelFile(assetManager, "converted_model.tflite") // Load the TF Lite model from asset folder
     val options = Interpreter.Options()
     options.setUseNNAPI(true)
     val interpreter = Interpreter(model, options)
@@ -129,6 +129,6 @@ class SymbolDigitizer(private val context: Context) {
     private const val TAG = "SymbolClassifier"
     private const val FLOAT_TYPE_SIZE = 4
     private const val PIXEL_SIZE = 1
-    private const val OUTPUT_CLASSES_COUNT = 10 //Currently for digits
+    private const val OUTPUT_CLASSES_COUNT = 42 //Classes + 1
   }
 }
