@@ -29,7 +29,7 @@ Current version: 1.0
 8. For simpler processing you can load other pages of student's journal without reloading application
 
 ## Offline application
-Kotlin offline application
+wip
 
 ## License
 By continue using the application, You agree that:
