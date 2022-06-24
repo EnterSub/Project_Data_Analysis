@@ -40,6 +40,9 @@ By continue using the application, You agree that:
 
 Logotypes from:
 https://cloud.google.com/icons
+
 https://www.tableau.com/about/media-kit
+
 https://streamlit.io/brand
+
 https://fonts.google.com/icons
