@@ -84,10 +84,19 @@ class SymbolDigitizer(private val context: Context) {
     interpreter?.run(byteBuffer, output)
     // Post-processing: find the digit that has the highest probability like string.
     val result = output[0]
+    var class_output = "Nothing"
     val maxIndex = result.indices.maxByOrNull { result[it] } ?: -1
+
+    if (maxIndex == 0 && result[maxIndex].toDouble() >= 0.75)
+      class_output = "Б"
+    if (maxIndex == 1 && result[maxIndex].toDouble() >= 0.75)
+      class_output = "Н"
+    if (maxIndex == 2 && result[maxIndex].toDouble() >= 0.75)
+      class_output = "О"
+
     val resultString =
-      "Result: %d\nPrecision: %2f"
-        .format(maxIndex, result[maxIndex])
+      "Result: %s\nPrecision: %2f"
+        .format(class_output, result[maxIndex])
 
     return resultString
   }
@@ -129,6 +138,6 @@ class SymbolDigitizer(private val context: Context) {
     private const val TAG = "SymbolClassifier"
     private const val FLOAT_TYPE_SIZE = 4
     private const val PIXEL_SIZE = 1
-    private const val OUTPUT_CLASSES_COUNT = 42 //Classes + 1
+    private const val OUTPUT_CLASSES_COUNT = 3 //Classes + 1
   }
 }
