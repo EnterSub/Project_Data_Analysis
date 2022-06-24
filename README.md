@@ -37,3 +37,9 @@ By continue using the application, You agree that:
 1. You are using application files for educational non-commercial purposes
 2. The author is not responsible for uploaded data by other users, the performance of individual components or the application as well
 3. Rights to the code and application belong to the author, files from https://lottiefiles.com are used under https://lottiefiles.com/page/license license, OCR model from https://nanonets.com/ is used under https://legal.nanonets.com/terms agreement and Google BigQuery is used under https://cloud.google.com/product-terms/ agreement
+
+Logotypes from:
+https://cloud.google.com/icons
+https://www.tableau.com/about/media-kit
+https://streamlit.io/brand
+https://fonts.google.com/icons
