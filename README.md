@@ -52,8 +52,6 @@ Current version: 1.0
 ![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/О.png)
 ![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Another.png)
 </details>
-<details>
- <summary>Output</summary>
 
 ## License
 By continue using the application, You agree that:
