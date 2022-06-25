@@ -44,8 +44,16 @@ Current version: 1.0
 7. Check the output data and collect it using button
 8. For simpler processing you can load other pages of student's journal without reloading application
 
-## Offline application
-wip
+<details>
+ <summary>Offline application</summary>
+  
+![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Б.png)
+![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Н.png)
+![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/О.png)
+![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Another.png)
+</details>
+<details>
+ <summary>Output</summary>
 
 ## License
 By continue using the application, You agree that:
