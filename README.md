@@ -31,6 +31,14 @@ Student Digitizer is an informational system for collecting and analyzing studen
 ## Website visualization
 ![Streamlit](https://user-images.githubusercontent.com/44023937/159197920-d9bf154c-b808-4b05-821f-0c6d0179ccf9.gif)
 
+<details>
+ <summary>Offline application</summary>
+  
+![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Б.png)
+![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Н.png)
+![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/О.png)
+![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Another.png)
+</details>
 
 ## Documentation
 Current version: 1.0
@@ -43,15 +51,6 @@ Current version: 1.0
 6. Wait until all processing will be done and check output with some additional information digital results
 7. Check the output data and collect it using button
 8. For simpler processing you can load other pages of student's journal without reloading application
-
-<details>
- <summary>Offline application</summary>
-  
-![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Б.png)
-![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Н.png)
-![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/О.png)
-![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Another.png)
-</details>
 
 ## License
 By continue using the application, You agree that:
