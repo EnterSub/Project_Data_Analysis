@@ -5,11 +5,13 @@ Student Digitizer is an informational system for collecting and analyzing studen
 <details>
  <summary>Input</summary>
   
+![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Data.png)
 ![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Page_digital_1.jpg)
 ![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Page_digital_2.jpg)
 ![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Page_photo_1.png)
 ![](https://github.com/EnterSub/Student-Digitizer/blob/master/assets/Page_photo_2.jpg)
 </details>
+
 <details>
  <summary>Output</summary>
   
