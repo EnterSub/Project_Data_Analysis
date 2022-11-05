@@ -30,7 +30,7 @@ Student Digitizer is an informational system for collecting and analyzing studen
 ![Tableau](https://user-images.githubusercontent.com/44023937/175770706-48ad6650-eafc-4650-b779-e6bdb66ec278.gif)
 
 ### Available version of Student Digitizer [DASHBOARD](https://public.tableau.com/app/profile/dmitry.moskalev/viz/StudentDigitizer/Dashboard_1)
-Website: https://workinds.com/studentdigitizer.html
+Website: [studentdigitizer](https://workinds.com/studentdigitizer.html)
 
 ## Website visualization
 ![Streamlit](https://user-images.githubusercontent.com/44023937/159197920-d9bf154c-b808-4b05-821f-0c6d0179ccf9.gif)
@@ -47,14 +47,14 @@ Website: https://workinds.com/studentdigitizer.html
 ## Documentation
 Current version: 1.0
 
-1. After launching app you can login to the application using your data or write to the contacts for registration
-2. If input data is correct you can ensure on next screen that key and id successufully working
+1. After launching the application can login using your data or write to the contacts for registration
+2. If input data is correct you can ensure on a next screen that key and id are successufully working
 3. Type your study group and other information on the screen menu for processing
 4. Check if output results for chosen study group are correct and move to the next screen
-5. Upload 2 clearly images of student's journal and click to the process button
-6. Wait until all processing will be done and check output with some additional information digital results
+5. Upload 2 clearly images of student's journal and click on process button
+6. Wait until all processing will be done and check output with some additional ditital information results
 7. Check the output data and collect it using button
-8. For simpler processing you can load other pages of student's journal without reloading application
+8. For the simpler processing you can load other pages of student's journal without reloading an application
 
 ## License
 By continue using the application, You agree that:
